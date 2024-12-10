@@ -1,13 +1,17 @@
 import React from 'react';
 import './Topic.css';
 
-function Topic({ title, icon, onClick }) {
+const Topic = () => {
   return (
-    <div className="topic" onClick={onClick}>
-      <span className="topic-icon">{icon}</span>
-      <span className="topic-title">{title}</span>
+    <div className="topic">
+      <div className="topic-header">
+        <h3 className="topic-title">Topics</h3>
+      </div>
+      <div className="topic-placeholder">
+        {/* This is the grey box placeholder */}
+      </div>
     </div>
   );
-}
+};
 
 export default Topic;

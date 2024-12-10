@@ -1,5 +1,5 @@
 .sidebar {
-    width: 300px;
+    width: 320px;
     background: #FFF;
     color: #333;
     height: 100vh;
@@ -48,5 +48,12 @@
   
   .sidebar-content {
     flex: 1;
+  }
+  
+  .action-buttons {
+    display: flex; /* Use flexbox for alignment */
+    justify-content: center; /* Center the buttons horizontally */
+    gap: 10px; /* Add spacing between the buttons */
+    margin-top: 40px; /* Add spacing above the button group */
   }
   

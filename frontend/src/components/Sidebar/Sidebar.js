@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import './Sidebar.css';
-import Topic from './Topic';
+import Topic from './Topic'; 
+import SubTopics from './SubTopics'; 
+import Source from './Source';
+import Tag from './Tag';
+import SaveView from './SaveView'; // Import SaveView component
+import Export from './Export'; // Import Export component
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
-
-  const topics = [
-    { id: 1, title: 'Home', icon: '🏠' },
-    { id: 2, title: 'About', icon: 'ℹ️' },
-    { id: 3, title: 'Services', icon: '🛠️' },
-    { id: 4, title: 'Contact', icon: '📞' },
-  ];
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -22,13 +20,16 @@ const Sidebar = () => {
         <span />
       </div>
       <div className="sidebar-content">
-      {isOpen && (
+        {isOpen && (
           <>
-            <h2>YING YUUUUUUU</h2>
-            <div className="topics">
-              {topics.map((topic) => (
-                <Topic key={topic.id} title={topic.title} icon={topic.icon} />
-              ))}
+            <Topic /> 
+            <SubTopics />
+            <Tag /> 
+            <Source /> 
+            {/* Add SaveView and Export buttons */}
+            <div className="action-buttons">
+              <SaveView />
+              <Export />
             </div>
           </>
         )}

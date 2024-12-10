@@ -1,26 +1,23 @@
-/* Styles for the Topic component */
 .topic {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    margin: 5px 0;
-    background-color: #333;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .topic:hover {
-    background-color: #444;
-  }
-  
-  .topic-icon {
-    margin-right: 10px;
-    font-size: 20px;
-  }
-  
-  .topic-title {
-    font-size: 16px;
-  }
-  
+  padding: 10px;
+}
+
+.topic-header {
+  margin-bottom: 5px;
+}
+
+.topic-title {
+  font-size: 15px;
+  color: black;
+  margin: 0;
+}
+
+.topic-placeholder {
+  width: 100%; /* Full width of the container */
+  height: 100px; /* Adjust height as needed */
+  background-color: #e0e0e0; /* Light grey background */
+  border-radius: 5px; /* Rounded corners */
+  display: flex;
+  align-items: center; /* Center content vertically */
+  justify-content: center; /* Center content horizontally */
+}

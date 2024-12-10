@@ -1,0 +1,19 @@
+.export-button {
+    background-color: white; /* Blue background */
+    color: #575757; /* White text */
+    padding: 10px 20px; /* Padding inside the button */
+    margin: 0 5px; /* Add spacing between buttons */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-size: 14px; /* Adjust text size */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Add box shadow */
+    font-weight: bold;
+    width: 120px;
+  }
+  
+  .export-button:hover {
+    background-color: #D9D9D9; /* Darker blue on hover */
+  }
+  
