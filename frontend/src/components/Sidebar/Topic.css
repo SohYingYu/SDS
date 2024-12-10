@@ -1,0 +1,26 @@
+/* Styles for the Topic component */
+.topic {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .topic:hover {
+    background-color: #444;
+  }
+  
+  .topic-icon {
+    margin-right: 10px;
+    font-size: 20px;
+  }
+  
+  .topic-title {
+    font-size: 16px;
+  }
+  
