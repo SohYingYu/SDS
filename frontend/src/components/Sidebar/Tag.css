@@ -1,0 +1,47 @@
+.tag {
+    padding: 10px; /* Add padding for spacing */
+  }
+  
+  .tag-title {
+    font-size: 15px; /* Adjust font size */
+    margin-bottom: 10px; /* Space between title and buttons */
+    color: black;
+    text-align: left;
+    margin: 0;
+  }
+  
+  .tag-buttons {
+    display: flex;
+    justify-content: center; /* Align buttons to the center */
+    gap: 8px; /* Space between buttons */
+  }
+  
+  .tag-button {
+    display: flex;
+    flex-direction: column; /* Stack text vertically */
+    align-items: center; /* Center-align text */
+    justify-content: center;
+    gap: 5px; /* Space between lines */
+    width: 90px; /* Fixed button width */
+    height: 50px; /* Fixed button height */
+    padding: 8px;
+    background-color: white;
+    color: #575757;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 12px; /* Text font size */
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Add box shadow */
+  }
+  
+  .tag-button:hover {
+    background-color: #D9D9D9; /* Change hover background */
+    color: #575757;
+}
+
+.tag-button.active {
+    background-color: #575757; /* Change background color when active */
+    color: white; /* Change text color when active */
+  }

@@ -1,0 +1,24 @@
+.subtopics {
+    padding: 10px;
+  }
+  
+  .subtopics-header {
+    margin-bottom: 5px;
+  }
+  
+  .subtopics-title {
+    font-size: 15px;
+    color: black;
+    margin: 0; /* Ensure no default margin is applied */
+  }  
+  
+  .subtopics-placeholder {
+    width: 100%; /* Full width of the container */
+    height: 100px; /* Adjust height as needed */
+    background-color: #e0e0e0; /* Light grey background */
+    border-radius: 5px; /* Rounded corners */
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+  }
+  
