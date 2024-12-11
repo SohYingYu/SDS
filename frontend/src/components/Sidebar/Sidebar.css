@@ -25,7 +25,7 @@
     width: 2px; /* Minimized width */
   }
   
-  .toggle-btn {
+  .sidebar-toggle-btn {
     position: absolute;
     top: 50%;
     right: 3px;
