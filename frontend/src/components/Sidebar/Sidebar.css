@@ -1,19 +1,23 @@
 .sidebar {
     width: 300px;
-    background: #FFF;
+    background: rgba(255, 255, 255, 0.8); /* White with 80% transparency */
     color: #333;
     height: calc(100vh - 40px); /* Adjust height to detach from bottom */
     display: flex;
     flex-direction: column;
     transition: width 0.3s, left 0.3s, height 0.3s;
     position: absolute; /* Absolute positioning for control */
+    transform: translateX(0); /* Default position */
+    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
     left: 15px; /* Detach from the left edge */
     top: 15px; /* Detach from the top */
     bottom: 15px; /* Add bottom spacing */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visual separation */
+    box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.1);
     border-radius: 25px; /* Optional: Add rounded corners */
     overflow: hidden; /* Ensure content stays inside the sidebar */
     padding: 5px;
+    padding-right: 15px;
+    padding-left: 8px;
   }
   
   .sidebar h2 {
@@ -23,16 +27,17 @@
   
   .sidebar.closed {
     width: 2px; /* Minimized width */
+    
   }
   
   .sidebar-toggle-btn {
     position: absolute;
     top: 50%;
-    right: 3px;
+    right: 5px;
     transform: translateY(-50%);
     background: #ADADAD;
-    width: 5px;
-    height: 80px;
+    width: 8px;
+    height: 100px;
     border-radius: 5px;
     cursor: pointer;
     display: flex;

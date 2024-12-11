@@ -1,61 +1,60 @@
 .bottombar {
-    position: absolute;
-    display: flex;
-    flex-direction: column; /* Stack toggle button and content */
-    bottom: 0px;
-    background: #FFF;
-    color: #333;
-    transition: height 0.3s ease-in-out, left 0.3s ease-in-out;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    border-radius: 25px;
-  }
-  
-  .bottombar.sidebar-open {
-    left: 330px;
-    width: calc(100% - 320px); /* Adjust for the sidebar's width when open */
-  }
-  
-  .bottombar.sidebar-closed {
-    width: 90%; /* Full width when sidebar is closed */
-  }
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  bottom: 15px;
+  right: 25px; /* Pin the bottom bar to the right edge */
+  background: rgba(255, 255, 255, 0.8); /* White with 80% transparency */
+  color: #333;
+  transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+  box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border-radius: 25px; /* Rounded corners at the top */
+}
 
-  .bottombar.closed {
-    height: 0px; /* Height when collapsed (toggle button visible only) */
-    overflow: hidden;
-  }
-  
-  .bottombar.open {
-    height: 300px; /* Height when expanded */
-  }
-  
-  .bottombar-toggle-btn {
-    position: relative; /* Make it relative to .bottombar */
-    top: 2px; /* Align it at the top */
-    left: 50%; /* Center it horizontally */
-    transform: translate(-50%); /* Offset horizontally */
-    background: #ADADAD;
-    width: 80px; /* Horizontal rectangle width */
-    height: 5px; /* Horizontal rectangle height */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s;
-    z-index: 10; /* Ensure it stays above the content */
-  }
-  
-  .bottombar-toggle-btn:hover {
-    background: #555;
-  }
-  
-  .bottombar-content {
-    flex: 1; /* Take remaining space below the toggle button */
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
+.bottombar.sidebar-open {
+  width: calc(100% - 385px); /* Reduce width based on the sidebar's width */
+}
+
+.bottombar.sidebar-closed {
+  width: 95.5%; /* Full width when the sidebar is closed */
+}
+
+.bottombar.closed {
+  height: 25px; /* Minimal height for toggle button */
+  overflow: hidden;
+}
+
+.bottombar.open {
+  height: 300px; /* Expanded height */
+}
+
+.bottombar-toggle-btn {
+  position: relative;
+  top: 5px;
+  left: 50%;
+  transform: translate(-50%);
+  background: #ADADAD;
+  width: 100px;
+  height: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+  z-index: 10;
+}
+
+.bottombar-toggle-btn:hover {
+  background: #555;
+}
+
+.bottombar-content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
