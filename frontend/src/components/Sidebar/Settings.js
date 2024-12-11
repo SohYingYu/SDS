@@ -26,12 +26,14 @@ const Settings = () => {
           className={`reset-button ${activeButton === 'reset' ? 'active' : ''}`}
           onClick={() => handleButtonClick('reset')}
         >
+          <LabelIcon className="button-icon" />
           Reset
         </button>
         <button
           className={`export-button ${activeButton === 'export' ? 'active' : ''}`}
           onClick={() => handleButtonClick('export')}
         >
+          <LabelIcon className="button-icon" />
           Export View
         </button>
       </div>
