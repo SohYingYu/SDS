@@ -1,16 +1,19 @@
 .sidebar {
-    width: 320px;
+    width: 300px;
     background: #FFF;
     color: #333;
-    height: 100vh;
+    height: calc(100vh - 40px); /* Adjust height to detach from bottom */
     display: flex;
     flex-direction: column;
-    transition: width 0.3s;
-    position: relative;
-  }
-  
-  .sidebar.closed {
-    width: 15px;
+    transition: width 0.3s, left 0.3s, height 0.3s;
+    position: absolute; /* Absolute positioning for control */
+    left: 15px; /* Detach from the left edge */
+    top: 15px; /* Detach from the top */
+    bottom: 15px; /* Add bottom spacing */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visual separation */
+    border-radius: 25px; /* Optional: Add rounded corners */
+    overflow: hidden; /* Ensure content stays inside the sidebar */
+    padding: 5px;
   }
   
   .sidebar h2 {
@@ -18,14 +21,20 @@
     margin-top: 20px;
   }
   
+  .sidebar.closed {
+    width: 2px; /* Minimized width */
+  }
+  
+
+  
   .toggle-btn {
     position: absolute;
     top: 50%;
-    right: 5px;
+    right: 3px;
     transform: translateY(-50%);
     background: #ADADAD;
     width: 5px;
-    height: 100px;
+    height: 80px;
     border-radius: 5px;
     cursor: pointer;
     display: flex;
