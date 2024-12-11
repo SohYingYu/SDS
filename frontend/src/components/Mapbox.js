@@ -15,9 +15,11 @@ const Mapbox = () => {
         style={{ width: '100%', height: '100%' }}
         mapStyle="mapbox://styles/mapbox/light-v10" // Map style
         mapboxAccessToken={mapboxToken}
+        attributionControl={false} // Disable the attribution control
       />
     </div>
   );
 };
 
 export default Mapbox;
+
