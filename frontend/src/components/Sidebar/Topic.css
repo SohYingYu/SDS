@@ -10,11 +10,19 @@
   font-size: 15px;
   color: black;
   margin: 0;
+  display: flex;
+  align-items: center; /* Vertically center icon and text */
+  gap: 4px; /* Add space between icon and text */
+}
+
+.topic-icon {
+  width: 20px; /* Adjust icon size */
+  height: 20px;
 }
 
 .topic-placeholder {
   width: 100%; /* Full width of the container */
-  height: 100px; /* Adjust height as needed */
+  height: 80px; /* Adjust height as needed */
   background-color: #e0e0e0; /* Light grey background */
   border-radius: 5px; /* Rounded corners */
   display: flex;

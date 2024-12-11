@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import './Source.css';
-import CNA_Logo from '../../assets/sourceicon/channelnewsasialogo.svg';
-import CNA_Logo_Clicked from '../../assets/sourceicon/CNAclicked.svg';
-import Reddit_Logo from '../../assets/sourceicon/redditlogo.svg';
-import Reddit_Logo_Clicked from '../../assets/sourceicon/Redditclicked.svg';
-import Straits_Times_Logo from '../../assets/sourceicon/straitstimeslogo.svg';
-import Straits_Times_Logo_Clicked from '../../assets/sourceicon/STclicked.svg';
+import { ReactComponent as CnaLogo } from '../../assets/sourceicon/channelnewsasialogo.svg';
+import { ReactComponent as RedditLogo } from '../../assets/sourceicon/redditlogo.svg';
+import { ReactComponent as StraitsTimesLogo } from '../../assets/sourceicon/straitstimeslogo.svg';
+import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
 
 const Source = () => {
   const [activeButton, setActiveButton] = useState(null);
@@ -21,7 +19,10 @@ const Source = () => {
   return (
     <div className="source">
       <div className="source-header">
-        <h3 className="source-title">Source</h3>
+        <h3 className="source-title">
+          <LabelIcon className="topic-icon" />
+          Source
+        </h3>
       </div>
       <div className="source-buttons">
         {/* CNA Button */}
@@ -30,11 +31,7 @@ const Source = () => {
           onClick={() => handleButtonClick('cna')}
         >
           <div className={`icon-circle ${activeButton === 'cna' ? 'active-circle' : ''}`}>
-            <img
-              src={activeButton === 'cna' ? CNA_Logo_Clicked : CNA_Logo}
-              alt="CNA Logo"
-              className="source-icon"
-            />
+            <CnaLogo className={`source-icon ${activeButton === 'cna' ? 'active-icon' : ''}`} />
           </div>
           CNA
         </button>
@@ -45,11 +42,7 @@ const Source = () => {
           onClick={() => handleButtonClick('reddit')}
         >
           <div className={`icon-circle ${activeButton === 'reddit' ? 'active-circle' : ''}`}>
-            <img
-              src={activeButton === 'reddit' ? Reddit_Logo_Clicked : Reddit_Logo}
-              alt="Reddit Logo"
-              className="source-icon"
-            />
+            <RedditLogo className={`source-icon ${activeButton === 'reddit' ? 'active-icon' : ''}`} />
           </div>
           Reddit
         </button>
@@ -60,11 +53,7 @@ const Source = () => {
           onClick={() => handleButtonClick('straitstimes')}
         >
           <div className={`icon-circle ${activeButton === 'straitstimes' ? 'active-circle' : ''}`}>
-            <img
-              src={activeButton === 'straitstimes' ? Straits_Times_Logo_Clicked : Straits_Times_Logo}
-              alt="Straits Times Logo"
-              className="source-icon"
-            />
+            <StraitsTimesLogo className={`source-icon ${activeButton === 'straitstimes' ? 'active-icon' : ''}`} />
           </div>
           Straits Times
         </button>

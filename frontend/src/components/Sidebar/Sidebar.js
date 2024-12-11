@@ -4,8 +4,7 @@ import Topic from './Topic';
 import SubTopics from './SubTopics'; 
 import Source from './Source';
 import Tag from './Tag';
-import SaveView from './SaveView'; // Import SaveView component
-import Export from './Export'; // Import Export component
+import Settings from './Settings'; 
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -26,10 +25,9 @@ const Sidebar = () => {
             <SubTopics />
             <Tag /> 
             <Source /> 
-            {/* Add SaveView and Export buttons */}
+            {/* Add Reset and Export buttons */}
             <div className="action-buttons">
-              <SaveView />
-              <Export />
+              <Settings />
             </div>
           </>
         )}
