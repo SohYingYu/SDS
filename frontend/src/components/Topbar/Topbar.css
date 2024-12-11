@@ -39,6 +39,7 @@
     cursor: pointer;
     box-sizing: border-box;
     overflow: hidden;
+    padding-left: 20px;
     
   }
   
@@ -59,7 +60,6 @@
   .toggle-background {
     position: absolute;
     top: 50%; /* Start at the vertical center */
-    left: 2px;
     transform: translateY(-50%); /* Offset to center it vertically */
     width: calc(50% - 4px);
     height: 36px; /* Adjust height for better proportions */
