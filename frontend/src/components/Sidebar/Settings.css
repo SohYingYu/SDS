@@ -1,0 +1,53 @@
+.settings {
+  padding: 10px; /* Add padding for the entire sidebar */
+}
+
+.settings-header {
+  margin-bottom: 5px;
+}
+
+.settings-title {
+  font-size: 15px;
+  margin: 0;
+  color: #333333;
+  display: flex;
+  align-items: center; /* Align icon and text vertically */
+  gap: 4px; /* Space between icon and text */
+}
+
+.settings-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.settings-buttons {
+  display: flex; /* Align buttons side by side */
+  justify-content: space-between; /* Space evenly between buttons */
+  gap: 10px; /* Space between buttons */
+  margin-top: 5px;
+}
+
+.reset-button,
+.export-button {
+  background-color: #333333;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+  width: 130px;
+}
+
+.reset-button:hover,
+.export-button:hover {
+  background-color: #909090; /* Hover effect */
+}
+
+.reset-button.active,
+.export-button.active {
+  background-color: #415ED3; /* Active state color */
+  color: white;
+}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Tag.css';
+import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
 
 const Tag = () => {
   const [activeTag, setActiveTag] = useState(null);
@@ -15,7 +16,10 @@ const Tag = () => {
   return (
     <div className="tag">
       <div className="tag-header">
-        <h3 className="tag-title">Tags</h3>
+        <h3 className="tag-title">
+          <LabelIcon className="topic-icon" />
+          Tags
+        </h3>
       </div>
       <div className="tag-buttons">
         <button

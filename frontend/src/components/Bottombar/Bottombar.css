@@ -1,0 +1,54 @@
+/* BottomBar Container */
+.bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.1); /* Shadow for separation */
+    transition: height 0.3s ease-in-out;
+    overflow: hidden;
+  }
+  
+  /* Closed State */
+  .bottom-bar.closed {
+    height: 50px; /* Collapsed height */
+  }
+  
+  /* Open State */
+  .bottom-bar.open {
+    height: 300px; /* Expanded height */
+  }
+  
+  /* Toggle Button */
+  .bottom-bar .toggle-btn {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #adadad;
+    width: 50px;
+    height: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .bottom-bar .toggle-btn:hover {
+    background: #555;
+  }
+  
+  /* BottomBar Content */
+  .bottom-bar-content {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .content-section {
+    margin: 10px 0;
+    text-align: center;
+  }
+  
