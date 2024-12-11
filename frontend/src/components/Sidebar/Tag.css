@@ -1,5 +1,5 @@
 .tag {
-    padding: 10px; /* Add padding for spacing */
+    padding: 0px; /* Add padding for spacing */
   }
   
   .tag-title {
@@ -32,12 +32,12 @@
     justify-content: center;
     gap: 5px; /* Space between lines */
     width: 90px; /* Fixed button width */
-    height: 50px; /* Fixed button height */
+    height: 35px; /* Fixed button height */
     padding: 8px;
     background-color: #EEEEEE;
     color: #909090;
     border: none;
-    border-radius: 10px;
+    border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-size: 12px; /* Text font size */

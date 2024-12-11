@@ -18,12 +18,15 @@
     padding: 5px;
     padding-right: 15px;
     padding-left: 8px;
+    justify-content: space-between; /* Space items to pin settings to the bottom */
+
   }
   
   .sidebar h2 {
     text-align: center;
     margin-top: 20px;
   }
+  
   
   .sidebar.closed {
     width: 2px; /* Minimized width */
@@ -36,7 +39,7 @@
     right: 5px;
     transform: translateY(-50%);
     background: #ADADAD;
-    width: 8px;
+    width: 7px;
     height: 100px;
     border-radius: 5px;
     cursor: pointer;
@@ -60,12 +63,19 @@
   
   .sidebar-content {
     flex: 1;
+    padding: 10px;
   }
   
   .action-buttons {
     display: flex; /* Use flexbox for alignment */
     justify-content: center; /* Center the buttons horizontally */
     gap: 10px; /* Add spacing between the buttons */
-    margin-top: 10px; /* Add spacing above the button group */
+    margin-top: auto; /* Add spacing above the button group */
   }
   
+  .grouped-container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 18px; /* Add spacing between Tags, Source, and Settings */
+    border-top: 1px solid #000000; /* Optional: Add a separator line */
+  }
