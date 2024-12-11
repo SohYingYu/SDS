@@ -1,5 +1,5 @@
 .settings {
-  padding: 10px; /* Add padding for the entire sidebar */
+  padding: 0px; /* Add padding for the entire sidebar */
 }
 
 .settings-header {
@@ -21,9 +21,8 @@
 }
 
 .settings-buttons {
-  display: flex; 
+  display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Space evenly between buttons */
   gap: 10px; /* Space between buttons */
   margin-top: 5px;
 }
@@ -36,7 +35,7 @@
   gap: 5px; /* Add spacing between the icon and the text */
   padding: 10px 20px;
   border: none;
-  border-radius: 20px;
+  border-radius: 15px;
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s ease;
@@ -46,7 +45,7 @@
 
 .reset-button {
   background-color: white;
-  box-shadow: inset 0 0 0 2px #333333; /* Simulate inner border */
+  box-shadow: inset 0 0 0 2px #B1B1B1; /* Simulate inner border */
 }
 
 .export-button {
@@ -54,15 +53,12 @@
   color: white;
 }
 
-.reset-button:hover,
-.export-button:hover {
-  background-color: #909090; /* Hover effect */
+.reset-button:hover {
+  background-color: #B1B1B1; /* Hover effect */
 }
 
-.reset-button.active,
-.export-button.active {
-  background-color: #415ED3; /* Active state color */
-  color: white;
+.export-button:hover {
+  background-color: #909090; /* Hover effect */
 }
 
 .button-icon {

@@ -6,13 +6,16 @@ import { ReactComponent as StraitsTimesLogo } from '../../assets/sourceicon/stra
 import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
 
 const Source = () => {
-  const [activeButton, setActiveButton] = useState(null);
+  // Initialize with all buttons active
+  const [activeButtons, setActiveButtons] = useState(['cna', 'reddit', 'straitstimes']);
 
   const handleButtonClick = (buttonId) => {
-    if (activeButton === buttonId) {
-      setActiveButton(null); // Unselect if the button is already active
+    if (activeButtons.includes(buttonId)) {
+      // Remove the button if it's already active
+      setActiveButtons(activeButtons.filter((id) => id !== buttonId));
     } else {
-      setActiveButton(buttonId); // Select the clicked button
+      // Add the button to the active list
+      setActiveButtons([...activeButtons, buttonId]);
     }
   };
 
@@ -27,34 +30,28 @@ const Source = () => {
       <div className="source-buttons">
         {/* CNA Button */}
         <button
-          className={`source-button ${activeButton === 'cna' ? 'active' : ''}`}
+          className={`source-button ${activeButtons.includes('cna') ? 'active' : ''}`}
           onClick={() => handleButtonClick('cna')}
         >
-          <div className={`icon-circle ${activeButton === 'cna' ? 'active-circle' : ''}`}>
-            <CnaLogo className={`source-icon ${activeButton === 'cna' ? 'active-icon' : ''}`} />
-          </div>
+          <CnaLogo className="source-icon" />
           CNA
         </button>
 
         {/* Reddit Button */}
         <button
-          className={`source-button ${activeButton === 'reddit' ? 'active' : ''}`}
+          className={`source-button ${activeButtons.includes('reddit') ? 'active' : ''}`}
           onClick={() => handleButtonClick('reddit')}
         >
-          <div className={`icon-circle ${activeButton === 'reddit' ? 'active-circle' : ''}`}>
-            <RedditLogo className={`source-icon ${activeButton === 'reddit' ? 'active-icon' : ''}`} />
-          </div>
+          <RedditLogo className="source-icon" />
           Reddit
         </button>
 
         {/* Straits Times Button */}
         <button
-          className={`source-button ${activeButton === 'straitstimes' ? 'active' : ''}`}
+          className={`source-button ${activeButtons.includes('straitstimes') ? 'active' : ''}`}
           onClick={() => handleButtonClick('straitstimes')}
         >
-          <div className={`icon-circle ${activeButton === 'straitstimes' ? 'active-circle' : ''}`}>
-            <StraitsTimesLogo className={`source-icon ${activeButton === 'straitstimes' ? 'active-icon' : ''}`} />
-          </div>
+          <StraitsTimesLogo className="source-icon" />
           Straits Times
         </button>
       </div>

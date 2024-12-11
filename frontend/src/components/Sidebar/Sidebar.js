@@ -15,11 +15,11 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       <div className="sidebar-content">
         {isOpen && (
           <>
-            <Topic /> 
+            <Topic />
             <SubTopics />
-            <Tag /> 
-            <Source /> 
-            <div className="action-buttons">
+            <div className="grouped-container">
+              <Tag />
+              <Source />
               <Settings />
             </div>
           </>
