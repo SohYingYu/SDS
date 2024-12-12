@@ -74,8 +74,8 @@
   }
   
   .grouped-container {
+    padding-top: 10px;
     display: flex;
     flex-direction: column; /* Stack items vertically */
     gap: 18px; /* Add spacing between Tags, Source, and Settings */
-    border-top: 1px solid #000000; /* Optional: Add a separator line */
   }
