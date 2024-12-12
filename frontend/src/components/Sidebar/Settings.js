@@ -1,7 +1,9 @@
 import React from 'react';
 import './Settings.css';
-import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
+import { ReactComponent as ResetIcon } from '../../assets/settingsicon/reset.svg';
 import { ReactComponent as SettingsIcon } from '../../assets/sidebaricon/settings.svg';
+import { ReactComponent as ExportIcon } from '../../assets/settingsicon/export.svg';
+
 
 const Settings = () => {
   return (
@@ -14,11 +16,11 @@ const Settings = () => {
       </div>
       <div className="settings-buttons">
         <button className="reset-button">
-          <LabelIcon className="button-icon" />
+          <ResetIcon className="reset-button-icon" />
           Reset
         </button>
         <button className="export-button">
-          <LabelIcon className="button-icon" />
+          <ExportIcon className="export-button-icon" />
           Export View
         </button>
       </div>
