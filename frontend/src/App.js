@@ -3,7 +3,7 @@ import './App.css';
 import Sidebar from './components/Sidebar/Sidebar';
 import Mapbox from './components/Mapbox';
 import Bottombar from './components/Bottombar/Bottombar';
-import Toptopbar from './components/Topbar/Toptopbar';
+import Topbar from './components/Topbar/Topbar';
 import { loadCSV } from './utils/loadCSV'; // Ensure path is correct
 
 const App = () => {
@@ -42,7 +42,7 @@ const App = () => {
         activeFilters={activeFilters}
         tagFilter={tagFilter}
       />
-      <Toptopbar isSidebarOpen={isSidebarOpen} />
+      <Topbar isSidebarOpen={isSidebarOpen} />
       <Sidebar
         isOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
