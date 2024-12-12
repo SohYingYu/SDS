@@ -3,7 +3,7 @@ import './Source.css';
 import { ReactComponent as CnaLogo } from '../../assets/sourceicon/channelnewsasialogo.svg';
 import { ReactComponent as RedditLogo } from '../../assets/sourceicon/redditlogo.svg';
 import { ReactComponent as StraitsTimesLogo } from '../../assets/sourceicon/straitstimeslogo.svg';
-import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
+import { ReactComponent as SourceIcon } from '../../assets/sidebaricon/source.svg';
 
 const Source = ({ onFilterChange, originalData }) => {
   const [activeButtons, setActiveButtons] = useState(['CNA', 'Reddit', 'Straits Times']);
@@ -22,7 +22,7 @@ const Source = ({ onFilterChange, originalData }) => {
     <div className="source">
       <div className="source-header">
         <h3 className="source-title">
-          <LabelIcon className="topic-icon" />
+          <SourceIcon className="topic-icon" />
           Source
         </h3>
       </div>
