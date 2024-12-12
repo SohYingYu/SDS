@@ -1,22 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Tag.css';
 import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
 
-const Tag = ({ tagFilter = [], onTagFilterChange }) => {
-  const [activeTags, setActiveTags] = useState(tagFilter);
+const Tag = ({ onTagFilterChange }) => {
+  const [activeButtons, setActiveButtons] = useState(['culture', 'regulations', 'rules']); // Default: All selected
 
-  // Synchronize local state with prop changes
-  useEffect(() => {
-    setActiveTags(tagFilter);
-  }, [tagFilter]);
+  const handleButtonClick = (buttonId) => {
+    const updatedButtons = activeButtons.includes(buttonId)
+      ? activeButtons.filter((id) => id !== buttonId) // Remove button if active
+      : [...activeButtons, buttonId]; // Add button if inactive
 
-  const handleTagClick = (tag) => {
-    const updatedTags = activeTags.includes(tag)
-      ? activeTags.filter((t) => t !== tag) // Remove tag if active
-      : [...activeTags, tag]; // Add tag if inactive
-
-    setActiveTags(updatedTags);
-    onTagFilterChange(updatedTags); // Notify parent of tag changes
+    setActiveButtons(updatedButtons);
+    onTagFilterChange(updatedButtons); // Notify App of the updated filters
   };
 
   return (
@@ -29,20 +24,20 @@ const Tag = ({ tagFilter = [], onTagFilterChange }) => {
       </div>
       <div className="tag-buttons">
         <button
-          className={`tag-button ${activeTags.includes('culture') ? 'active' : ''}`}
-          onClick={() => handleTagClick('culture')}
+          className={`tag-button ${activeButtons.includes('culture') ? 'active' : ''}`}
+          onClick={() => handleButtonClick('culture')}
         >
           Culture
         </button>
         <button
-          className={`tag-button ${activeTags.includes('regulations') ? 'active' : ''}`}
-          onClick={() => handleTagClick('regulations')}
+          className={`tag-button ${activeButtons.includes('regulations') ? 'active' : ''}`}
+          onClick={() => handleButtonClick('regulations')}
         >
           Regulations
         </button>
         <button
-          className={`tag-button ${activeTags.includes('rules') ? 'active' : ''}`}
-          onClick={() => handleTagClick('rules')}
+          className={`tag-button ${activeButtons.includes('rules') ? 'active' : ''}`}
+          onClick={() => handleButtonClick('rules')}
         >
           Rules
         </button>
