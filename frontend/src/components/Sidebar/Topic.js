@@ -94,32 +94,32 @@ const Topic = () => {
         </div>
 
         {topics.map((topic, index) => (
-  <div
-    key={topic.name}
-    className="topic-button-wrapper"
-    style={{
-      transform: `rotate(${(360 / topics.length) * index}deg) translate(95px) rotate(-${(360 / topics.length) * index}deg)`, // Button ring radius
-    }}
-  >
-    <button
-      className={`topic-button ${getTopicClass(topic.name)} ${
-        selectedTopics.includes(topic.name) ? 'selected' : ''
-      }`}
-      onClick={() => handleTopicClick(topic.name)}
-      disabled={selectedTopics.length >= 3 && !selectedTopics.includes(topic.name)}
-    >
-      <div className="icon">{topic.icon}</div>
-    </button>
-    <div
-      className="topic-label"
-      style={{
-        transform: `rotate(${(360 / topics.length) * index}deg) translate(35px) rotate(-${(360 / topics.length) * index}deg)`, // Word ring radius
-      }}
-    >
-      {topic.name}
-    </div>
-  </div>
-))}
+        <div
+          key={topic.name}
+          className="topic-button-wrapper"
+          style={{
+            transform: `rotate(${(360 / topics.length) * index}deg) translate(95px) rotate(-${(360 / topics.length) * index}deg)`, // Button ring radius
+          }}
+        >
+          <button
+            className={`topic-button ${getTopicClass(topic.name)} ${
+              selectedTopics.includes(topic.name) ? 'selected' : ''
+            }`}
+            onClick={() => handleTopicClick(topic.name)}
+            disabled={selectedTopics.length >= 3 && !selectedTopics.includes(topic.name)}
+          >
+            <div className="icon">{topic.icon}</div>
+          </button>
+          <div
+            className="topic-label"
+            style={{
+              transform: `rotate(${(360 / topics.length) * index}deg) translate(35px) rotate(-${(360 / topics.length) * index}deg)`, // Word ring radius
+            }}
+          >
+            {topic.name}
+          </div>
+        </div>
+      ))}
 
       </div>
     </div>

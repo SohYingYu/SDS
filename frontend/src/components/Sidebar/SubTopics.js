@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './SubTopics.css';
 import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
 
 const SubTopics = () => {
+  const [isSelected, setIsSelected] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsSelected(!isSelected);
+  };
+
   return (
     <div className="subtopics">
       <div className="subtopics-header">
@@ -11,8 +17,13 @@ const SubTopics = () => {
           Sub-Topics
         </h3>
       </div>
-      <div className="subtopics-placeholder">
-        {/* This is the grey box placeholder */}
+      <div className="subtopics-container">
+        <button
+          className={`add-button ${isSelected ? 'selected' : ''}`}
+          onClick={handleButtonClick}
+        >
+          Add Subtopic
+        </button>
       </div>
     </div>
   );

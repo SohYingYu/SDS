@@ -25,6 +25,7 @@
   flex-direction: column;
   gap: 10px; /* Space between buttons */
   margin-top: 5px;
+  padding-left: 10px;
 }
 
 .reset-button,
@@ -40,7 +41,8 @@
   font-size: 14px;
   transition: background-color 0.3s ease;
   font-weight: bold;
-  width: 286px;
+  width: 265px;
+  height: 35px;
 }
 
 .reset-button {
