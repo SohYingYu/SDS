@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Tag.css';
-import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
+import { ReactComponent as TagsIcon } from '../../assets/sidebaricon/tags.svg';
+
 
 const Tag = ({ onTagFilterChange }) => {
   const [activeButtons, setActiveButtons] = useState(['culture', 'regulations', 'rules']); // Default: All selected
@@ -18,7 +19,7 @@ const Tag = ({ onTagFilterChange }) => {
     <div className="tag">
       <div className="tag-header">
         <h3 className="tag-title">
-          <LabelIcon className="topic-icon" />
+          <TagsIcon className="topic-icon" />
           Tags
         </h3>
       </div>
