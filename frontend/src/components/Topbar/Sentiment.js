@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './Normal.css';
+import './Sentiment.css';
 
-const Normaljs = ({ isSidebarOpen }) => {
+const Sentiment = ({ isSidebarOpen }) => {
   const [view, setView] = useState('List View');
 
   const toggleView = () => {
@@ -10,9 +10,9 @@ const Normaljs = ({ isSidebarOpen }) => {
 
   return (
     <div 
-      className={`normal ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}
+      className={`sentiment ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}
     >
-      <div className="normal-content">
+      <div className="sentiment-content">
         <div className="toggle-container" onClick={toggleView}>
           <div className={`toggle-background ${view === 'Grid View' ? 'right' : ''}`} />
           <span className={view === 'List View' ? 'active' : ''}>Normal</span>
@@ -23,4 +23,4 @@ const Normaljs = ({ isSidebarOpen }) => {
   );
 };
 
-export default Normaljs;
+export default Sentiment;

@@ -1,24 +1,21 @@
 import React, { useState } from 'react';
+import Mapview from './Mapview';
+import Sentiment from './Sentiment';
+import Render from './Render';
 import './Topbar.css';
 
 const Topbar = ({ isSidebarOpen }) => {
-  const [view, setView] = useState('Map View');
+  const [view, setView] = useState('Map View'); // Manage the view state in Topbar
 
-  const toggleView = () => {
-    setView((prevView) => (prevView === 'Map View' ? 'Network View' : 'Map View'));
+  const handleViewToggle = (newView) => {
+    setView(newView); // Update the state based on Mapview's toggle
   };
 
   return (
-    <div 
-      className={`topbar ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}
-    >
-      <div className="topbar-content">
-        <div className="toggle-container" onClick={toggleView}>
-          <div className={`toggle-background ${view === 'Network View' ? 'right' : ''}`} />
-          <span className={view === 'Map View' ? 'active' : ''}>Map View</span>
-          <span className={view === 'Network View' ? 'active' : ''}>Network</span>
-        </div>
-      </div>
+    <div className="topbar">
+      <Mapview isSidebarOpen={isSidebarOpen} view={view} onToggleView={handleViewToggle} />
+      <Sentiment isSidebarOpen={isSidebarOpen} />
+      {view === 'Map View' && <Render isSidebarOpen={isSidebarOpen} />} {/* Conditional rendering */}
     </div>
   );
 };
