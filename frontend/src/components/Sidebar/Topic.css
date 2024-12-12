@@ -23,7 +23,7 @@
 .topic-placeholder {
   width: 100%; /* Full width of the container */
   height: 80px; /* Adjust height as needed */
-  background-color: #e0e0e0; /* Light grey background */
+  background-color: #fff; /* Light grey background */
   border-radius: 5px; /* Rounded corners */
   display: flex;
   align-items: center; /* Center content vertically */
