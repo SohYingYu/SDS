@@ -5,19 +5,18 @@ import { ReactComponent as RedditLogo } from '../../assets/sourceicon/redditlogo
 import { ReactComponent as StraitsTimesLogo } from '../../assets/sourceicon/straitstimeslogo.svg';
 import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
 
-const Source = () => {
-  // Initialize with all buttons active
-  const [activeButtons, setActiveButtons] = useState(['cna', 'reddit', 'straitstimes']);
+const Source = ({ onFilterChange, originalData }) => {
+  const [activeButtons, setActiveButtons] = useState(['CNA', 'Reddit', 'Straits Times']);
 
   const handleButtonClick = (buttonId) => {
-    if (activeButtons.includes(buttonId)) {
-      // Remove the button if it's already active
-      setActiveButtons(activeButtons.filter((id) => id !== buttonId));
-    } else {
-      // Add the button to the active list
-      setActiveButtons([...activeButtons, buttonId]);
-    }
+    const updatedButtons = activeButtons.includes(buttonId)
+      ? activeButtons.filter((id) => id !== buttonId) // Remove button if active
+      : [...activeButtons, buttonId]; // Add button if inactive
+  
+    setActiveButtons(updatedButtons);
+    onFilterChange(updatedButtons); // Notify App of the updated filters
   };
+  
 
   return (
     <div className="source">
@@ -28,28 +27,23 @@ const Source = () => {
         </h3>
       </div>
       <div className="source-buttons">
-        {/* CNA Button */}
         <button
-          className={`source-button ${activeButtons.includes('cna') ? 'active' : ''}`}
-          onClick={() => handleButtonClick('cna')}
+          className={`source-button ${activeButtons.includes('CNA') ? 'active' : ''}`}
+          onClick={() => handleButtonClick('CNA')}
         >
           <CnaLogo className="source-icon" />
           CNA
         </button>
-
-        {/* Reddit Button */}
         <button
-          className={`source-button ${activeButtons.includes('reddit') ? 'active' : ''}`}
-          onClick={() => handleButtonClick('reddit')}
+          className={`source-button ${activeButtons.includes('Reddit') ? 'active' : ''}`}
+          onClick={() => handleButtonClick('Reddit')}
         >
           <RedditLogo className="source-icon" />
           Reddit
         </button>
-
-        {/* Straits Times Button */}
         <button
-          className={`source-button ${activeButtons.includes('straitstimes') ? 'active' : ''}`}
-          onClick={() => handleButtonClick('straitstimes')}
+          className={`source-button ${activeButtons.includes('Straits Times') ? 'active' : ''}`}
+          onClick={() => handleButtonClick('Straits Times')}
         >
           <StraitsTimesLogo className="source-icon" />
           Straits Times

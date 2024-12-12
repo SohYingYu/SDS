@@ -6,7 +6,7 @@ import Source from './Source';
 import Tag from './Tag';
 import Settings from './Settings'; 
 
-const Sidebar = ({ isOpen, toggleSidebar }) => {
+const Sidebar = ({ isOpen, toggleSidebar, onFilterChange, originalData }) => {
   return (
     <div className={`sidebar ${isOpen ? 'open' : 'closed'}`}>
       <div className="sidebar-toggle-btn" onClick={toggleSidebar}>
@@ -19,7 +19,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             <SubTopics />
             <div className="grouped-container">
               <Tag />
-              <Source />
+              {/* Pass `onFilterChange` and `originalData` to Source */}
+              <Source onFilterChange={onFilterChange} originalData={originalData} />
               <Settings />
             </div>
           </>
