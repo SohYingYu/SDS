@@ -26,6 +26,13 @@
     text-align: center;
 }
 
+.sentiment-icon {
+    width: 16px; /* Adjust icon size */
+    height: 16px;
+    margin-right: 10px; /* Space between icon and text */
+    vertical-align: middle; /* Align icon with text */
+  }
+
 .toggle-container {
     position: relative;
     width: 280px;

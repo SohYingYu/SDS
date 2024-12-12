@@ -1,5 +1,7 @@
 import React from 'react';
 import './Mapview.css';
+import { ReactComponent as MapViewIcon } from '../../assets/topbaricon/mapview.svg';
+import { ReactComponent as NetworkIcon } from '../../assets/topbaricon/network.svg';
 
 const Mapview = ({ isSidebarOpen, view, onToggleView }) => {
   const toggleView = () => {
@@ -14,8 +16,14 @@ const Mapview = ({ isSidebarOpen, view, onToggleView }) => {
       <div className="mapview-content">
         <div className="toggle-container" onClick={toggleView}>
           <div className={`toggle-background ${view === 'Network View' ? 'right' : ''}`} />
-          <span className={view === 'Map View' ? 'active' : ''}>Map View</span>
-          <span className={view === 'Network View' ? 'active' : ''}>Network</span>
+          <span className={view === 'Map View' ? 'active' : ''}>
+            <MapViewIcon className="mapview-icon" />
+            Map View
+          </span>
+          <span className={view === 'Network View' ? 'active' : ''}>
+            <NetworkIcon className="network-icon" />            
+            Network
+          </span>
         </div>
       </div>
     </div>

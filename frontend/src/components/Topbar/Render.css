@@ -25,6 +25,20 @@
     text-align: center;
 }
 
+.twod-icon {
+    width: 16px; /* Adjust icon size */
+    height: 16px;
+    margin-right: 10px; /* Space between icon and text */
+    vertical-align: middle; /* Align icon with text */
+  }
+
+  .threed-icon {
+    width: 16px; /* Adjust icon size */
+    height: 16px;
+    margin-right: 10px; /* Space between icon and text */
+    vertical-align: middle; /* Align icon with text */
+  }
+
 .render-toggle-container {
     position: relative;
     width: 150px;

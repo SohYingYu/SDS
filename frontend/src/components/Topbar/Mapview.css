@@ -27,6 +27,20 @@
     text-align: center;
   }
   
+  .mapview-icon {
+    width: 16px; /* Adjust icon size */
+    height: 16px;
+    margin-right: 10px; /* Space between icon and text */
+    vertical-align: middle; /* Align icon with text */
+  }
+
+  .network-icon {
+    width: 16px; /* Adjust icon size */
+    height: 16px;
+    margin-right: 10px; /* Space between icon and text */
+    vertical-align: middle; /* Align icon with text */
+  }
+
   .toggle-container {
     position: relative;
     width: 280px;
@@ -41,9 +55,6 @@
     box-sizing: border-box;
     overflow: hidden;
     padding-left: 4px;
-
-    
-    
   }
   
   .toggle-container span {
@@ -76,3 +87,4 @@
     transform: translate(100%, -50%); /* Move horizontally to the right while staying vertically centered */
   }
   
+
