@@ -1,0 +1,72 @@
+.render-component {
+    position: absolute;
+    top: 18px; /* Same vertical position as Normal */
+    left: 850px; /* Positioned to the right of Normal (adjust based on Normal's width) */
+    background: transparent; /* White with 80% transparency */
+    color: #A6A6A6;
+    height: 50px; /* Fixed height for the render bar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+    border-radius: 25px; /* Rounded corners */
+}
+
+.render-component.sidebar-open {
+    left: 940px; /* Adjust left when sidebar is open (relative to Normal) */
+}
+
+.render-component.sidebar-closed {
+    left: 640px; /* Adjust left when sidebar is closed (relative to Normal) */
+}
+
+.render-content {
+    width: 100%;
+    text-align: center;
+}
+
+.render-toggle-container {
+    position: relative;
+    width: 150px;
+    height: 47px;
+    background: rgba(255, 255, 255); /* White with 80% transparency */
+    box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.1); /* Add shadow */
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding-left: 4px;
+}
+
+.render-toggle-container span {
+    z-index: 2; /* Keep the text above the toggle background */
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #A6A6A6;
+    transition: color 0.3s;
+}
+
+.render-toggle-container span.active {
+    color: #fff; /* Highlight the active view */
+}
+
+.render-toggle-background {
+    position: absolute;
+    top: 50%; /* Start at the vertical center */
+    transform: translateY(-50%); /* Offset to center it vertically */
+    width: calc(50% - 4px);
+    height: 36px; /* Adjust height for better proportions */
+    background: #415ED3; /* Updated color */
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+    z-index: 1; /* Place behind the text */
+}
+
+.render-toggle-background.right {
+    transform: translate(100%, -50%); /* Move horizontally to the right while staying vertically centered */
+}
