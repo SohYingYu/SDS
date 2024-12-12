@@ -8,7 +8,7 @@
 
 .topic-title {
   font-size: 15px;
-  color: black;
+  color: #333333;
   margin: 0;
   display: flex;
   align-items: center; /* Vertically center icon and text */
@@ -20,12 +20,147 @@
   height: 20px;
 }
 
-.topic-placeholder {
-  width: 100%; /* Full width of the container */
-  height: 80px; /* Adjust height as needed */
-  background-color: #fff; /* Light grey background */
-  border-radius: 5px; /* Rounded corners */
+
+.center-icon {
+  width: 30px;
+  height: 30px;
+  fill: #909090; /* Always use #909090 for the big circle icon */
+  transition: fill 0.3s ease; /* Smooth color transition */
+}
+
+.center-text {
+  font-size: 13px;
+  margin-top: -10px;
+}
+
+/* Circle arrangement */
+.topic-button {
+  position: absolute;
+  right:-20px;
+  top:-20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
   display: flex;
-  align-items: center; /* Center content vertically */
-  justify-content: center; /* Center content horizontally */
+  align-items: center;
+  justify-content: center;
+  background-color: #EEEEEE;
+  transform-origin: 50% 50%; /* Ensure proper rotation */
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+
+.topic-button .icon {
+  width: 24px;
+  height: 24px;
+  fill: #909090; /* Default unselected icon color */
+  transition: fill 0.3s ease;
+}
+
+
+.topic-button:hover {
+  transform: scale(1.05);
+}
+
+.topic-button:active {
+  transform: scale(1.05);
+}
+
+.topic-container {
+  position: relative;
+  width: 220px; /* Diameter of the circular layout */
+  height: 220px; /* Match the width for a perfect circle */
+  margin: auto;
+  display: flex;
+  align-items: center; /* Centers the content vertically */
+  justify-content: center; /* Centers the content horizontally */
+}
+
+.center-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 130px; /* Diameter of the big circle */
+  height: 130px;
+  background-color: #EEEEEE; /* Default color */
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+  z-index: 2; /* Ensure it stays above other elements */
+  text-align: center;
+  transform: translate(-50%, -50%); /* Center the circle absolutely */
+  transition: background-color 0.3s ease;
+}
+
+/* Default and Selected States */s
+.topic-default {
+  background-color: #EEEEEE;
+}
+
+.topic-blue {
+  background-color: #415ED3;
+}
+
+.topic-orange {
+  background-color: #F97A51;
+}
+
+.topic-green {
+  background-color: #64DDD0;
+}
+
+
+
+/* Wrapper for the entire topic container */
+.topic-container:hover .topic-label {
+  opacity: 1; /* Make all labels visible on hover */
+}
+
+/* Wrapper for the topic button and label */
+.topic-button-wrapper {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform-origin: center; /* Ensures rotation is centered */
+  transform: translate(-50%, -50%);
+}
+
+
+
+/* Option label */
+.topic-label {
+  position: absolute;
+  top: 20px; /* Position outside the button */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: #333333; /* Black color for the label */
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s ease; /* Smooth transition */
+  white-space: nowrap; /* Prevent text wrapping */
+  pointer-events: none; /* Ensure the label does not interfere with clicks */
+}
+
+.remove-button {
+  height: 20px;
+  width: 50px;
+  margin-top: 5px;
+  font-size: 10px;
+  color: white;
+  background-color: #333333; /* Red color for remove button */
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove-button:hover {
+  background-color: #909090; /* Darker red on hover */
 }
