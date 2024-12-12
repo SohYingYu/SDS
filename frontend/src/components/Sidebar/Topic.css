@@ -1,3 +1,4 @@
+
 .topic {
   padding: 0px;
 }
@@ -18,6 +19,7 @@
 .topic-icon {
   width: 20px; /* Adjust icon size */
   height: 20px;
+  
 }
 
 
@@ -25,7 +27,7 @@
   width: 45px ;
   height: 45px ;
   padding-bottom: 10px;;
-  fill: #909090; /* Always use #909090 for the big circle icon */
+  color: rgb(255, 255, 255); /* Always use #909090 for the big circle icon */
   transition: fill 0.3s ease; /* Smooth color transition */
 }
 
@@ -38,8 +40,8 @@
 /* Circle arrangement */
 .topic-button {
   position: absolute;
-  right:-20px;
-  top:-20px;
+  right:-18px;
+  top:-18px;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -57,12 +59,12 @@
 .topic-button .icon {
   width: 18px; /* Specify a valid width */
   height: 18px; /* Ensure a consistent height */
-  fill: #909090; /* Default unselected icon color */
+  color: #909090;
   transition: fill 0.3s ease; /* Smooth transition for color change */
 }
 
 .topic-button.selected .icon {
-  fill: white; /* Selected icon color */
+  color: white/* Selected icon color */
 }
 
 
@@ -73,6 +75,7 @@
 
 .topic-button:active {
   transform: scale(1.05);
+  
 }
  
 
@@ -127,7 +130,7 @@
 }
 
 .topic-green {
-  background-color: #64DDD0;
+  background-color: #39C970;
 }
 
 
