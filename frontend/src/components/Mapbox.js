@@ -2,7 +2,7 @@ import React from 'react';
 import { Map, Source, Layer } from 'react-map-gl';
 
 const Mapbox = ({ originalData, activeFilters = [], tagFilter = [] }) => {
-  const mapboxToken = 'pk.eyJ1IjoieWFuZzE5MDAwMDAiLCJhIjoiY20zdzMxd3ExMHhoZTJqcXpwMG1ybGxrdCJ9.Xf9BgWMIUQ9_MGuc34knwg'; // Replace with your Mapbox token
+  const mapboxToken = 'pk.eyJ1IjoieWFuZzE5MDAwMDAiLCJhIjoiY20zdzMxd3ExMHhoZTJqcXpwMG1ybGxrdCJ9.Xf9BgWMIUQ9_MGuc34knwg'; // Replace with your token
 
   // Filter data based on activeFilters and tagFilter
   const filteredData = originalData.filter((row) => {
@@ -14,10 +14,9 @@ const Mapbox = ({ originalData, activeFilters = [], tagFilter = [] }) => {
     // Ensure valid coordinates
     if (isNaN(lat) || isNaN(long)) return false;
 
-    // Check source and tag match
-    const matchesSource = activeFilters.includes(source);
-    const matchesTag =
-      tagFilter.length === 0 || tagFilter.some((tag) => searchTerm?.includes(tag.toLowerCase()));
+    // Determine matches
+    const matchesSource = activeFilters.length === 0 || activeFilters.includes(source);
+    const matchesTag = tagFilter.length === 0 || tagFilter.some((tag) => searchTerm?.includes(tag.toLowerCase()));
 
     return matchesSource && matchesTag;
   });
