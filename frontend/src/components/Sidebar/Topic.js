@@ -21,18 +21,18 @@ const Topic = () => {
   const [currentTopic, setCurrentTopic] = useState(null); // Tracks the topic displayed in the big circle
 
   const topics = [
+    { name: 'Cultural', icon: <CulturalIcon /> },
     { name: 'Community', icon: <CommunityIcon /> },
-    { name: 'Cultural Trends', icon: <CulturalIcon /> },
+    { name: 'Dining', icon: <FoodIcon /> },
     { name: 'Economy', icon: <EconomyIcon /> },
     { name: 'Entertainment', icon: <EntertainmentIcon /> },
     { name: 'Environment', icon: <EnvironmentIcon /> },
-    { name: 'Food and Dining', icon: <FoodIcon /> },
     { name: 'Health', icon: <HealthIcon /> },
     { name: 'Politics', icon: <PoliticsIcon /> },
     { name: 'Social Issues', icon: <SocialIcon /> },
     { name: 'Technology', icon: <TechnologyIcon /> },
-    { name: 'Travel & Tourism', icon: <TravelIcon /> },
-    { name: 'Urban & Planning', icon: <UrbanIcon /> },
+    { name: 'Tourism', icon: <TravelIcon /> },
+    { name: 'Urban', icon: <UrbanIcon /> },
   ];
 
   const handleTopicClick = (topicName) => {
@@ -94,25 +94,33 @@ const Topic = () => {
         </div>
 
         {topics.map((topic, index) => (
-          <div
-            key={topic.name}
-            className="topic-button-wrapper"
-            style={{
-              transform: `rotate(${(360 / topics.length) * index}deg) translate(95px) rotate(-${(360 / topics.length) * index}deg)`,
-            }}
-          >
-            <button
-              className={`topic-button ${getTopicClass(topic.name)} ${
-                selectedTopics.includes(topic.name) ? 'selected' : ''
-              }`}
-              onClick={() => handleTopicClick(topic.name)}
-              disabled={selectedTopics.length >= 3 && !selectedTopics.includes(topic.name)}
-            >
-              <div className="icon">{topic.icon}</div>
-            </button>
-            <div className="topic-label">{topic.name}</div>
-          </div>
-        ))}
+  <div
+    key={topic.name}
+    className="topic-button-wrapper"
+    style={{
+      transform: `rotate(${(360 / topics.length) * index}deg) translate(95px) rotate(-${(360 / topics.length) * index}deg)`, // Button ring radius
+    }}
+  >
+    <button
+      className={`topic-button ${getTopicClass(topic.name)} ${
+        selectedTopics.includes(topic.name) ? 'selected' : ''
+      }`}
+      onClick={() => handleTopicClick(topic.name)}
+      disabled={selectedTopics.length >= 3 && !selectedTopics.includes(topic.name)}
+    >
+      <div className="icon">{topic.icon}</div>
+    </button>
+    <div
+      className="topic-label"
+      style={{
+        transform: `rotate(${(360 / topics.length) * index}deg) translate(35px) rotate(-${(360 / topics.length) * index}deg)`, // Word ring radius
+      }}
+    >
+      {topic.name}
+    </div>
+  </div>
+))}
+
       </div>
     </div>
   );
