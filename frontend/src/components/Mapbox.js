@@ -1,13 +1,25 @@
 import React from 'react';
 import { Map, Source, Layer } from 'react-map-gl';
 
-const Mapbox = ({ originalData, activeFilters }) => {
-  const mapboxToken = 'pk.eyJ1IjoieWFuZzE5MDAwMDAiLCJhIjoiY20zdzMxd3ExMHhoZTJqcXpwMG1ybGxrdCJ9.Xf9BgWMIUQ9_MGuc34knwg';
+const Mapbox = ({ originalData, activeFilters = [], tagFilter = [] }) => {
+  const mapboxToken = 'pk.eyJ1IjoieWFuZzE5MDAwMDAiLCJhIjoiY20zdzMxd3ExMHhoZTJqcXpwMG1ybGxrdCJ9.Xf9BgWMIUQ9_MGuc34knwg'; // Replace with your Mapbox token
 
-  // Filter data dynamically based on active filters
+  // Filter data based on activeFilters and tagFilter
   const filteredData = originalData.filter((row) => {
     const source = row.source?.trim();
-    return activeFilters.includes(source);
+    const searchTerm = row['search term']?.toLowerCase();
+    const lat = parseFloat(row['lat']);
+    const long = parseFloat(row['long']);
+
+    // Ensure valid coordinates
+    if (isNaN(lat) || isNaN(long)) return false;
+
+    // Check source and tag match
+    const matchesSource = activeFilters.includes(source);
+    const matchesTag =
+      tagFilter.length === 0 || tagFilter.some((tag) => searchTerm?.includes(tag.toLowerCase()));
+
+    return matchesSource && matchesTag;
   });
 
   // Construct GeoJSON data
@@ -87,7 +99,7 @@ const Mapbox = ({ originalData, activeFilters }) => {
         mapboxAccessToken={mapboxToken}
         attributionControl={false}
       >
-        {filteredData.length > 0 && (
+        {geoJsonData.features.length > 0 && (
           <Source id="heatmap" type="geojson" data={geoJsonData}>
             <Layer {...heatmapLayer} />
             <Layer {...circleLayer} />

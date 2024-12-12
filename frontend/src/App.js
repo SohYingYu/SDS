@@ -9,10 +9,23 @@ import { loadCSV } from './utils/loadCSV'; // Ensure path is correct
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isBottombarOpen, setIsBottombarOpen] = useState(true);
+  const [originalData, setOriginalData] = useState([]);
+  const [activeFilters, setActiveFilters] = useState(['CNA', 'Reddit', 'Straits Times']);
+  const [tagFilter, setTagFilter] = useState(['culture', 'regulations', 'rules']);
 
-  // State for managing the data and active filters
-  const [originalData, setOriginalData] = useState([]); // All data from CSV
-  const [activeFilters, setActiveFilters] = useState(['CNA', 'Reddit', 'Straits Times']); // Initial filters
+  useEffect(() => {
+    loadCSV('/data/mastersheet.csv', (parsedData) => {
+      setOriginalData(parsedData);
+    });
+  }, []);
+
+  const handleFilterChange = (newFilters) => {
+    setActiveFilters(newFilters);
+  };
+
+  const handleTagFilterChange = (newTagFilter) => {
+    setTagFilter(newTagFilter);
+  };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -22,27 +35,19 @@ const App = () => {
     setIsBottombarOpen(!isBottombarOpen);
   };
 
-  // Load the CSV data on component mount
-  useEffect(() => {
-    loadCSV('/data/mastersheet.csv', (parsedData) => {
-      setOriginalData(parsedData);
-    });
-  }, []);
-
-  // Callback to handle filter changes
-  const handleFilterChange = (newFilters) => {
-    setActiveFilters(newFilters);
-  };
-
   return (
     <div className="app">
-      <Mapbox originalData={originalData} activeFilters={activeFilters} /> {/* Pass filters */}
+      <Mapbox
+        originalData={originalData}
+        activeFilters={activeFilters}
+        tagFilter={tagFilter}
+      />
       <Topbar isSidebarOpen={isSidebarOpen} />
       <Sidebar
         isOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
-        onFilterChange={handleFilterChange} // Pass filter change handler
-        activeFilters={activeFilters} // Pass active filters
+        onFilterChange={handleFilterChange}
+        onTagFilterChange={handleTagFilterChange}
       />
       <Bottombar
         isSidebarOpen={isSidebarOpen}
