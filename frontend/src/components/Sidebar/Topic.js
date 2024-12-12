@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import './Topic.css';
 import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
-import { ReactComponent as EconomyIcon } from '../../assets/topicicon/economy.svg';
+import { ReactComponent as EconomyIcon } from '../../assets/topicicon/eco.svg';
 import { ReactComponent as RemoveIcon } from '../../assets/topicicon/remove.svg'; // Import the remove icon
-// import { ReactComponent as CommunityIcon } from '../../assets/topicicon/community.svg';
-// import { ReactComponent as CulturalIcon } from '../../assets/topicicon/cultural.svg';
-// import { ReactComponent as EconomyIcon } from '../../assets/topicicon/economy.svg';
-// import { ReactComponent as EntertainmentIcon } from '../../assets/topicicon/entertainment.svg';
-// import { ReactComponent as EnvironmentIcon } from '../../assets/topicicon/environment.svg';
-// import { ReactComponent as FoodIcon } from '../../assets/topicicon/food.svg';
-// import { ReactComponent as HealthIcon } from '../../assets/topicicon/health.svg';
-// import { ReactComponent as PoliticsIcon } from '../../assets/topicicon/politics.svg';
-// import { ReactComponent as SocialIcon } from '../../assets/topicicon/social.svg';
-// import { ReactComponent as TechnologyIcon } from '../../assets/topicicon/technology.svg';
-// import { ReactComponent as TravelIcon } from '../../assets/topicicon/travel.svg';
-// import { ReactComponent as UrbanIcon } from '../../assets/topicicon/urban.svg';
+import { ReactComponent as CommunityIcon } from '../../assets/topicicon/com.svg';
+import { ReactComponent as CulturalIcon } from '../../assets/topicicon/cul.svg';
+import { ReactComponent as EntertainmentIcon } from '../../assets/topicicon/ent.svg';
+import { ReactComponent as EnvironmentIcon } from '../../assets/topicicon/env.svg';
+import { ReactComponent as FoodIcon } from '../../assets/topicicon/foo.svg';
+import { ReactComponent as HealthIcon } from '../../assets/topicicon/hea.svg';
+import { ReactComponent as PoliticsIcon } from '../../assets/topicicon/pol.svg';
+import { ReactComponent as SocialIcon } from '../../assets/topicicon/soc.svg';
+import { ReactComponent as TechnologyIcon } from '../../assets/topicicon/tec.svg';
+import { ReactComponent as TravelIcon } from '../../assets/topicicon/tra.svg';
+import { ReactComponent as UrbanIcon } from '../../assets/topicicon/urb.svg';
 
 
 const Topic = () => {
@@ -22,18 +21,18 @@ const Topic = () => {
   const [currentTopic, setCurrentTopic] = useState(null); // Tracks the topic displayed in the big circle
 
   const topics = [
-    { name: 'Community', icon: <EconomyIcon /> },
-    // { name: 'Cultural Trends', icon: <CulturalIcon /> },
+    { name: 'Community', icon: <CommunityIcon /> },
+    { name: 'Cultural Trends', icon: <CulturalIcon /> },
     { name: 'Economy', icon: <EconomyIcon /> },
-    // { name: 'Entertainment', icon: <EntertainmentIcon /> },
-    // { name: 'Environment', icon: <EnvironmentIcon /> },
-    // { name: 'Food and Dining', icon: <FoodIcon /> },
-    // { name: 'Health', icon: <HealthIcon /> },
-    // { name: 'Politics', icon: <PoliticsIcon /> },
-    // { name: 'Social Issues', icon: <SocialIcon /> },
-    // { name: 'Technology', icon: <TechnologyIcon /> },
-    // { name: 'Travel & Tourism', icon: <TravelIcon /> },
-    // { name: 'Urban & Planning', icon: <UrbanIcon /> },
+    { name: 'Entertainment', icon: <EntertainmentIcon /> },
+    { name: 'Environment', icon: <EnvironmentIcon /> },
+    { name: 'Food and Dining', icon: <FoodIcon /> },
+    { name: 'Health', icon: <HealthIcon /> },
+    { name: 'Politics', icon: <PoliticsIcon /> },
+    { name: 'Social Issues', icon: <SocialIcon /> },
+    { name: 'Technology', icon: <TechnologyIcon /> },
+    { name: 'Travel & Tourism', icon: <TravelIcon /> },
+    { name: 'Urban & Planning', icon: <UrbanIcon /> },
   ];
 
   const handleTopicClick = (topicName) => {
@@ -104,7 +103,7 @@ const Topic = () => {
           >
             <button
               className={`topic-button ${getTopicClass(topic.name)} ${
-                selectedTopics.length >= 3 && !selectedTopics.includes(topic.name) ? 'disabled' : ''
+                selectedTopics.includes(topic.name) ? 'selected' : ''
               }`}
               onClick={() => handleTopicClick(topic.name)}
               disabled={selectedTopics.length >= 3 && !selectedTopics.includes(topic.name)}
