@@ -1,58 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Map, Source, Layer } from 'react-map-gl';
-import Papa from 'papaparse'; // Library to parse CSV files
 
-const Mapbox = () => {
+const Mapbox = ({ originalData, activeFilters }) => {
   const mapboxToken = 'pk.eyJ1IjoieWFuZzE5MDAwMDAiLCJhIjoiY20zdzMxd3ExMHhoZTJqcXpwMG1ybGxrdCJ9.Xf9BgWMIUQ9_MGuc34knwg';
-  const [geoJsonData, setGeoJsonData] = useState(null);
 
-  useEffect(() => {
-    // Load and parse CSV data
-    fetch('/data/mastersheet.csv')
-      .then((response) => response.text())
-      .then((csvText) => {
-        // Parse CSV data
-        const parsedData = Papa.parse(csvText, { header: true }).data;
+  // Filter data dynamically based on active filters
+  const filteredData = originalData.filter((row) => {
+    const source = row.source?.trim();
+    return activeFilters.includes(source);
+  });
 
-        // Convert parsed CSV to GeoJSON
-        const geoJson = {
-          type: 'FeatureCollection',
-          features: parsedData.map((row) => ({
-            type: 'Feature',
-            properties: {
-              searchTerm: row['search term'],
-              source: row['source'],
-              topic: row['topic'],
-              subtopic: row['subtopic'],
-              timestamp: row['timestamp'],
-              sentiment: row['sentiment_analysis'],
-            },
-            geometry: {
-              type: 'Point',
-              coordinates: [parseFloat(row['long']), parseFloat(row['lat'])],
-            },
-          })),
-        };
+  // Construct GeoJSON data
+  const geoJsonData = {
+    type: 'FeatureCollection',
+    features: filteredData.map((row) => ({
+      type: 'Feature',
+      properties: {
+        searchTerm: row['search term'],
+        source: row['source'],
+        topic: row['topic'],
+        subtopic: row['subtopic'],
+        timestamp: row['timestamp'],
+        sentiment: row['sentiment_analysis'],
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [parseFloat(row['long']), parseFloat(row['lat'])],
+      },
+    })),
+  };
 
-        setGeoJsonData(geoJson);
-      });
-  }, []);
-
-  // Heatmap layer style
   const heatmapLayer = {
     id: 'heatmap-layer',
     type: 'heatmap',
     source: 'heatmap',
-    maxzoom: 12, // Allow heatmap visibility up to zoom level 14
+    maxzoom: 12,
     paint: {
       'heatmap-weight': ['interpolate', ['linear'], ['get', 'sentiment'], -1, 0, 1, 1],
-      'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 1, 14, 3], // Adjust intensity for smoother scaling
+      'heatmap-intensity': ['interpolate', ['linear'], ['zoom'], 0, 1, 14, 3],
       'heatmap-color': [
         'interpolate',
         ['linear'],
         ['heatmap-density'],
         0,
-        'rgba(33,102,172,0)', // Transparent for low density
+        'rgba(33,102,172,0)',
         0.2,
         'rgb(103,169,207)',
         0.4,
@@ -62,27 +53,24 @@ const Mapbox = () => {
         0.8,
         'rgb(239,138,98)',
         1,
-        'rgb(65, 94, 211)', // Deep blue for high density
+        'rgb(65, 94, 211)',
       ],
-      'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 2, 13, 20], // Gradual radius scaling
-      'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 7, 1, 13, 0.8], // Smooth fade-out as zoom increases
+      'heatmap-radius': ['interpolate', ['linear'], ['zoom'], 0, 2, 13, 20],
+      'heatmap-opacity': ['interpolate', ['linear'], ['zoom'], 7, 1, 13, 0.8],
     },
   };
-  
-  
 
-  // Circle layer style
   const circleLayer = {
     id: 'circle-layer',
     type: 'circle',
     source: 'heatmap',
-    minzoom: 12, // Visible from zoom level 12 onwards
+    minzoom: 12,
     paint: {
-      'circle-radius': 16, // Fixed radius
-      'circle-color': 'rgba(65, 94, 211, 0.8)', // #415ED3 at 80% opacity
-      'circle-stroke-color': 'white', // White border
-      'circle-stroke-width': 0, // Border width
-      'circle-opacity': 0.8, // Circle opacity
+      'circle-radius': 16,
+      'circle-color': 'rgba(65, 94, 211, 0.8)',
+      'circle-stroke-color': 'white',
+      'circle-stroke-width': 0,
+      'circle-opacity': 0.8,
     },
   };
 
@@ -99,7 +87,7 @@ const Mapbox = () => {
         mapboxAccessToken={mapboxToken}
         attributionControl={false}
       >
-        {geoJsonData && (
+        {filteredData.length > 0 && (
           <Source id="heatmap" type="geojson" data={geoJsonData}>
             <Layer {...heatmapLayer} />
             <Layer {...circleLayer} />
