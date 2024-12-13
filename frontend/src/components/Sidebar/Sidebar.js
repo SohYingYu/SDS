@@ -6,7 +6,7 @@ import Source from './Source';
 import Tag from './Tag';
 import Settings from './Settings';
 
-const Sidebar = ({ isOpen, toggleSidebar, onFilterChange, onTagFilterChange }) => {
+const Sidebar = ({ isOpen, toggleSidebar, onFilterChange, onTagFilterChange, onTopicFilterChange }) => {
   // Handle tag filter changes and pass them to the parent
   const handleTagFilterChange = (tagFilter) => {
     onTagFilterChange(tagFilter); // Pass the tag filter to the parent (App.js)
@@ -20,7 +20,7 @@ const Sidebar = ({ isOpen, toggleSidebar, onFilterChange, onTagFilterChange }) =
       <div className="sidebar-content">
         {isOpen && (
           <>
-            <Topic />
+            <Topic onTopicFilterChange={onTopicFilterChange} />
             <SubTopics />
             <div className="grouped-container">
               {/* Pass handleTagFilterChange to the Tag component */}

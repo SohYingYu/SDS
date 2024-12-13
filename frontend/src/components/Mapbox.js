@@ -1,13 +1,14 @@
 import React from 'react';
 import { Map, Source, Layer } from 'react-map-gl';
 
-const Mapbox = ({ originalData, activeFilters = [], tagFilter = [] }) => {
+const Mapbox = ({ originalData, activeFilters = [], tagFilter = [], topicFilter = [] }) => {
   const mapboxToken = 'pk.eyJ1IjoieWFuZzE5MDAwMDAiLCJhIjoiY20zdzMxd3ExMHhoZTJqcXpwMG1ybGxrdCJ9.Xf9BgWMIUQ9_MGuc34knwg'; // Replace with your token
 
   // Filter data based on activeFilters and tagFilter
   const filteredData = originalData.filter((row) => {
     const source = row.source?.trim();
     const searchTerm = row['search term']?.toLowerCase();
+    const topic = row['topic']?.trim();
     const lat = parseFloat(row['lat']);
     const long = parseFloat(row['long']);
 
@@ -17,8 +18,9 @@ const Mapbox = ({ originalData, activeFilters = [], tagFilter = [] }) => {
     // Determine matches
     const matchesSource = activeFilters.length === 0 || activeFilters.includes(source);
     const matchesTag = tagFilter.length === 0 || tagFilter.some((tag) => searchTerm?.includes(tag.toLowerCase()));
+    const matchesTopic = topicFilter.length === 0 || topicFilter.includes(topic);
 
-    return matchesSource && matchesTag;
+    return matchesSource && matchesTag && matchesTopic;
   });
 
   // Construct GeoJSON data
