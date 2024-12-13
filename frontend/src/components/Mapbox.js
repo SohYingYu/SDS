@@ -4,6 +4,7 @@ import { Map, Source, Layer } from 'react-map-gl';
 const Mapbox = ({ originalData, activeFilters = [], tagFilter = [], topicFilter = [] }) => {
   const mapboxToken = 'pk.eyJ1IjoieWFuZzE5MDAwMDAiLCJhIjoiY20zdzMxd3ExMHhoZTJqcXpwMG1ybGxrdCJ9.Xf9BgWMIUQ9_MGuc34knwg'; // Replace with your token
 
+  
   // Filter data based on activeFilters and tagFilter
   const filteredData = originalData.filter((row) => {
     const source = row.source?.trim();
@@ -87,6 +88,12 @@ const Mapbox = ({ originalData, activeFilters = [], tagFilter = [], topicFilter 
     },
   };
 
+  // Singapore bounds (approximate)
+  const singaporeBounds = [
+    [103.000953, 0.770084], // Southwest corner
+    [104.620471, 1.786387], // Northeast corner
+  ];
+
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       <Map
@@ -96,9 +103,12 @@ const Mapbox = ({ originalData, activeFilters = [], tagFilter = [], topicFilter 
           zoom: 10.7,
         }}
         style={{ width: '100%', height: '100%' }}
-        mapStyle="mapbox://styles/mapbox/light-v10"
+        mapStyle="mapbox://styles/mapbox/light-v10" // Ensure 2D map style
         mapboxAccessToken={mapboxToken}
         attributionControl={false}
+        maxBounds={singaporeBounds} // Restrict the view to Singapore
+        dragRotate={false} // Disable map rotation
+        touchZoomRotate={false} // Disable pinch-to-rotate
       >
         {geoJsonData.features.length > 0 && (
           <Source id="heatmap" type="geojson" data={geoJsonData}>
