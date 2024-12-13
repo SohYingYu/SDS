@@ -6,10 +6,16 @@ import Source from './Source';
 import Tag from './Tag';
 import Settings from './Settings';
 
-const Sidebar = ({ isOpen, toggleSidebar, onFilterChange, onTagFilterChange, onTopicFilterChange }) => {
-  // Handle tag filter changes and pass them to the parent
-  const handleTagFilterChange = (tagFilter) => {
-    onTagFilterChange(tagFilter); // Pass the tag filter to the parent (App.js)
+const Sidebar = ({
+  isOpen,
+  toggleSidebar,
+  onFilterChange,
+  onTagFilterChange,
+  onTopicFilterChange,
+  activeFilters, // Accept activeFilters as a prop
+}) => {
+  const handleReset = () => {
+    onFilterChange(['CNA', 'Reddit', 'Straits Times']); // Reset Source to default
   };
 
   return (
@@ -23,11 +29,9 @@ const Sidebar = ({ isOpen, toggleSidebar, onFilterChange, onTagFilterChange, onT
             <Topic onTopicFilterChange={onTopicFilterChange} />
             <SubTopics />
             <div className="grouped-container">
-              {/* Pass handleTagFilterChange to the Tag component */}
-              <Tag onTagFilterChange={handleTagFilterChange} />
-              {/* Pass onFilterChange directly to the Source component */}
-              <Source onFilterChange={onFilterChange} />
-              <Settings />
+              <Tag onTagFilterChange={onTagFilterChange} />
+              <Source activeFilters={activeFilters} onFilterChange={onFilterChange} />
+              <Settings onReset={handleReset} />
             </div>
           </>
         )}
@@ -37,3 +41,5 @@ const Sidebar = ({ isOpen, toggleSidebar, onFilterChange, onTagFilterChange, onT
 };
 
 export default Sidebar;
+
+

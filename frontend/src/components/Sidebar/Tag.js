@@ -4,12 +4,12 @@ import { ReactComponent as TagsIcon } from '../../assets/sidebaricon/tags.svg';
 
 
 const Tag = ({ onTagFilterChange }) => {
-  const [activeButtons, setActiveButtons] = useState(['culture', 'regulations', 'rules']); // Default: All selected
+  const [activeFilters, setActiveButtons] = useState(['culture', 'regulations', 'rules']); // Default: All selected
 
   const handleButtonClick = (buttonId) => {
-    const updatedButtons = activeButtons.includes(buttonId)
-      ? activeButtons.filter((id) => id !== buttonId) // Remove button if active
-      : [...activeButtons, buttonId]; // Add button if inactive
+    const updatedButtons = activeFilters.includes(buttonId)
+      ? activeFilters.filter((id) => id !== buttonId) // Remove button if active
+      : [...activeFilters, buttonId]; // Add button if inactive
 
     setActiveButtons(updatedButtons);
     onTagFilterChange(updatedButtons); // Notify App of the updated filters
@@ -25,19 +25,19 @@ const Tag = ({ onTagFilterChange }) => {
       </div>
       <div className="tag-buttons">
         <button
-          className={`tag-button ${activeButtons.includes('culture') ? 'active' : ''}`}
+          className={`tag-button ${activeFilters.includes('culture') ? 'active' : ''}`}
           onClick={() => handleButtonClick('culture')}
         >
           Culture
         </button>
         <button
-          className={`tag-button ${activeButtons.includes('regulations') ? 'active' : ''}`}
+          className={`tag-button ${activeFilters.includes('regulations') ? 'active' : ''}`}
           onClick={() => handleButtonClick('regulations')}
         >
           Regulations
         </button>
         <button
-          className={`tag-button ${activeButtons.includes('rules') ? 'active' : ''}`}
+          className={`tag-button ${activeFilters.includes('rules') ? 'active' : ''}`}
           onClick={() => handleButtonClick('rules')}
         >
           Rules
