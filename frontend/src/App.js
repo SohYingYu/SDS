@@ -46,6 +46,7 @@ const App = () => {
         setTagFilter={setTagFilter}
         topicFilter={topicFilter}
         setTopicFilter={setTopicFilter}
+        originalData={originalData} // Pass the data to Sidebar
       />
       <Bottombar
         isSidebarOpen={isSidebarOpen}

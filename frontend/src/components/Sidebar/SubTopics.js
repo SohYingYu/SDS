@@ -1,29 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './SubTopics.css';
 import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
 
-const SubTopics = () => {
-  const [isSelected, setIsSelected] = useState(false);
-
-  const handleButtonClick = () => {
-    setIsSelected(!isSelected);
-  };
-
+const SubTopics = ({ selectedTopic, subTopics }) => {
   return (
     <div className="subtopics">
       <div className="subtopics-header">
         <h3 className="subtopics-title">
           <LabelIcon className="topic-icon" />
-          Sub-Topics
+          Sub-Topics for {selectedTopic || "Select a Topic"}
         </h3>
       </div>
       <div className="subtopics-container">
-        <button
-          className={`add-button ${isSelected ? 'selected' : ''}`}
-          onClick={handleButtonClick}
-        >
-          Add Subtopic
-        </button>
+        {subTopics.length > 0 ? (
+          subTopics.map((subTopic, index) => (
+            <div key={index} className="subtopic-item">
+              {subTopic}
+            </div>
+          ))
+        ) : (
+          <div className="subtopic-placeholder">No Sub-Topics Available</div>
+        )}
       </div>
     </div>
   );
