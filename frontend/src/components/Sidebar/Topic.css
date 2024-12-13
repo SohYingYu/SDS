@@ -4,7 +4,10 @@
 }
 
 .topic-header {
-  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Distribute space between title and button */
+  margin-bottom: 10px;
 }
 
 .topic-title {
@@ -12,8 +15,35 @@
   color: #333333;
   margin: 0;
   display: flex;
-  align-items: center; /* Vertically center icon and text */
-  gap: 4px; /* Add space between icon and text */
+  align-items: center;
+  gap: 4px;
+}
+
+.all-topics-button {
+  width: 95px;
+  height: 30px;
+  padding: 5px 5px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #415ED3;
+  background-color: white; /* Button background color */
+  border-radius: 15px;
+  border: 2px solid #415ED3;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.all-topics-button:hover {
+  background-color: #EEEEEE;
+}
+
+.all-topics-button:focus {
+  outline: none;
+}
+
+.all-topics-button.selected-all {
+  color: white;
+  background-color: #415ED3;
 }
 
 .topic-icon {
@@ -21,7 +51,6 @@
   height: 20px;
   
 }
-
 
 .center-icon {
   width: 45px ;
@@ -133,7 +162,20 @@
   background-color: #39C970;
 }
 
+.topic-purple {
+  background-color: #BA82E0;
+}
 
+.topic-yellow {
+  background-color: #F2D600;
+}
+
+
+.topic-universal {
+  font-size: 15px;
+  background-color: #415ED3;
+  color: white; /* Adjust text color for better visibility */
+}
 
 
 /* Wrapper for the entire topic container */
@@ -149,8 +191,6 @@
   transform-origin: center; /* Ensures rotation is centered */
   transform: translate(-50%, -50%);
 }
-
-
 
 /* Option label */
 .topic-label {
@@ -199,4 +239,3 @@
   fill: #909090; /* Default icon color */
   transition: fill 0.3s ease;
 }
-
