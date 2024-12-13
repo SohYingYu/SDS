@@ -24,6 +24,11 @@ const App = () => {
     setActiveFilters(newFilters);
   };
 
+  const resetFilters = () => {
+    setActiveFilters(['CNA', 'Reddit', 'Straits Times']);
+    setTagFilter(['culture', 'regulations', 'rules']);
+  };
+
   const handleTagFilterChange = (newTagFilter) => {
     setTagFilter(newTagFilter);
   };
@@ -54,7 +59,10 @@ const App = () => {
         toggleSidebar={toggleSidebar}
         onFilterChange={handleFilterChange}
         onTagFilterChange={handleTagFilterChange}
-        onTopicFilterChange={handleTopicFilterChange} // Pass topic filter handler
+        onTopicFilterChange={handleTopicFilterChange}
+        activeFilters={activeFilters}
+        tagFilter={tagFilter}
+        onReset={resetFilters} // Pass reset function to Sidebar
       />
       <Bottombar
         isSidebarOpen={isSidebarOpen}

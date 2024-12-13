@@ -5,7 +5,7 @@ import { ReactComponent as SettingsIcon } from '../../assets/sidebaricon/setting
 import { ReactComponent as ExportIcon } from '../../assets/settingsicon/export.svg';
 
 
-const Settings = () => {
+const Settings = ({ onReset }) => {
   return (
     <div className="settings">
       <div className="settings-header">
@@ -15,7 +15,7 @@ const Settings = () => {
         </h3>
       </div>
       <div className="settings-buttons">
-        <button className="reset-button">
+        <button className="reset-button" onClick={onReset}>
           <ResetIcon className="reset-button-icon" />
           Reset
         </button>
@@ -29,3 +29,4 @@ const Settings = () => {
 };
 
 export default Settings;
+
