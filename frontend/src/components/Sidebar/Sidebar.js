@@ -9,17 +9,17 @@ import Settings from './Settings';
 const Sidebar = ({
   isOpen,
   toggleSidebar,
-  onFilterChange,
-  onTagFilterChange,
-  onTopicFilterChange,
-  tagFilter,
   activeFilters,
-  }) => {
-
-  const handleReset = () => {
-    onFilterChange(['CNA', 'Reddit', 'Straits Times']); // Reset Source to default
-    onTagFilterChange(['culture', 'regulations', 'rules']); 
-    onTopicFilterChange([]);
+  setActiveFilters,
+  tagFilter,
+  setTagFilter,
+  topicFilter,
+  setTopicFilter,
+}) => {
+  const resetFilters = () => {
+    setActiveFilters(['CNA', 'Reddit', 'Straits Times']);
+    setTagFilter(['culture', 'regulations', 'rules']);
+    setTopicFilter([]); // Reset topics to default state
   };
 
   return (
@@ -30,12 +30,15 @@ const Sidebar = ({
       <div className="sidebar-content">
         {isOpen && (
           <>
-            <Topic onTopicFilterChange={onTopicFilterChange} />
+            <Topic
+              selectedTopicsProp={topicFilter} // Use topicFilter for the selected topics
+              onTopicFilterChange={setTopicFilter} // Use setTopicFilter to update state
+            />
             <SubTopics />
             <div className="grouped-container">
-              <Tag activeFilters={tagFilter} onTagFilterChange={onTagFilterChange} />
-              <Source activeFilters={activeFilters} onFilterChange={onFilterChange} />
-              <Settings onReset={handleReset} />
+              <Tag activeFilters={tagFilter} onTagFilterChange={setTagFilter} />
+              <Source activeFilters={activeFilters} onFilterChange={setActiveFilters} />
+              <Settings onReset={resetFilters} />
             </div>
           </>
         )}
@@ -45,5 +48,3 @@ const Sidebar = ({
 };
 
 export default Sidebar;
-
-
