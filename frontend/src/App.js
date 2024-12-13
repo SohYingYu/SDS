@@ -4,7 +4,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Mapbox from './components/Mapbox';
 import Bottombar from './components/Bottombar/Bottombar';
 import Topbar from './components/Topbar/Topbar';
-import { loadCSV } from './utils/loadCSV'; // Ensure path is correct
+import { loadCSV } from './utils/loadCSV';
 
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -12,33 +12,13 @@ const App = () => {
   const [originalData, setOriginalData] = useState([]);
   const [activeFilters, setActiveFilters] = useState(['CNA', 'Reddit', 'Straits Times']);
   const [tagFilter, setTagFilter] = useState(['culture', 'regulations', 'rules']);
-  const [topicFilter, setTopicFilter] = useState([]); // New state for topic filtering
-  const [defaultTopics, setDefaultTopics] = useState([]);
+  const [topicFilter, setTopicFilter] = useState([]);
 
   useEffect(() => {
     loadCSV('/data/mastersheet.csv', (parsedData) => {
       setOriginalData(parsedData);
     });
   }, []);
-
-  const handleFilterChange = (newFilters) => {
-    setActiveFilters(newFilters);
-  };
-
-  const resetFilters = () => {
-    setActiveFilters(['CNA', 'Reddit', 'Straits Times']);
-    setTagFilter(['culture', 'regulations', 'rules']);
-    setTopicFilter([]);
-    setDefaultTopics([]);
-  };
-
-  const handleTagFilterChange = (newTagFilter) => {
-    setTagFilter(newTagFilter);
-  };
-
-  const handleTopicFilterChange = (newTopicFilter) => {
-    setTopicFilter(newTopicFilter); // Update topicFilter state
-  };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -60,13 +40,13 @@ const App = () => {
       <Sidebar
         isOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
-        onFilterChange={handleFilterChange}
-        onTagFilterChange={handleTagFilterChange}
-        onTopicFilterChange={handleTopicFilterChange}
         activeFilters={activeFilters}
+        setActiveFilters={setActiveFilters}
         tagFilter={tagFilter}
-        defaultTopics= {defaultTopics}
-        onReset={resetFilters} // Pass reset function to Sidebar
+        setTagFilter={setTagFilter}
+        topicFilter={topicFilter}
+        setTopicFilter={setTopicFilter}
+        originalData={originalData} // Pass the data to Sidebar
       />
       <Bottombar
         isSidebarOpen={isSidebarOpen}

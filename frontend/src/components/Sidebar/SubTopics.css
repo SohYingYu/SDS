@@ -22,53 +22,34 @@
   
   .subtopics-container {
     width: 100%; /* Full width of the container */
-    height: 200px; /* Adjust height as needed */
-    background-color: transparent; /* Placeholder background color */
+    height: 200px; /* Adjust height automatically based on content */
+    background-color: transparent; /* Transparent background */
     border-radius: 10px; /* Rounded corners */
-    display: flex;
-    align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
-    position: relative; /* For absolute positioning of child elements */
-}
+    display: flex; /* Flexbox layout */
+    flex-wrap: wrap; /* Allow content to wrap to the next line */
+    align-items: flex-start; /* Align items to the top of the container */
+    gap: 10px; /* Add spacing between items */
+    padding: 10px; /* Add padding around the content */
+  }
 
-.add-button {
-  position: absolute; /* Position the button absolutely */
-  top: 10px; /* Distance from the top edge */
-  left: 10px; /* Distance from the left edge */
-  padding: 3px 7px; /* Button padding */
-  font-size: 12px; /* Font size for the button */
-  color: #333333; /* Button text color */
-  background-color: white; /* Button background color */
-  border: 2px solid #909090; /* Default border */
-  border-radius: 20px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  font-weight: bold;
-  display: flex; /* For aligning the dot and text */
-  align-items: center; /* Vertically center content */
-  gap: 5px; /* Space between dot and text */
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
-}
+  .subtopic-item {
+    padding: 3px 7px; /* Add padding to individual subtopics */
+    font-size: 12px; /* Adjust font size */
+    color: #333333; /* Text color */
+    background-color: white; /* Light background for subtopics */
+    border: 2px solid #909090; /* Border for subtopics */
+    border-radius: 20px; /* Rounded corners */
+    white-space: nowrap; /* Prevent text from wrapping inside each subtopic */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    font-weight: bold;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .subtopic-item:hover {
+    background-color: #EEEEEE;
+    border-color: #909090; 
+    cursor: pointer; /* Pointer cursor on hover */
+  }
 
-.add-button::before {
-  content: ''; /* Add a dot before the text */
-  display: inline-block;
-  width: 10px; /* Dot size */
-  height: 10px; /* Dot size */
-  border-radius: 50%; /* Make it a circle */
-  background-color: #EEEEEE; /* Default dot color */
-  transition: background-color 0.3s ease; /* Smooth color transition */
-}
 
-.add-button.selected::before {
-  background-color: #415ED3; /* Dot color when selected */
-}
-
-.add-button:hover {
-  background-color: #EEEEEE; /* Light grey background on hover */
-  border-color: #909090; /* Change border color on hover */
-}
-
-.add-button.selected {
-  border-color: #415ED3; /* Blue border when selected */
-  color: #415ED3; /* Blue font color when selected */
-}
