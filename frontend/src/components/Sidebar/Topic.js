@@ -64,10 +64,14 @@ const Topic = ({ onTopicFilterChange }) => {
     if (currentTopic) {
       const updatedTopics = selectedTopics.filter((t) => t !== currentTopic);
       setSelectedTopics(updatedTopics);
-      setCurrentTopic(updatedTopics.length > 0 ? updatedTopics[0] : null);
+  
+      // Set the current topic to the latest selected topic, or null if none are left
+      setCurrentTopic(updatedTopics.length > 0 ? updatedTopics[updatedTopics.length - 1] : null);
+  
       onTopicFilterChange(updatedTopics.map((t) => topics.find((topic) => topic.name === t)?.csvName));
     }
   };
+  
 
   const getTopicClass = (topicName) => {
     if (selectedTopics.length > 5 || currentTopic === 'All Topics') {
