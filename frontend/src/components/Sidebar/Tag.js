@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './Tag.css';
 import { ReactComponent as TagsIcon } from '../../assets/sidebaricon/tags.svg';
 
-
-const Tag = ({ onTagFilterChange }) => {
-  const [activeFilters, setActiveButtons] = useState(['culture', 'regulations', 'rules']); // Default: All selected
-
+const Tag = ({ activeFilters, onTagFilterChange }) => {
   const handleButtonClick = (buttonId) => {
     const updatedButtons = activeFilters.includes(buttonId)
       ? activeFilters.filter((id) => id !== buttonId) // Remove button if active
       : [...activeFilters, buttonId]; // Add button if inactive
 
-    setActiveButtons(updatedButtons);
-    onTagFilterChange(updatedButtons); // Notify App of the updated filters
+    onTagFilterChange(updatedButtons); // Notify parent of the updated filters
   };
 
   return (

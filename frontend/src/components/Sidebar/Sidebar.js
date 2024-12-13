@@ -12,10 +12,13 @@ const Sidebar = ({
   onFilterChange,
   onTagFilterChange,
   onTopicFilterChange,
-  activeFilters, // Accept activeFilters as a prop
+  tagFilter,
+  activeFilters,
 }) => {
+
   const handleReset = () => {
     onFilterChange(['CNA', 'Reddit', 'Straits Times']); // Reset Source to default
+    onTagFilterChange(['culture', 'regulations', 'rules']); 
   };
 
   return (
@@ -29,7 +32,7 @@ const Sidebar = ({
             <Topic onTopicFilterChange={onTopicFilterChange} />
             <SubTopics />
             <div className="grouped-container">
-              <Tag onTagFilterChange={onTagFilterChange} />
+              <Tag activeFilters={tagFilter} onTagFilterChange={onTagFilterChange} />
               <Source activeFilters={activeFilters} onFilterChange={onFilterChange} />
               <Settings onReset={handleReset} />
             </div>
