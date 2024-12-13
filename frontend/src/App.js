@@ -13,6 +13,7 @@ const App = () => {
   const [activeFilters, setActiveFilters] = useState(['CNA', 'Reddit', 'Straits Times']);
   const [tagFilter, setTagFilter] = useState(['culture', 'regulations', 'rules']);
   const [topicFilter, setTopicFilter] = useState([]); // New state for topic filtering
+  const [defaultTopics, setDefaultTopics] = useState([]);
 
   useEffect(() => {
     loadCSV('/data/mastersheet.csv', (parsedData) => {
@@ -27,6 +28,8 @@ const App = () => {
   const resetFilters = () => {
     setActiveFilters(['CNA', 'Reddit', 'Straits Times']);
     setTagFilter(['culture', 'regulations', 'rules']);
+    setTopicFilter([]);
+    setDefaultTopics([]);
   };
 
   const handleTagFilterChange = (newTagFilter) => {
@@ -62,6 +65,7 @@ const App = () => {
         onTopicFilterChange={handleTopicFilterChange}
         activeFilters={activeFilters}
         tagFilter={tagFilter}
+        defaultTopics= {defaultTopics}
         onReset={resetFilters} // Pass reset function to Sidebar
       />
       <Bottombar

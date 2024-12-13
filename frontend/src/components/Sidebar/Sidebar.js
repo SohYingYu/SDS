@@ -14,11 +14,12 @@ const Sidebar = ({
   onTopicFilterChange,
   tagFilter,
   activeFilters,
-}) => {
+  }) => {
 
   const handleReset = () => {
     onFilterChange(['CNA', 'Reddit', 'Straits Times']); // Reset Source to default
     onTagFilterChange(['culture', 'regulations', 'rules']); 
+    onTopicFilterChange([]);
   };
 
   return (

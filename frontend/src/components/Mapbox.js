@@ -15,11 +15,12 @@ const Mapbox = ({ originalData, activeFilters = [], tagFilter = [], topicFilter 
 
     // Ensure valid coordinates
     if (isNaN(lat) || isNaN(long)) return false;
+    if (topicFilter.length === 0) return false;
 
     // Determine matches
     const matchesSource = activeFilters.length === 0 || activeFilters.includes(source);
     const matchesTag = tagFilter.length === 0 || tagFilter.some((tag) => searchTerm?.includes(tag.toLowerCase()));
-    const matchesTopic = topicFilter.length === 0 || topicFilter.includes(topic);
+    const matchesTopic = topicFilter.includes(topic);
 
     return matchesSource && matchesTag && matchesTopic;
   });
