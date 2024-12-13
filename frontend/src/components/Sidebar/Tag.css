@@ -5,7 +5,7 @@
   .tag-title {
     font-size: 15px; /* Adjust font size */
     margin-bottom: 10px; /* Space between title and buttons */
-    color: black;
+    color: #333333;
     text-align: left;
     margin: 0;
     display: flex;

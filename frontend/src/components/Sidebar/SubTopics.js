@@ -8,7 +8,7 @@ const SubTopics = ({ selectedTopic, subTopics }) => {
       <div className="subtopics-header">
         <h3 className="subtopics-title">
           <LabelIcon className="topic-icon" />
-          Sub-Topics for {selectedTopic || "Select a Topic"}
+          Sub-Topics {selectedTopic }
         </h3>
       </div>
       <div className="subtopics-container">
@@ -19,7 +19,7 @@ const SubTopics = ({ selectedTopic, subTopics }) => {
             </div>
           ))
         ) : (
-          <div className="subtopic-placeholder">No Sub-Topics Available</div>
+          <div className="subtopic-placeholder">Please select a topic.</div>
         )}
       </div>
     </div>
