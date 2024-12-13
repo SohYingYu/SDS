@@ -12,6 +12,7 @@ const App = () => {
   const [originalData, setOriginalData] = useState([]);
   const [activeFilters, setActiveFilters] = useState(['CNA', 'Reddit', 'Straits Times']);
   const [tagFilter, setTagFilter] = useState(['culture', 'regulations', 'rules']);
+  const [topicFilter, setTopicFilter] = useState([]); // New state for topic filtering
 
   useEffect(() => {
     loadCSV('/data/mastersheet.csv', (parsedData) => {
@@ -25,6 +26,10 @@ const App = () => {
 
   const handleTagFilterChange = (newTagFilter) => {
     setTagFilter(newTagFilter);
+  };
+
+  const handleTopicFilterChange = (newTopicFilter) => {
+    setTopicFilter(newTopicFilter); // Update topicFilter state
   };
 
   const toggleSidebar = () => {
@@ -41,6 +46,7 @@ const App = () => {
         originalData={originalData}
         activeFilters={activeFilters}
         tagFilter={tagFilter}
+        topicFilter={topicFilter} // Pass topicFilter to Mapbox
       />
       <Topbar isSidebarOpen={isSidebarOpen} />
       <Sidebar
@@ -48,6 +54,7 @@ const App = () => {
         toggleSidebar={toggleSidebar}
         onFilterChange={handleFilterChange}
         onTagFilterChange={handleTagFilterChange}
+        onTopicFilterChange={handleTopicFilterChange} // Pass topic filter handler
       />
       <Bottombar
         isSidebarOpen={isSidebarOpen}

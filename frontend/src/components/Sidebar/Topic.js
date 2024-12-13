@@ -15,46 +15,44 @@ import { ReactComponent as TechnologyIcon } from '../../assets/topicicon/tec.svg
 import { ReactComponent as TravelIcon } from '../../assets/topicicon/tra.svg';
 import { ReactComponent as UrbanIcon } from '../../assets/topicicon/urb.svg';
 
-
-const Topic = () => {
+const Topic = ({ onTopicFilterChange }) => {
   const [selectedTopics, setSelectedTopics] = useState([]); // Tracks selected topics
   const [currentTopic, setCurrentTopic] = useState(null); // Tracks the topic displayed in the big circle
 
   const topics = [
-    { name: 'Cultural', icon: <CulturalIcon /> },
-    { name: 'Community', icon: <CommunityIcon /> },
-    { name: 'Dining', icon: <FoodIcon /> },
-    { name: 'Economy', icon: <EconomyIcon /> },
-    { name: 'Entertainment', icon: <EntertainmentIcon /> },
-    { name: 'Environment', icon: <EnvironmentIcon /> },
-    { name: 'Health', icon: <HealthIcon /> },
-    { name: 'Politics', icon: <PoliticsIcon /> },
-    { name: 'Social Issues', icon: <SocialIcon /> },
-    { name: 'Technology', icon: <TechnologyIcon /> },
-    { name: 'Tourism', icon: <TravelIcon /> },
-    { name: 'Urban', icon: <UrbanIcon /> },
+    { name: 'Cultural', csvName: 'Cultural Trends', icon: <CulturalIcon /> },
+    { name: 'Community', csvName: 'Community Behavior', icon: <CommunityIcon /> },
+    { name: 'Dining', csvName: 'Food and Dining', icon: <FoodIcon /> },
+    { name: 'Economy', csvName: 'Economy', icon: <EconomyIcon /> },
+    { name: 'Entertainment', csvName: 'Entertainment', icon: <EntertainmentIcon /> },
+    { name: 'Environment', csvName: 'Environment', icon: <EnvironmentIcon /> },
+    { name: 'Health', csvName: 'Health', icon: <HealthIcon /> },
+    { name: 'Politics', csvName: 'Politics', icon: <PoliticsIcon /> },
+    { name: 'Social Issues', csvName: 'Social Issues', icon: <SocialIcon /> },
+    { name: 'Technology', csvName: 'Technology', icon: <TechnologyIcon /> },
+    { name: 'Tourism', csvName: 'Travel and Tourism', icon: <TravelIcon /> },
+    { name: 'Urban', csvName: 'Urban and Planning', icon: <UrbanIcon /> },
   ];
 
   const handleTopicClick = (topicName) => {
     if (selectedTopics.includes(topicName)) {
-      // If already selected, just display it in the big circle
       setCurrentTopic(topicName);
     } else if (selectedTopics.length < 3) {
-      // Add the topic to the selected list if less than 3 are selected
-      setSelectedTopics((prev) => [...prev, topicName]);
+      const updatedTopics = [...selectedTopics, topicName];
+      setSelectedTopics(updatedTopics);
       setCurrentTopic(topicName);
+      // Notify the parent of the updated topics
+      onTopicFilterChange(updatedTopics.map((t) => topics.find((topic) => topic.name === t)?.csvName));
     }
   };
 
   const removeCurrentTopic = () => {
     if (currentTopic) {
-      // Remove the topic from the selected list
-      setSelectedTopics((prev) => prev.filter((t) => t !== currentTopic));
-      // Update the big circle to display the earliest selected topic, or clear if no topics left
-      setCurrentTopic((prev) => {
-        const remainingTopics = selectedTopics.filter((t) => t !== prev);
-        return remainingTopics.length > 0 ? remainingTopics[0] : null;
-      });
+      const updatedTopics = selectedTopics.filter((t) => t !== currentTopic);
+      setSelectedTopics(updatedTopics);
+      setCurrentTopic(updatedTopics.length > 0 ? updatedTopics[0] : null);
+      // Notify the parent of the updated topics
+      onTopicFilterChange(updatedTopics.map((t) => topics.find((topic) => topic.name === t)?.csvName));
     }
   };
 
@@ -94,33 +92,32 @@ const Topic = () => {
         </div>
 
         {topics.map((topic, index) => (
-        <div
-          key={topic.name}
-          className="topic-button-wrapper"
-          style={{
-            transform: `rotate(${(360 / topics.length) * index}deg) translate(95px) rotate(-${(360 / topics.length) * index}deg)`, // Button ring radius
-          }}
-        >
-          <button
-            className={`topic-button ${getTopicClass(topic.name)} ${
-              selectedTopics.includes(topic.name) ? 'selected' : ''
-            }`}
-            onClick={() => handleTopicClick(topic.name)}
-            disabled={selectedTopics.length >= 3 && !selectedTopics.includes(topic.name)}
-          >
-            <div className="icon">{topic.icon}</div>
-          </button>
           <div
-            className="topic-label"
+            key={topic.name}
+            className="topic-button-wrapper"
             style={{
-              transform: `rotate(${(360 / topics.length) * index}deg) translate(35px) rotate(-${(360 / topics.length) * index}deg)`, // Word ring radius
+              transform: `rotate(${(360 / topics.length) * index}deg) translate(95px) rotate(-${(360 / topics.length) * index}deg)`,
             }}
           >
-            {topic.name}
+            <button
+              className={`topic-button ${getTopicClass(topic.name)} ${
+                selectedTopics.includes(topic.name) ? 'selected' : ''
+              }`}
+              onClick={() => handleTopicClick(topic.name)}
+              disabled={selectedTopics.length >= 3 && !selectedTopics.includes(topic.name)}
+            >
+              <div className="icon">{topic.icon}</div>
+            </button>
+            <div
+              className="topic-label"
+              style={{
+                transform: `rotate(${(360 / topics.length) * index}deg) translate(35px) rotate(-${(360 / topics.length) * index}deg)`,
+              }}
+            >
+              {topic.name}
+            </div>
           </div>
-        </div>
-      ))}
-
+        ))}
       </div>
     </div>
   );
