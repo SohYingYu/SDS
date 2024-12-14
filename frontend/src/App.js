@@ -5,6 +5,7 @@ import Mapbox from './components/Mapbox';
 import Bottombar from './components/Bottombar/Bottombar';
 import Searchbar from './components/Searchbar/Searchbar';
 import D3Network from './components/D3Network'; // Import D3 network graph component
+import Summary from './components/Summary'
 import { loadCSV } from './utils/loadCSV';
 import { ReactComponent as MapViewIcon } from './assets/topbaricon/mapview.svg';
 import { ReactComponent as NetworkIcon } from './assets/topbaricon/network.svg';
@@ -18,12 +19,13 @@ const App = () => {
   const [activeFilters, setActiveFilters] = useState(['CNA', 'Reddit', 'Straits Times']);
   const [tagFilter, setTagFilter] = useState(['culture', 'regulations', 'rules']);
   const [topicFilter, setTopicFilter] = useState([]);
+  const [summaryData, setSummaryData] = useState(null); // Manage selected data and position for summary
   const [showSearchbar, setShowSearchbar] = useState(false);
 
   useEffect(() => {
     loadCSV('/data/mastersheet.csv', (parsedData) => {
       setOriginalData(parsedData);
-      setFilteredData(parsedData); // Initially set filteredData to all data
+      setFilteredData(parsedData);
     });
   }, []);
 
@@ -60,6 +62,10 @@ const App = () => {
     setIsBottombarOpen((prev) => !prev); // Add this function to toggle bottom bar
   };
 
+  const handleDataPointHover = (data) => {
+    setSummaryData(data); // Update summary data and position
+  };
+
   return (
     <div className="app">
       {showSearchbar && <Searchbar onSearch={handleSearch} />}
@@ -91,6 +97,8 @@ const App = () => {
           activeFilters={activeFilters}
           tagFilter={tagFilter}
           topicFilter={topicFilter}
+          onDataPointHover={handleDataPointHover}
+
         />
       ) : (
         <D3Network
@@ -100,7 +108,6 @@ const App = () => {
           topicFilter={topicFilter}
         />
       )}
-
       <Sidebar
         isOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
@@ -115,9 +122,18 @@ const App = () => {
       <Bottombar
         isSidebarOpen={isSidebarOpen}
         isBottombarOpen={isBottombarOpen}
-        toggleBottombar={toggleBottombar} // Reference the toggleBottombar function here
+        toggleBottombar={toggleBottombar}
         originalData={originalData}
       />
+      {summaryData && (
+        <Summary
+          data={summaryData.properties}
+          coordinates={{
+            x: summaryData.screenCoords.x,
+            y: summaryData.screenCoords.y,
+        }}
+        />
+      )}
     </div>
   );
 };

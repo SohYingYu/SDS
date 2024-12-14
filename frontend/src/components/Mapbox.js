@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Map, Source, Layer } from 'react-map-gl';
 
-const Mapbox = ({ originalData, activeFilters = [], tagFilter = [], topicFilter = [] }) => {
-  const mapboxToken = 'pk.eyJ1IjoieWFuZzE5MDAwMDAiLCJhIjoiY20zdzMxd3ExMHhoZTJqcXpwMG1ybGxrdCJ9.Xf9BgWMIUQ9_MGuc34knwg'; // Replace with your token
+const Mapbox = ({
+  originalData,
+  activeFilters = [],
+  tagFilter = [],
+  topicFilter = [],
+  onDataPointHover,
+}) => {
+  const mapboxToken = 'pk.eyJ1IjoieWFuZzE5MDAwMDAiLCJhIjoiY20zdzMxd3ExMHhoZTJqcXpwMG1ybGxrdCJ9.Xf9BgWMIUQ9_MGuc34knwg';
+  const mapRef = useRef(null); // Reference to the map instance
 
-  
-  // Filter data based on activeFilters and tagFilter
+  // Filter data based on activeFilters, tagFilter, and topicFilter
   const filteredData = originalData.filter((row) => {
     const source = row.source?.trim();
     const searchTerm = row['search term']?.toLowerCase();
@@ -17,7 +23,6 @@ const Mapbox = ({ originalData, activeFilters = [], tagFilter = [], topicFilter 
     if (isNaN(lat) || isNaN(long)) return false;
     if (topicFilter.length === 0) return false;
 
-    // Determine matches
     const matchesSource = activeFilters.length === 0 || activeFilters.includes(source);
     const matchesTag = tagFilter.length === 0 || tagFilter.some((tag) => searchTerm?.includes(tag.toLowerCase()));
     const matchesTopic = topicFilter.includes(topic);
@@ -25,7 +30,6 @@ const Mapbox = ({ originalData, activeFilters = [], tagFilter = [], topicFilter 
     return matchesSource && matchesTag && matchesTopic;
   });
 
-  // Construct GeoJSON data
   const geoJsonData = {
     type: 'FeatureCollection',
     features: filteredData.map((row) => ({
@@ -37,6 +41,7 @@ const Mapbox = ({ originalData, activeFilters = [], tagFilter = [], topicFilter 
         subtopic: row['subtopic'],
         timestamp: row['timestamp'],
         sentiment: row['sentiment_analysis'],
+        summarised_content: row['summarised_content'],
       },
       geometry: {
         type: 'Point',
@@ -89,27 +94,54 @@ const Mapbox = ({ originalData, activeFilters = [], tagFilter = [], topicFilter 
     },
   };
 
-  // Singapore bounds (approximate)
-  const singaporeBounds = [
-    [103.000953, 0.770084], // Southwest corner
-    [104.620471, 1.786387], // Northeast corner
-  ];
+  useEffect(() => {
+    const mapInstance = mapRef.current?.getMap();
+
+    if (mapInstance) {
+      const handleMouseMove = (event) => {
+        const features = mapInstance.queryRenderedFeatures(event.point, {
+          layers: ['circle-layer'],
+        });
+
+        if (features.length > 0) {
+          const feature = features[0];
+          const screenCoords = mapInstance.project(feature.geometry.coordinates); // Get screen position
+          onDataPointHover({
+            properties: feature.properties,
+            screenCoords,
+          }); // Pass data and screen position to parent
+        } else {
+          onDataPointHover(null);
+        }
+      };
+
+      const handleMouseLeave = () => {
+        onDataPointHover(null);
+      };
+
+      mapInstance.on('mousemove', handleMouseMove);
+      mapInstance.on('mouseleave', 'circle-layer', handleMouseLeave);
+
+      return () => {
+        mapInstance.off('mousemove', handleMouseMove);
+        mapInstance.off('mouseleave', 'circle-layer', handleMouseLeave);
+      };
+    }
+  }, [onDataPointHover]);
 
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       <Map
+        ref={mapRef}
         initialViewState={{
           longitude: 103.755793,
           latitude: 1.301828,
           zoom: 10.7,
         }}
         style={{ width: '100%', height: '100%' }}
-        mapStyle="mapbox://styles/mapbox/light-v10" // Ensure 2D map style
+        mapStyle="mapbox://styles/mapbox/light-v10"
         mapboxAccessToken={mapboxToken}
         attributionControl={false}
-        maxBounds={singaporeBounds} // Restrict the view to Singapore
-        dragRotate={false} // Disable map rotation
-        touchZoomRotate={false} // Disable pinch-to-rotate
       >
         {geoJsonData.features.length > 0 && (
           <Source id="heatmap" type="geojson" data={geoJsonData}>
