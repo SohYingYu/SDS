@@ -6,6 +6,7 @@ import Bottombar from './components/Bottombar/Bottombar';
 import Searchbar from './components/Searchbar/Searchbar';
 import D3Network from './components/D3Network';
 import D3WordCloud from './components/D3WordCloud'; // Import D3 word cloud component
+import Summary from './components/Summary';
 import { loadCSV } from './utils/loadCSV';
 import { ReactComponent as MapViewIcon } from './assets/topbaricon/mapview.svg';
 import { ReactComponent as NetworkIcon } from './assets/topbaricon/network.svg';
@@ -20,9 +21,11 @@ const App = () => {
   const [activeFilters, setActiveFilters] = useState(['CNA', 'Reddit', 'Straits Times']);
   const [tagFilter, setTagFilter] = useState(['culture', 'regulations', 'rules']);
   const [topicFilter, setTopicFilter] = useState([]);
-  const [showSearchbar, setShowSearchbar] = useState(false);
   const [activeSubTopics, setActiveSubTopics] = useState([]); // New state for active subtopics
+  const [summaryData, setSummaryData] = useState(null); // Manage selected data and position for summary
+  const [showSearchbar, setShowSearchbar] = useState(false);
 
+  // Load initial data
   useEffect(() => {
     loadCSV('/data/mastersheet.csv', (parsedData) => {
       setOriginalData(parsedData);
@@ -48,7 +51,6 @@ const App = () => {
 
     applyFilters();
   }, [topicFilter, activeSubTopics, originalData]);
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -84,6 +86,9 @@ const App = () => {
 
   const toggleBottombar = () => {
     setIsBottombarOpen((prev) => !prev);
+
+  const handleDataPointHover = (data) => {
+    setSummaryData(data); // Update summary data and position
   };
 
   return (
@@ -130,6 +135,7 @@ const App = () => {
           activeFilters={activeFilters}
           tagFilter={tagFilter}
           topicFilter={topicFilter}
+          onDataPointHover={handleDataPointHover}
         />
       ) : view === 'Network View' ? (
         <D3Network
@@ -156,6 +162,8 @@ const App = () => {
         setTagFilter={setTagFilter}
         topicFilter={topicFilter}
         setTopicFilter={setTopicFilter}
+        activeSubTopics={activeSubTopics} // Pass activeSubTopics
+        setActiveSubTopics={setActiveSubTopics} // Pass setter for activeSubTopics
         originalData={originalData}
       />
       <Bottombar
@@ -164,6 +172,15 @@ const App = () => {
         toggleBottombar={toggleBottombar}
         originalData={originalData}
       />
+      {summaryData && (
+        <Summary
+          data={summaryData.properties}
+          coordinates={{
+            x: summaryData.screenCoords.x,
+            y: summaryData.screenCoords.y,
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -60,16 +60,6 @@
   justify-content: center;
 }
 
-.wordcloud-container {
-  flex: 1; /* Allow it to expand */
-  width: 100%; /* Take full width */
-  height: 100%; /* Take full height */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-}
 
 .expanded-content {
   flex: 1; /* Take up the remaining half of the space */
