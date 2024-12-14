@@ -5,6 +5,7 @@ import Mapbox from './components/Mapbox';
 import Bottombar from './components/Bottombar/Bottombar';
 import Topbar from './components/Topbar/Topbar';
 import Searchbar from './components/Searchbar/Searchbar';
+import Summary from './components/Summary';
 import { loadCSV } from './utils/loadCSV';
 
 const App = () => {
@@ -15,13 +16,13 @@ const App = () => {
   const [activeFilters, setActiveFilters] = useState(['CNA', 'Reddit', 'Straits Times']);
   const [tagFilter, setTagFilter] = useState(['culture', 'regulations', 'rules']);
   const [topicFilter, setTopicFilter] = useState([]);
+  const [summaryData, setSummaryData] = useState(null); // Manage selected data and position for summary
   const [showSearchbar, setShowSearchbar] = useState(false);
 
   useEffect(() => {
-    // Load CSV data
     loadCSV('/data/mastersheet.csv', (parsedData) => {
       setOriginalData(parsedData);
-      setFilteredData(parsedData); // Initially set filteredData to all data
+      setFilteredData(parsedData);
     });
   }, []);
 
@@ -30,13 +31,9 @@ const App = () => {
       setShowSearchbar(window.innerWidth > 1350);
     };
 
-    // Set initial state for showSearchbar
     handleResize();
-
-    // Add event listener
     window.addEventListener('resize', handleResize);
 
-    // Cleanup event listener on unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -45,11 +42,10 @@ const App = () => {
   const handleSearch = (term) => {
     const lowerTerm = term.toLowerCase();
     const results = originalData.filter((item) =>
-      item.summarised_content?.toLowerCase().includes(lowerTerm) // Check only the summarised_content column
+      item.summarised_content?.toLowerCase().includes(lowerTerm)
     );
     setFilteredData(results);
   };
-  
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -59,6 +55,10 @@ const App = () => {
     setIsBottombarOpen(!isBottombarOpen);
   };
 
+  const handleDataPointHover = (data) => {
+    setSummaryData(data); // Update summary data and position
+  };
+
   return (
     <div className="app">
       {showSearchbar && <Searchbar onSearch={handleSearch} />}
@@ -66,7 +66,8 @@ const App = () => {
         originalData={filteredData}
         activeFilters={activeFilters}
         tagFilter={tagFilter}
-        topicFilter={topicFilter} // Pass topicFilter to Mapbox
+        topicFilter={topicFilter}
+        onDataPointHover={handleDataPointHover}
       />
       <Topbar isSidebarOpen={isSidebarOpen} />
       <Sidebar
@@ -78,14 +79,23 @@ const App = () => {
         setTagFilter={setTagFilter}
         topicFilter={topicFilter}
         setTopicFilter={setTopicFilter}
-        originalData={originalData} // Pass the data to Sidebar
+        originalData={originalData}
       />
       <Bottombar
         isSidebarOpen={isSidebarOpen}
         isBottombarOpen={isBottombarOpen}
         toggleBottombar={toggleBottombar}
-        originalData={originalData} // Pass the data to Sidebar
+        originalData={originalData}
       />
+      {summaryData && (
+        <Summary
+          data={summaryData.properties}
+          coordinates={{
+            x: summaryData.screenCoords.x,
+            y: summaryData.screenCoords.y,
+        }}
+        />
+      )}
     </div>
   );
 };
