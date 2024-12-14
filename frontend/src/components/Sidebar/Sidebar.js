@@ -15,7 +15,9 @@ const Sidebar = ({
   setTagFilter,
   topicFilter,
   setTopicFilter,
-  originalData
+  activeSubTopics,
+  setActiveSubTopics,
+  originalData,
 }) => {
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [subTopics, setSubTopics] = useState([]);
@@ -41,15 +43,21 @@ const Sidebar = ({
       setSelectedTopic(null);
       setSubTopics([]);
     }
+    setActiveSubTopics([]); // Reset subtopics when topics change
+  };
+
+  const handleSubTopicFilterChange = (newFilters) => {
+    setActiveSubTopics(newFilters); // Notify parent
   };
 
   const resetFilters = () => {
     setActiveFilters(['CNA', 'Reddit', 'Straits Times']);
     setTagFilter(['culture', 'regulations', 'rules']);
-    setTopicFilter([]); // Reset topics to default state
-    setSelectedTopic(null); // Clear selected topic
-    setSelectedTopics([]); // Clear selected topic
-    setSubTopics([]); // Clear subtopics
+    setTopicFilter([]);
+    setSelectedTopic(null);
+    setSelectedTopics([]);
+    setSubTopics([]);
+    setActiveSubTopics([]);
   };
 
   return (
@@ -61,12 +69,17 @@ const Sidebar = ({
         {isOpen && (
           <>
             <Topic
-              selectedTopicsProp={topicFilter} // Use topicFilter for the selected topics
-              onTopicFilterChange={handleTopicFilterChange} // Use setTopicFilter to update state
+              selectedTopicsProp={topicFilter}
+              onTopicFilterChange={handleTopicFilterChange}
               selectedTopics={selectedTopics}
               setSelectedTopics={setSelectedTopics}
             />
-            <SubTopics selectedTopic={selectedTopic} subTopics={subTopics} />
+            <SubTopics
+              selectedTopic={selectedTopic}
+              subTopics={subTopics}
+              activeSubTopics={activeSubTopics}
+              onSubTopicFilterChange={handleSubTopicFilterChange} // Handle subtopic changes
+            />
             <div className="grouped-container">
               <Tag activeFilters={tagFilter} onTagFilterChange={setTagFilter} />
               <Source activeFilters={activeFilters} onFilterChange={setActiveFilters} />
