@@ -1,7 +1,7 @@
 .mapview {
     position: absolute;
     top: 10px; /* Pin to the top */
-    left: 25px; /* Leave space from the left */
+    left: 20px; /* Leave space from the left */
     width: 400px;
     background: transparent; /* White with 80% transparency */
     color: #A6A6A6;
