@@ -1,0 +1,11 @@
+.d3-network {
+  width: 100%;
+  height: 100%;
+  transform: translateX(150px); /* Shift content 200px to the right */
+}
+
+.d3-network text {
+  font-size: 10px;
+  fill: #333; /* Text color */
+  pointer-events: none; /* Prevent text from blocking interactions with circles */
+}
