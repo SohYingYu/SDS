@@ -1,0 +1,14 @@
+.svg {
+    background-color: #f9f9f9; /* Optional background color */
+  }
+  
+.circle {
+    stroke: #333; /* Circle border */
+    stroke-width: 1px;
+  }
+
+.text {
+    font-family: Arial, sans-serif;
+    pointer-events: none; /* Prevent text from blocking interactions */
+  }
+  

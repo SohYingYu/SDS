@@ -5,7 +5,7 @@ import Mapbox from './components/Mapbox';
 import Bottombar from './components/Bottombar/Bottombar';
 import Searchbar from './components/Searchbar/Searchbar';
 import D3Network from './components/D3Network'; // Import D3 network graph component
-import Summary from './components/Summary';
+import D3WordCloud from './components/D3WordCloud'; // Import D3 word cloud component
 import { loadCSV } from './utils/loadCSV';
 import { ReactComponent as MapViewIcon } from './assets/topbaricon/mapview.svg';
 import { ReactComponent as NetworkIcon } from './assets/topbaricon/network.svg';
@@ -19,11 +19,9 @@ const App = () => {
   const [activeFilters, setActiveFilters] = useState(['CNA', 'Reddit', 'Straits Times']);
   const [tagFilter, setTagFilter] = useState(['culture', 'regulations', 'rules']);
   const [topicFilter, setTopicFilter] = useState([]);
-  const [activeSubTopics, setActiveSubTopics] = useState([]); // New state for active subtopics
-  const [summaryData, setSummaryData] = useState(null); // Manage selected data and position for summary
+  const [activeSubTopics, setActiveSubTopics] = useState([]);
   const [showSearchbar, setShowSearchbar] = useState(false);
 
-  // Load initial data
   useEffect(() => {
     loadCSV('/data/mastersheet.csv', (parsedData) => {
       setOriginalData(parsedData);
@@ -31,7 +29,6 @@ const App = () => {
     });
   }, []);
 
-  // Filter data based on topics and subtopics
   useEffect(() => {
     const applyFilters = () => {
       let filtered = originalData;
@@ -50,7 +47,6 @@ const App = () => {
     applyFilters();
   }, [topicFilter, activeSubTopics, originalData]);
 
-  // Handle window resizing for search bar visibility
   useEffect(() => {
     const handleResize = () => {
       setShowSearchbar(window.innerWidth > 1350);
@@ -64,62 +60,68 @@ const App = () => {
     };
   }, []);
 
-  const handleSearch = (term) => {
-    const lowerTerm = term.toLowerCase();
-    const results = originalData.filter((item) =>
-      item.summarised_content?.toLowerCase().includes(lowerTerm)
-    );
-    setFilteredData(results);
-  };
-
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const toggleView = () => {
-    setView((prevView) => (prevView === 'Map View' ? 'Network View' : 'Map View'));
-  };
 
   const toggleBottombar = () => {
     setIsBottombarOpen((prev) => !prev);
   };
 
-  const handleDataPointHover = (data) => {
-    setSummaryData(data); // Update summary data and position
-  };
-
   return (
     <div className="app">
-      {showSearchbar && <Searchbar onSearch={handleSearch} />}
+      {showSearchbar && <Searchbar onSearch={(term) => {
+        const lowerTerm = term.toLowerCase();
+        const results = originalData.filter((item) =>
+          item.summarised_content?.toLowerCase().includes(lowerTerm)
+        );
+        setFilteredData(results);
+      }} />}
       <button
         className={`mapview ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}
       >
         <div className="mapview-content">
-          <div className="toggle-container" onClick={toggleView}>
-            <div
-              className={`toggle-background ${view === 'Network View' ? 'right' : ''}`}
-            />
-            <span className={view === 'Map View' ? 'active' : ''}>
-              <MapViewIcon className="mapview-icon" />
-              Map View
-            </span>
-            <span className={view === 'Network View' ? 'active' : ''}>
-              <NetworkIcon className="network-icon" />
-              Network
-            </span>
-          </div>
+          <div className="toggle-container">
+      <div
+        className={`toggle-background ${
+          view === 'Map View' ? 'left' : view === 'Network View' ? 'middle' : 'right'
+        }`}
+      />
+      <span
+        className={view === 'Map View' ? 'active' : ''}
+        onClick={() => setView('Map View')}
+      >
+        <MapViewIcon className="mapview-icon" />
+        Map View
+      </span>
+      <span
+        className={view === 'Network View' ? 'active' : ''}
+        onClick={() => setView('Network View')}
+      >
+        <NetworkIcon className="network-icon" />
+        Network
+      </span>
+      <span
+        className={view === 'Word Cloud' ? 'active' : ''}
+        onClick={() => setView('Word Cloud')}
+      >
+        Word Cloud
+      </span>
+    </div>
+
         </div>
       </button>
 
-      {view === 'Map View' ? (
+      {view === 'Map View' && (
         <Mapbox
           originalData={filteredData}
           activeFilters={activeFilters}
           tagFilter={tagFilter}
           topicFilter={topicFilter}
-          onDataPointHover={handleDataPointHover}
         />
-      ) : (
+      )}
+      {view === 'Network View' && (
         <D3Network
           originalData={filteredData}
           activeFilters={activeFilters}
@@ -127,6 +129,16 @@ const App = () => {
           topicFilter={topicFilter}
         />
       )}
+      {view === 'Word Cloud' && (
+        <D3WordCloud
+        originalData={filteredData}
+        topicFilter={topicFilter}
+        tagFilter={tagFilter}
+        activeFilters={activeFilters}
+      />
+      
+      )}
+
       <Sidebar
         isOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
@@ -136,8 +148,8 @@ const App = () => {
         setTagFilter={setTagFilter}
         topicFilter={topicFilter}
         setTopicFilter={setTopicFilter}
-        activeSubTopics={activeSubTopics} // Pass activeSubTopics
-        setActiveSubTopics={setActiveSubTopics} // Pass setter for activeSubTopics
+        activeSubTopics={activeSubTopics}
+        setActiveSubTopics={setActiveSubTopics}
         originalData={originalData}
       />
       <Bottombar
@@ -146,17 +158,9 @@ const App = () => {
         toggleBottombar={toggleBottombar}
         originalData={originalData}
       />
-      {summaryData && (
-        <Summary
-          data={summaryData.properties}
-          coordinates={{
-            x: summaryData.screenCoords.x,
-            y: summaryData.screenCoords.y,
-          }}
-        />
-      )}
     </div>
   );
 };
 
 export default App;
+
