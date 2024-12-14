@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Mapbox from './components/Mapbox';
 import Bottombar from './components/Bottombar/Bottombar';
 import Searchbar from './components/Searchbar/Searchbar';
+import TimeSlider from './components/Timeslider';
 import D3Network from './components/D3Network'; // Import D3 network graph component
 import D3WordCloud from './components/D3WordCloud'; // Import D3 word cloud component
 import { loadCSV } from './utils/loadCSV';
@@ -121,6 +122,11 @@ const App = () => {
           topicFilter={topicFilter}
         />
       )}
+        <TimeSlider
+        originalData={originalData}
+        setFilteredData={setFilteredData}
+        isBottombarOpen={isBottombarOpen} // Pass bottombar state
+      />
       {view === 'Network View' && (
         <D3Network
           originalData={filteredData}
