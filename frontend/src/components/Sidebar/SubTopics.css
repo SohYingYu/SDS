@@ -32,21 +32,39 @@
   }
 
   .subtopic-item {
-    padding: 3px 7px; /* Add padding to individual subtopics */
+    padding: 5px 10px; /* Add padding to individual subtopics */
     font-size: 12px; /* Adjust font size */
     color: #333333; /* Text color */
     background-color: white; /* Light background for subtopics */
-    border: 2px solid #909090; /* Border for subtopics */
-    border-radius: 20px; /* Rounded corners */
+    border: 2px solid #AAAAAA; /* Border for subtopics */
+    border-radius: 30px; /* Rounded corners */
     white-space: nowrap; /* Prevent text from wrapping inside each subtopic */
     font-weight: bold;
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
   }
   
   .subtopic-item:hover {
-    background-color: #EEEEEE;
-    border-color: #909090; 
+    background-color: #909090;
     cursor: pointer; /* Pointer cursor on hover */
+    color: white;
   }
 
 
+  .subtopic-item.active {
+    background-color: white;
+    color: #415ED3;
+  }
+
+  .subtopic-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: transparent;
+    transition: background-color 0.2s;
+    color: #EEEEEE;
+    margin-right: 8px;
+  }
+  
+  .subtopic-dot.active {
+    fill: #415ED3; /* Match selected color */
+  }
