@@ -34,17 +34,28 @@ const D3Network = ({ originalData, activeFilters, tagFilter, topicFilter }) => {
     const topics = [...new Set(filteredData.map((d) => d['topic']))];
     const subtopics = [...new Set(filteredData.map((d) => d['subtopic']))];
 
+    const subtopicCounts = {};
+    subtopics.forEach((subtopic) => {
+      subtopicCounts[subtopic] = filteredData.filter(
+        (d) => d['subtopic'] === subtopic
+      ).length;
+    });
+
     terms.forEach((term) =>
-      graph.nodes.push({ id: term, group: 'search term' })
+      graph.nodes.push({ id: term, group: 'search term', count: 0 })
     );
     sources.forEach((source) =>
-      graph.nodes.push({ id: source, group: 'source' })
+      graph.nodes.push({ id: source, group: 'source', count: 0 })
     );
     topics.forEach((topic) =>
-      graph.nodes.push({ id: topic, group: 'topic' })
+      graph.nodes.push({ id: topic, group: 'topic', count: 0 })
     );
     subtopics.forEach((subtopic) =>
-      graph.nodes.push({ id: subtopic, group: 'subtopic' })
+      graph.nodes.push({
+        id: subtopic,
+        group: 'subtopic',
+        count: subtopicCounts[subtopic] || 0,
+      })
     );
 
     filteredData.forEach((d) => {
@@ -93,6 +104,11 @@ const D3Network = ({ originalData, activeFilters, tagFilter, topicFilter }) => {
       .attr('stroke-width', (d) => Math.sqrt(d.value))
       .attr('stroke', '#999');
 
+    const radiusScale = d3
+      .scaleLinear()
+      .domain([0, d3.max(graph.nodes, (d) => d.count)])
+      .range([15, 35]); // Radius range for subtopics
+
     const nodeGroup = zoomGroup
       .append('g')
       .selectAll('g')
@@ -118,9 +134,44 @@ const D3Network = ({ originalData, activeFilters, tagFilter, topicFilter }) => {
           })
       );
 
+      nodeGroup.each(function (d) {
+        const group = d3.select(this);
+      
+        if (d.group === 'source') {
+          // Add a rectangle for sources
+          group
+            .append('rect')
+            .attr('width', 24) // Define square width
+            .attr('height', 24) // Define square height
+            .attr('x', -12) // Offset to center the square
+            .attr('y', -12) // Offset to center the square
+            .attr('fill', '#39C970'); // Color for source
+        } else {
+          // Add a circle for other node types
+          group
+            .append('circle')
+            .attr('r', (d) => (d.group === 'subtopic' ? radiusScale(d.count) : 12)) // Scale radius for subtopics
+            .attr('fill', (d) => {
+              switch (d.group) {
+                case 'search term':
+                  return '#F97A51'; // Tags
+                case 'topic':
+                  return '#BA82E0'; // Topic
+                case 'subtopic':
+                  return '#415ED3'; // Subtopic
+                default:
+                  return '#ccc';
+              }
+            });
+        }
+      });
+      
+
     nodeGroup
       .append('circle')
-      .attr('r', 20)
+      .attr('r', (d) =>
+        d.group === 'subtopic' ? radiusScale(d.count) : 12 // Scale radius for subtopics
+      )
       .attr('fill', (d) => {
         switch (d.group) {
           case 'search term':
@@ -138,7 +189,9 @@ const D3Network = ({ originalData, activeFilters, tagFilter, topicFilter }) => {
 
     nodeGroup
       .append('text')
-      .attr('dy', '0.35em')
+      .attr('dy', (d) =>
+        d.group === 'subtopic' ? radiusScale(d.count) + 10 : '2em'
+      ) // Position text below scaled circles
       .style('font-size', '12px')
       .style('text-anchor', 'middle')
       .style('dominant-baseline', 'middle')
