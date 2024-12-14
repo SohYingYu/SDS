@@ -1,0 +1,38 @@
+.summary-popup {
+    width: 300px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 16px;
+    z-index: 1000;
+    position: absolute; /* Ensure it can be positioned dynamically */
+    left: var(--left);
+    top: var(--top);
+    transform: translateX(-50%); /* Center the popup horizontally */
+    margin-top: -5px; /* Fixed gap of 5px above the data point */
+    text-align: left;
+  }
+  
+  .summary-popup::after {
+    content: '';
+    position: absolute;
+    bottom: -10px; /* Position the arrow directly below the popup */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid white; /* Match the popup's background */
+  }
+  
+  .summary-popup h3 {
+    margin: 0 0 8px;
+    font-size: 1.25rem;
+  }
+  
+  .summary-popup p {
+    margin: 0;
+    font-size: 1rem;
+  }
+  
