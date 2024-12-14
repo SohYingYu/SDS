@@ -1,22 +1,26 @@
-import React, { useState } from 'react';
-import './Topic.css';
+import React, { useEffect, useState } from 'react';
 import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
-import { ReactComponent as EconomyIcon } from '../../assets/topicicon/eco.svg';
-import { ReactComponent as RemoveIcon } from '../../assets/topicicon/remove.svg';
 import { ReactComponent as CommunityIcon } from '../../assets/topicicon/com.svg';
 import { ReactComponent as CulturalIcon } from '../../assets/topicicon/cul.svg';
+import { ReactComponent as EconomyIcon } from '../../assets/topicicon/eco.svg';
 import { ReactComponent as EntertainmentIcon } from '../../assets/topicicon/ent.svg';
 import { ReactComponent as EnvironmentIcon } from '../../assets/topicicon/env.svg';
 import { ReactComponent as FoodIcon } from '../../assets/topicicon/foo.svg';
 import { ReactComponent as HealthIcon } from '../../assets/topicicon/hea.svg';
 import { ReactComponent as PoliticsIcon } from '../../assets/topicicon/pol.svg';
+import { ReactComponent as RemoveIcon } from '../../assets/topicicon/remove.svg';
 import { ReactComponent as SocialIcon } from '../../assets/topicicon/soc.svg';
 import { ReactComponent as TechnologyIcon } from '../../assets/topicicon/tec.svg';
 import { ReactComponent as TravelIcon } from '../../assets/topicicon/tra.svg';
 import { ReactComponent as UrbanIcon } from '../../assets/topicicon/urb.svg';
+import './Topic.css';
 
-const Topic = ({ onTopicFilterChange }) => {
-  const [selectedTopics, setSelectedTopics] = useState([]);
+const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics }) => { 
+  useEffect(() => { 
+    if (selectedTopics.length === 0) { 
+      setCurrentTopic(null); 
+    } 
+  }, [selectedTopics]) 
   const [currentTopic, setCurrentTopic] = useState(null);
 
   const topics = [
@@ -64,14 +68,14 @@ const Topic = ({ onTopicFilterChange }) => {
     if (currentTopic) {
       const updatedTopics = selectedTopics.filter((t) => t !== currentTopic);
       setSelectedTopics(updatedTopics);
-  
+
       // Set the current topic to the latest selected topic, or null if none are left
       setCurrentTopic(updatedTopics.length > 0 ? updatedTopics[updatedTopics.length - 1] : null);
-  
+
       onTopicFilterChange(updatedTopics.map((t) => topics.find((topic) => topic.name === t)?.csvName));
     }
   };
-  
+
 
   const getTopicClass = (topicName) => {
     if (selectedTopics.length > 5 || currentTopic === 'All Topics') {
@@ -98,9 +102,8 @@ const Topic = ({ onTopicFilterChange }) => {
           Topics
         </h3>
         <button
-          className={`all-topics-button ${
-            selectedTopics.length > 0 ? 'deselect-all' : 'select-all'
-          }`}
+          className={`all-topics-button ${selectedTopics.length > 0 ? 'deselect-all' : 'select-all'
+            }`}
           onClick={handleAllTopicsClick}
         >
           {selectedTopics.length > 0 ? 'Deselect All' : 'Select All'}
@@ -108,9 +111,8 @@ const Topic = ({ onTopicFilterChange }) => {
       </div>
       <div className="topic-container">
         <div
-          className={`center-circle ${
-            currentTopic === 'All Topics' || selectedTopics.length > 5 ? 'topic-universal' : currentTopic ? getTopicClass(currentTopic) : 'default'
-          }`}
+          className={`center-circle ${currentTopic === 'All Topics' || selectedTopics.length > 5 ? 'topic-universal' : currentTopic ? getTopicClass(currentTopic) : 'default'
+            }`}
         >
           {currentTopic && currentTopic !== 'All Topics' ? (
             <>
@@ -136,9 +138,8 @@ const Topic = ({ onTopicFilterChange }) => {
             }}
           >
             <button
-              className={`topic-button ${getTopicClass(topic.name)} ${
-                selectedTopics.includes(topic.name) ? 'selected' : ''
-              }`}
+              className={`topic-button ${getTopicClass(topic.name)} ${selectedTopics.includes(topic.name) ? 'selected' : ''
+                }`}
               onClick={() => handleTopicClick(topic.name)}
             >
               <div className="icon">{topic.icon}</div>

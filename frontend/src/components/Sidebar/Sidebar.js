@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import './Sidebar.css';
-import Topic from './Topic';
-import SubTopics from './SubTopics';
-import Source from './Source';
-import Tag from './Tag';
 import Settings from './Settings';
+import './Sidebar.css';
+import Source from './Source';
+import SubTopics from './SubTopics';
+import Tag from './Tag';
+import Topic from './Topic';
 
 const Sidebar = ({
   isOpen,
@@ -19,6 +19,7 @@ const Sidebar = ({
 }) => {
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [subTopics, setSubTopics] = useState([]);
+  const [selectedTopics, setSelectedTopics] = useState([]);
 
   const handleTopicFilterChange = (newFilters) => {
     setTopicFilter(newFilters);
@@ -47,6 +48,7 @@ const Sidebar = ({
     setTagFilter(['culture', 'regulations', 'rules']);
     setTopicFilter([]); // Reset topics to default state
     setSelectedTopic(null); // Clear selected topic
+    setSelectedTopics([]); // Clear selected topic
     setSubTopics([]); // Clear subtopics
   };
 
@@ -61,6 +63,8 @@ const Sidebar = ({
             <Topic
               selectedTopicsProp={topicFilter} // Use topicFilter for the selected topics
               onTopicFilterChange={handleTopicFilterChange} // Use setTopicFilter to update state
+              selectedTopics={selectedTopics}
+              setSelectedTopics={setSelectedTopics}
             />
             <SubTopics selectedTopic={selectedTopic} subTopics={subTopics} />
             <div className="grouped-container">
