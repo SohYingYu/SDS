@@ -1,6 +1,6 @@
 .render-component {
     position: absolute;
-    top: 10px; /* Same vertical position as Normal */
+    top: 12px; /* Same vertical position as Normal */
     left: 845px; /* Positioned to the right of Normal (adjust based on Normal's width) */
     background: transparent; /* White with 80% transparency */
     color: #A6A6A6;

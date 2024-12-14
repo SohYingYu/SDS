@@ -1,6 +1,6 @@
 .mapview {
     position: absolute;
-    top: 10px; /* Pin to the top */
+    top: 12px; /* Pin to the top */
     left: 20px; /* Leave space from the left */
     width: 400px;
     background: transparent; /* White with 80% transparency */

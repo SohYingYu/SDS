@@ -1,6 +1,6 @@
 .sentiment {
     position: absolute;
-    top: 10px; /* Same vertical position as Topbar */
+    top: 12px; /* Same vertical position as Topbar */
     left: 475px; /* Positioned to the right of Topbar (adjust based on Topbar width) */
     width: 400px;
     background: transparent; /* White with 80% transparency */
