@@ -5,7 +5,7 @@ import Mapbox from './components/Mapbox';
 import Bottombar from './components/Bottombar/Bottombar';
 import Searchbar from './components/Searchbar/Searchbar';
 import D3Network from './components/D3Network'; // Import D3 network graph component
-import Summary from './components/Summary'
+import Summary from './components/Summary';
 import { loadCSV } from './utils/loadCSV';
 import { ReactComponent as MapViewIcon } from './assets/topbaricon/mapview.svg';
 import { ReactComponent as NetworkIcon } from './assets/topbaricon/network.svg';
@@ -19,9 +19,11 @@ const App = () => {
   const [activeFilters, setActiveFilters] = useState(['CNA', 'Reddit', 'Straits Times']);
   const [tagFilter, setTagFilter] = useState(['culture', 'regulations', 'rules']);
   const [topicFilter, setTopicFilter] = useState([]);
+  const [activeSubTopics, setActiveSubTopics] = useState([]); // New state for active subtopics
   const [summaryData, setSummaryData] = useState(null); // Manage selected data and position for summary
   const [showSearchbar, setShowSearchbar] = useState(false);
 
+  // Load initial data
   useEffect(() => {
     loadCSV('/data/mastersheet.csv', (parsedData) => {
       setOriginalData(parsedData);
@@ -29,6 +31,26 @@ const App = () => {
     });
   }, []);
 
+  // Filter data based on topics and subtopics
+  useEffect(() => {
+    const applyFilters = () => {
+      let filtered = originalData;
+
+      if (topicFilter.length > 0) {
+        filtered = filtered.filter((item) => topicFilter.includes(item.topic));
+      }
+
+      if (activeSubTopics.length > 0) {
+        filtered = filtered.filter((item) => activeSubTopics.includes(item.subtopic));
+      }
+
+      setFilteredData(filtered);
+    };
+
+    applyFilters();
+  }, [topicFilter, activeSubTopics, originalData]);
+
+  // Handle window resizing for search bar visibility
   useEffect(() => {
     const handleResize = () => {
       setShowSearchbar(window.innerWidth > 1350);
@@ -59,7 +81,7 @@ const App = () => {
   };
 
   const toggleBottombar = () => {
-    setIsBottombarOpen((prev) => !prev); // Add this function to toggle bottom bar
+    setIsBottombarOpen((prev) => !prev);
   };
 
   const handleDataPointHover = (data) => {
@@ -75,9 +97,7 @@ const App = () => {
         <div className="mapview-content">
           <div className="toggle-container" onClick={toggleView}>
             <div
-              className={`toggle-background ${
-                view === 'Network View' ? 'right' : ''
-              }`}
+              className={`toggle-background ${view === 'Network View' ? 'right' : ''}`}
             />
             <span className={view === 'Map View' ? 'active' : ''}>
               <MapViewIcon className="mapview-icon" />
@@ -98,7 +118,6 @@ const App = () => {
           tagFilter={tagFilter}
           topicFilter={topicFilter}
           onDataPointHover={handleDataPointHover}
-
         />
       ) : (
         <D3Network
@@ -117,6 +136,8 @@ const App = () => {
         setTagFilter={setTagFilter}
         topicFilter={topicFilter}
         setTopicFilter={setTopicFilter}
+        activeSubTopics={activeSubTopics} // Pass activeSubTopics
+        setActiveSubTopics={setActiveSubTopics} // Pass setter for activeSubTopics
         originalData={originalData}
       />
       <Bottombar
@@ -131,7 +152,7 @@ const App = () => {
           coordinates={{
             x: summaryData.screenCoords.x,
             y: summaryData.screenCoords.y,
-        }}
+          }}
         />
       )}
     </div>
