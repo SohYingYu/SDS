@@ -3,6 +3,7 @@
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
+  background-color: #F6F6F5;
 }
 
 .sidebar-open .map {
@@ -56,36 +57,21 @@
 .mapview-icon {
   width: 16px; /* Adjust icon size */
   height: 16px;
-  margin-right: 6px; /* Space between icon and text */
+  margin-right: 3px; /* Space between icon and text */
   vertical-align: middle; /* Align icon with text */
 }
 
 .network-icon {
   width: 16px; /* Adjust icon size */
   height: 16px;
-  margin-right: 6px; /* Space between icon and text */
+  margin-right: 3px; /* Space between icon and text */
   vertical-align: middle; /* Align icon with text */
 }
 
-.toggle-container {
-  position: relative;
-  width: 280px;
-  height: 45px;
-  box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.1); /* Add shadow */
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  box-sizing: border-box;
-  overflow: hidden;
-  padding-left: 4px;
-  background-color: white;
-}
 
 .toggle-container {
   position: relative;
-  width: 280px;
+  width: 360px;
   height: 45px;
   box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.1); /* Add shadow */
   border-radius: 20px;
@@ -96,6 +82,7 @@
   box-sizing: border-box;
   overflow: hidden;
   background-color: white;
+  left: -8px;
 }
 
 .toggle-container span {
@@ -115,9 +102,10 @@
 
 .toggle-background {
   position: absolute;
+  margin-left: 5px;
   top: 50%; /* Start at the vertical center */
   transform: translateY(-50%); /* Offset to center it vertically */
-  width: calc(33.33% - 8px); /* Adjust width to fit 3 options */
+  width: calc(33.33% - 3px); /* Adjust width to fit 3 options */
   height: 35px; /* Adjust height for better proportions */
   background: #415ED3; /* Updated color */
   border-radius: 20px;

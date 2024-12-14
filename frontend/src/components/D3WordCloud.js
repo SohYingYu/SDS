@@ -16,12 +16,43 @@ const D3WordCloud = ({ originalData, topicFilter, tagFilter, activeFilters }) =>
       return matchesTopic && matchesTag && matchesSource;
     });
 
+    // List of words to exclude
+    const excludedWords = new Set([
+      'there',
+      'their',
+      'which',
+      'about',
+      'because',
+      'other',
+      'where',
+      'should',
+      'still',
+      'those',
+      'these',
+      'another',
+      "after",
+      "without",
+      "makes",
+      "theres",
+      "getting",
+      "comes",
+      "could",
+      "while",
+      'would',
+      'being',
+      'added',
+      "years",
+      "singapore",
+      "people",
+      "rules",
+    ]);
+
     // Extract and process word frequencies
     const wordsFrequency = filteredData
       .flatMap((item) => (item.summarised_content || '').split(/\s+/))
       .reduce((acc, word) => {
         const cleanWord = word.toLowerCase().replace(/[^a-z]/g, '');
-        if (cleanWord.length > 2) {
+        if (cleanWord.length > 4 && !excludedWords.has(cleanWord)) {
           acc[cleanWord] = (acc[cleanWord] || 0) + 1;
         }
         return acc;
@@ -29,7 +60,7 @@ const D3WordCloud = ({ originalData, topicFilter, tagFilter, activeFilters }) =>
 
     const topWords = Object.entries(wordsFrequency)
       .sort(([, a], [, b]) => b - a)
-      .slice(0, 50)
+      .slice(0, 150) // Show top 150 words
       .map(([word, count]) => ({ word, count }));
 
     // Dimensions
@@ -51,32 +82,49 @@ const D3WordCloud = ({ originalData, topicFilter, tagFilter, activeFilters }) =>
     // Set up zoom behavior
     const zoom = d3
       .zoom()
-      .scaleExtent([0.5, 5]) // Min and max zoom scale
+      .scaleExtent([0.5, 2]) // Restrict zoom scale (less sensitive zoom range)
+      .translateExtent([[-width, -height], [2 * width, 2 * height]]) // Restrict panning boundaries
       .on('zoom', (event) => {
         g.attr('transform', event.transform);
       });
 
-    svg.call(zoom); // Apply zoom to the SVG
+    svg.call(zoom).on('dblclick.zoom', null); // Disable double-click zoom for better control
 
     // Scale for circle radius
     const radiusScale = d3
       .scaleLinear()
       .domain(d3.extent(topWords, (d) => d.count))
-      .range([30, 200]);
+      .range([25, 120]);
+
+    // Scale for font size
+    const fontSizeScale = d3
+      .scaleLinear()
+      .domain(d3.extent(topWords, (d) => d.count))
+      .range([8, 35]); // Minimum 8px, maximum 35px
 
     // Create a simulation for circle packing
     const simulation = d3
       .forceSimulation(topWords)
       .force('x', d3.forceX().strength(0.2).x(0))
       .force('y', d3.forceY().strength(0.2).y(0))
-      .force('collision', d3.forceCollide((d) => radiusScale(d.count) + 10).strength(0.7))
+      .force('collision', d3.forceCollide((d) => radiusScale(d.count) + 3).strength(0.9))
       .stop();
 
-    // Run the simulation
-    for (let i = 0; i < 300; i++) {
-      simulation.tick();
-    }
+        // Run the simulation
+        for (let i = 0; i < 300; i++) {
+        simulation.tick();
+        }
 
+    // Create a color scale for the gradient
+    const colorScale = d3
+    .scaleLinear()
+    .domain([
+        d3.min(topWords, (d) => d.count), // Smallest count
+        d3.mean(topWords, (d) => d.count), // Average count
+        d3.max(topWords, (d) => d.count), // Largest count
+    ])
+    .range([ '#415ED3','#F97A51','#39C970']); // Gradient colors
+    
     // Add circles
     const nodes = g
       .selectAll('g')
@@ -85,20 +133,31 @@ const D3WordCloud = ({ originalData, topicFilter, tagFilter, activeFilters }) =>
       .append('g')
       .attr('transform', (d) => `translate(${d.x}, ${d.y})`);
 
-    nodes
-      .append('circle')
-      .attr('r', (d) => radiusScale(d.count))
-      .attr('fill', (d, i) => d3.schemeCategory10[i % 10]);
+      // Add circles
+        nodes
+        .append('circle')
+        .attr('r', (d) => radiusScale(d.count))
+        .attr('fill', (d) => colorScale(d.count)); // Assign gradient color based on count
 
-    // Add text labels
-    nodes
-      .append('text')
-      .text((d) => d.word)
-      .attr('text-anchor', 'middle')
-      .attr('dy', '.35em')
-      .style('font-size', (d) => `${Math.min(radiusScale(d.count) / 2, 20)}px`)
-      .style('fill', '#fff');
+        // Add word labels
+        nodes
+        .append('text')
+        .text((d) => d.word)
+        .attr('text-anchor', 'middle')
+        .attr('dy', '-0.1em')
+        .style('font-size', (d) => `${fontSizeScale(d.count)}px`)
+        .style('fill', '#fff');
 
+        // Add count labels below the word in parentheses
+        nodes
+        .append('text')
+        .text((d) => `${d.count}`)
+        .attr('text-anchor', 'middle')
+        .attr('dy', '1.3em')
+        .style('font-size', (d) => `${fontSizeScale(d.count)}px`)
+        .style('fill', '#fff');
+
+    
     simulation.on('tick', () => {
       nodes.attr('transform', (d) => `translate(${d.x}, ${d.y})`);
     });
