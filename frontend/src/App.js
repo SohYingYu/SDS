@@ -3,13 +3,16 @@ import './App.css';
 import Sidebar from './components/Sidebar/Sidebar';
 import Mapbox from './components/Mapbox';
 import Bottombar from './components/Bottombar/Bottombar';
-import Topbar from './components/Topbar/Topbar';
 import Searchbar from './components/Searchbar/Searchbar';
+import D3Network from './components/D3Network'; // Import D3 network graph component
 import { loadCSV } from './utils/loadCSV';
+import { ReactComponent as MapViewIcon } from './assets/topbaricon/mapview.svg';
+import { ReactComponent as NetworkIcon } from './assets/topbaricon/network.svg';
 
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isBottombarOpen, setIsBottombarOpen] = useState(true);
+  const [view, setView] = useState('Map View'); // Track the current view
   const [originalData, setOriginalData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [activeFilters, setActiveFilters] = useState(['CNA', 'Reddit', 'Straits Times']);
@@ -18,7 +21,6 @@ const App = () => {
   const [showSearchbar, setShowSearchbar] = useState(false);
 
   useEffect(() => {
-    // Load CSV data
     loadCSV('/data/mastersheet.csv', (parsedData) => {
       setOriginalData(parsedData);
       setFilteredData(parsedData); // Initially set filteredData to all data
@@ -30,13 +32,9 @@ const App = () => {
       setShowSearchbar(window.innerWidth > 1350);
     };
 
-    // Set initial state for showSearchbar
     handleResize();
-
-    // Add event listener
     window.addEventListener('resize', handleResize);
 
-    // Cleanup event listener on unmount
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -45,30 +43,64 @@ const App = () => {
   const handleSearch = (term) => {
     const lowerTerm = term.toLowerCase();
     const results = originalData.filter((item) =>
-      item.summarised_content?.toLowerCase().includes(lowerTerm) // Check only the summarised_content column
+      item.summarised_content?.toLowerCase().includes(lowerTerm)
     );
     setFilteredData(results);
   };
-  
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const toggleView = () => {
+    setView((prevView) => (prevView === 'Map View' ? 'Network View' : 'Map View'));
+  };
+
   const toggleBottombar = () => {
-    setIsBottombarOpen(!isBottombarOpen);
+    setIsBottombarOpen((prev) => !prev); // Add this function to toggle bottom bar
   };
 
   return (
     <div className="app">
       {showSearchbar && <Searchbar onSearch={handleSearch} />}
-      <Mapbox
-        originalData={filteredData}
-        activeFilters={activeFilters}
-        tagFilter={tagFilter}
-        topicFilter={topicFilter} // Pass topicFilter to Mapbox
-      />
-      <Topbar isSidebarOpen={isSidebarOpen} />
+      <button
+        className={`mapview ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}
+      >
+        <div className="mapview-content">
+          <div className="toggle-container" onClick={toggleView}>
+            <div
+              className={`toggle-background ${
+                view === 'Network View' ? 'right' : ''
+              }`}
+            />
+            <span className={view === 'Map View' ? 'active' : ''}>
+              <MapViewIcon className="mapview-icon" />
+              Map View
+            </span>
+            <span className={view === 'Network View' ? 'active' : ''}>
+              <NetworkIcon className="network-icon" />
+              Network
+            </span>
+          </div>
+        </div>
+      </button>
+
+      {view === 'Map View' ? (
+        <Mapbox
+          originalData={filteredData}
+          activeFilters={activeFilters}
+          tagFilter={tagFilter}
+          topicFilter={topicFilter}
+        />
+      ) : (
+        <D3Network
+          originalData={filteredData}
+          activeFilters={activeFilters}
+          tagFilter={tagFilter}
+          topicFilter={topicFilter}
+        />
+      )}
+
       <Sidebar
         isOpen={isSidebarOpen}
         toggleSidebar={toggleSidebar}
@@ -78,13 +110,13 @@ const App = () => {
         setTagFilter={setTagFilter}
         topicFilter={topicFilter}
         setTopicFilter={setTopicFilter}
-        originalData={originalData} // Pass the data to Sidebar
+        originalData={originalData}
       />
       <Bottombar
         isSidebarOpen={isSidebarOpen}
         isBottombarOpen={isBottombarOpen}
-        toggleBottombar={toggleBottombar}
-        originalData={originalData} // Pass the data to Sidebar
+        toggleBottombar={toggleBottombar} // Reference the toggleBottombar function here
+        originalData={originalData}
       />
     </div>
   );
