@@ -1,0 +1,9 @@
+.wordcloud {
+    width: 100%; /* Full width of the parent container */
+    height: 100%; /* Full height of the parent container */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* For any internal positioning */
+  }
+  

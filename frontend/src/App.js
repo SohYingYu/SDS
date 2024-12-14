@@ -83,6 +83,7 @@ const App = () => {
         isSidebarOpen={isSidebarOpen}
         isBottombarOpen={isBottombarOpen}
         toggleBottombar={toggleBottombar}
+        originalData={originalData} // Pass the data to Sidebar
       />
     </div>
   );
