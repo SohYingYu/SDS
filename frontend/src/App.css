@@ -101,16 +101,24 @@
 
 .toggle-background {
   position: absolute;
-  top: 50%; /* Start at the vertical center */
-  transform: translateY(-50%); /* Offset to center it vertically */
-  width: calc(50% - 4px);
-  height: 35px; /* Adjust height for better proportions */
-  background: #415ED3; /* Updated color */
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(33.33% - 4px); /* Adjust for three options */
+  height: 35px;
+  background: #415ED3;
   border-radius: 20px;
   transition: transform 0.3s ease;
-  z-index: 1; /* Place behind the text */
+  z-index: 1;
 }
 
 .toggle-background.right {
   transform: translate(100%, -50%); /* Move horizontally to the right while staying vertically centered */
+}
+
+.toggle-background.middle {
+  transform: translate(100%, -50%);
+}
+
+.toggle-background.right {
+  transform: translate(200%, -50%);
 }
