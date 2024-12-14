@@ -1,14 +1,35 @@
 import React from 'react';
 import './SubTopics.css';
 import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
+import DotIcon from '../../assets/sidebaricon/dot.svg';
+import DotClickedIcon from '../../assets/sidebaricon/dotclicked.svg';
 
-const SubTopics = ({ selectedTopic, subTopics, activeSubTopics, onSubTopicFilterChange }) => {
+const SubTopics = ({
+  selectedTopic,
+  subTopics,
+  subTopicCounts,
+  activeSubTopics,
+  onSubTopicFilterChange,
+}) => {
   const handleSubTopicClick = (subTopic) => {
     const updatedFilters = activeSubTopics.includes(subTopic)
       ? activeSubTopics.filter((topic) => topic !== subTopic) // Remove if already selected
       : [...activeSubTopics, subTopic]; // Add if not selected
 
-    onSubTopicFilterChange(updatedFilters); // Notify parent
+    // Check if all subtopics are unclicked, reset to all subtopics
+    if (updatedFilters.length === 0) {
+      onSubTopicFilterChange(subTopics); // Reset to all subtopics
+    } else {
+      onSubTopicFilterChange(updatedFilters);
+    }
+  };
+
+  const handleAllClick = () => {
+    if (activeSubTopics.length === subTopics.length) {
+      onSubTopicFilterChange([]); // Clear all subtopic filters
+    } else {
+      onSubTopicFilterChange(subTopics); // Select all subtopics
+    }
   };
 
   return (
@@ -20,6 +41,19 @@ const SubTopics = ({ selectedTopic, subTopics, activeSubTopics, onSubTopicFilter
         </h3>
       </div>
       <div className="subtopics-container">
+        {selectedTopic && (
+          <button
+            className={`subtopic-item ${activeSubTopics.length === subTopics.length ? 'active' : ''}`}
+            onClick={handleAllClick}
+          >
+            <img
+              src={activeSubTopics.length === subTopics.length ? DotClickedIcon : DotIcon}
+              alt="dot icon"
+              className="subtopic-dot"
+            />
+            All {subTopicCounts['All'] && `(${subTopicCounts['All']})`}
+          </button>
+        )}
         {subTopics.length > 0 ? (
           subTopics.map((subTopic, index) => (
             <button
@@ -27,7 +61,12 @@ const SubTopics = ({ selectedTopic, subTopics, activeSubTopics, onSubTopicFilter
               className={`subtopic-item ${activeSubTopics.includes(subTopic) ? 'active' : ''}`}
               onClick={() => handleSubTopicClick(subTopic)}
             >
-              {subTopic}
+              <img
+                src={activeSubTopics.includes(subTopic) ? DotClickedIcon : DotIcon}
+                alt="dot icon"
+                className="subtopic-dot"
+              />
+              {subTopic} {subTopicCounts[subTopic] && `(${subTopicCounts[subTopic]})`}
             </button>
           ))
         ) : (

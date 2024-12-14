@@ -22,32 +22,42 @@ const Sidebar = ({
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [subTopics, setSubTopics] = useState([]);
   const [selectedTopics, setSelectedTopics] = useState([]);
+  const [subTopicCounts, setSubTopicCounts] = useState({}); // Subtopic counts
 
   const handleTopicFilterChange = (newFilters) => {
     setTopicFilter(newFilters);
+  
     if (newFilters.length > 0) {
       const filteredTopic = newFilters[newFilters.length - 1]; // Get the latest selected topic
       setSelectedTopic(filteredTopic);
-
-      // Find unique subtopics for the selected topic
-      const uniqueSubTopics = Array.from(
-        new Set(
-          originalData
-            .filter((row) => row.topic === filteredTopic)
-            .map((row) => row.subtopic)
-        )
-      );
-
+  
+      // Find unique subtopics and calculate their counts
+      const filteredData = originalData.filter((row) => row.topic === filteredTopic);
+      const uniqueSubTopics = Array.from(new Set(filteredData.map((row) => row.subtopic)));
+      
       setSubTopics(uniqueSubTopics);
+  
+      const counts = uniqueSubTopics.reduce((acc, subTopic) => {
+        acc[subTopic] = filteredData.filter((row) => row.subtopic === subTopic).length;
+        return acc;
+      }, {});
+  
+      counts['All'] = filteredData.length; // Total count for the "All" button
+      setSubTopicCounts(counts);
+  
+      // **Set all subtopics as selected by default**
+      setActiveSubTopics(uniqueSubTopics); 
     } else {
       setSelectedTopic(null);
       setSubTopics([]);
+      setSubTopicCounts({});
+      setActiveSubTopics([]); // Clear active subtopics when no topic is selected
     }
-    setActiveSubTopics([]); // Reset subtopics when topics change
   };
+  
 
   const handleSubTopicFilterChange = (newFilters) => {
-    setActiveSubTopics(newFilters); // Notify parent
+    setActiveSubTopics(newFilters); // Update active subtopics
   };
 
   const resetFilters = () => {
@@ -57,6 +67,7 @@ const Sidebar = ({
     setSelectedTopic(null);
     setSelectedTopics([]);
     setSubTopics([]);
+    setSubTopicCounts({});
     setActiveSubTopics([]);
   };
 
@@ -77,8 +88,9 @@ const Sidebar = ({
             <SubTopics
               selectedTopic={selectedTopic}
               subTopics={subTopics}
+              subTopicCounts={subTopicCounts} // Pass counts to SubTopics
               activeSubTopics={activeSubTopics}
-              onSubTopicFilterChange={handleSubTopicFilterChange} // Handle subtopic changes
+              onSubTopicFilterChange={handleSubTopicFilterChange}
             />
             <div className="grouped-container">
               <Tag activeFilters={tagFilter} onTagFilterChange={setTagFilter} />
