@@ -74,8 +74,12 @@
   }
   
   .grouped-container {
-    padding-top: 10px;
+    width: 285px;
+    bottom: 25px;
+    position: absolute;
+    padding-top:5px;
+    /* background-color: yellow; */
     display: flex;
     flex-direction: column; /* Stack items vertically */
-    gap: 18px; /* Add spacing between Tags, Source, and Settings */
+    gap: 16px; /* Add spacing between Tags, Source, and Settings */
   }

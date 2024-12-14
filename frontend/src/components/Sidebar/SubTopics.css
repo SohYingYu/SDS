@@ -21,8 +21,7 @@
   }
   
   .subtopics-container {
-    width: 100%; /* Full width of the container */
-    height: 200px; /* Adjust height automatically based on content */
+    width: 100%; /* Full width of the container *//* Adjust height automatically based on content */
     background-color: transparent; /* Transparent background */
     border-radius: 10px; /* Rounded corners */
     display: flex; /* Flexbox layout */

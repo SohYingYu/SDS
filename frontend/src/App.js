@@ -45,10 +45,11 @@ const App = () => {
   const handleSearch = (term) => {
     const lowerTerm = term.toLowerCase();
     const results = originalData.filter((item) =>
-      JSON.stringify(item).toLowerCase().includes(lowerTerm)
+      item.summarised_content?.toLowerCase().includes(lowerTerm) // Check only the summarised_content column
     );
     setFilteredData(results);
   };
+  
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
