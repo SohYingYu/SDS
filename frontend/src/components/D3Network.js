@@ -6,6 +6,7 @@ const D3Network = ({ originalData, activeFilters, tagFilter, topicFilter }) => {
   const graphRef = useRef();
 
   useEffect(() => {
+    // Filter data based on filters
     const filteredData = originalData.filter((row) => {
       const source = row.source?.trim();
       const searchTerm = row['search term']?.toLowerCase();
@@ -22,6 +23,7 @@ const D3Network = ({ originalData, activeFilters, tagFilter, topicFilter }) => {
       return matchesSource && matchesTag && matchesTopic;
     });
 
+    // Construct graph data
     const graph = {
       nodes: [],
       links: [],
@@ -54,11 +56,21 @@ const D3Network = ({ originalData, activeFilters, tagFilter, topicFilter }) => {
         graph.links.push({ source: d['topic'], target: d['subtopic'], value: 1 });
     });
 
+    // Create SVG and zoomable group
     const svg = d3.select(graphRef.current);
-    svg.selectAll('*').remove();
+    svg.selectAll('*').remove(); // Clear previous content
 
     const width = graphRef.current.clientWidth;
     const height = graphRef.current.clientHeight;
+
+    const zoomGroup = svg.append('g'); // Group for zooming and panning
+
+    // Add zoom behavior
+    const zoom = d3.zoom().scaleExtent([0.5, 5]).on('zoom', (event) => {
+      zoomGroup.attr('transform', event.transform); // Apply zoom transform
+    });
+
+    svg.call(zoom); // Attach zoom behavior to the SVG
 
     const simulation = d3
       .forceSimulation(graph.nodes)
@@ -72,7 +84,7 @@ const D3Network = ({ originalData, activeFilters, tagFilter, topicFilter }) => {
       .force('charge', d3.forceManyBody().strength(-300))
       .force('center', d3.forceCenter(width / 2, height / 2));
 
-    const link = svg
+    const link = zoomGroup
       .append('g')
       .selectAll('line')
       .data(graph.links)
@@ -81,7 +93,7 @@ const D3Network = ({ originalData, activeFilters, tagFilter, topicFilter }) => {
       .attr('stroke-width', (d) => Math.sqrt(d.value))
       .attr('stroke', '#999');
 
-    const nodeGroup = svg
+    const nodeGroup = zoomGroup
       .append('g')
       .selectAll('g')
       .data(graph.nodes)
