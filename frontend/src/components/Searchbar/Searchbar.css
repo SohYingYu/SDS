@@ -1,0 +1,63 @@
+.searchbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  z-index: 100;
+  background-color: white;
+  height: 42px; /* Fixed height for the search bar */
+  border-radius: 18px;
+  width: 260px;
+  border: 1.5px solid #415ED3;
+  box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.1); /* Add shadow */
+  padding: 0 8px; /* Add padding to contain elements */
+}
+
+.searchbar-icon {
+  height: 18px; /* Set the height of the icon */
+  width: 18px; /* Set the width of the icon */
+  padding-left: 5px;
+
+}
+
+.searchbar-input {
+  width: 145px;
+  flex-grow: 1;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 8px;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  /* background-color: #415ED3; */
+  font-size: 14px;
+  font-weight: bold;
+  color: #333333;
+
+}
+
+.searchbar-input::placeholder {
+  font-weight: 500; /* Placeholder text remains font weight 500 */
+  color: #A6A6A6; /* Optional: Keep placeholder color consistent */
+}
+
+
+.searchbar-button {
+  padding: 5px 15px;
+  margin-left: 5px;
+  background-color: #415ED3;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  height: 33px;
+  font-weight: bold;
+  font-size: 14px;
+
+}
+
+.searchbar-button:hover {
+  background-color: #334db3;
+}
