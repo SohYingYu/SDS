@@ -15,13 +15,20 @@ import { ReactComponent as TravelIcon } from '../../assets/topicicon/tra.svg';
 import { ReactComponent as UrbanIcon } from '../../assets/topicicon/urb.svg';
 import './Topic.css';
 
-const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActiveSubTopics, setSubTopics }) => { 
-  useEffect(() => { 
-    if (selectedTopics.length === 0) { 
-      setCurrentTopic(null); 
-    } 
-  }, [selectedTopics]) 
+const Topic = ({
+  onTopicFilterChange,
+  selectedTopics,
+  setSelectedTopics,
+  setActiveSubTopics,
+  setSubTopics,
+}) => {
   const [currentTopic, setCurrentTopic] = useState(null);
+
+  useEffect(() => {
+    if (selectedTopics.length === 0) {
+      setCurrentTopic(null);
+    }
+  }, [selectedTopics]);
 
   const topics = [
     { name: 'Cultural', csvName: 'Cultural Trends', icon: <CulturalIcon /> },
@@ -39,44 +46,43 @@ const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActi
   ];
 
   const handleTopicClick = (topicName) => {
-    const updatedTopics = selectedTopics.includes(topicName)
-      ? selectedTopics.filter((t) => t !== topicName)
-      : [...selectedTopics, topicName];
-  
-    setSelectedTopics(updatedTopics);
+    if (currentTopic === topicName) {
+      // If already selected, do nothing
+      return;
+    }
+
+    if (!selectedTopics.includes(topicName)) {
+      const updatedTopics = [...selectedTopics, topicName];
+      setSelectedTopics(updatedTopics);
+      onTopicFilterChange(
+        updatedTopics.map((t) => topics.find((topic) => topic.name === t)?.csvName)
+      );
+    }
+
+    // Set the clicked topic as the current topic
     setCurrentTopic(topicName);
-  
-    onTopicFilterChange(
-      updatedTopics.map((t) => topics.find((topic) => topic.name === t)?.csvName)
-    );
   };
-  
 
   const handleAllTopicsClick = () => {
     if (selectedTopics.length > 0) {
       // Deselect all topics and reset subtopics
-      setSelectedTopics([]); // Clear selected topics
-      setCurrentTopic(null); // Reset selected topic
-      onTopicFilterChange([]); // Clear topic filters
-      setActiveSubTopics([]); // Clear active subtopics
-      setSubTopics([]); // Clear subtopics
+      setSelectedTopics([]);
+      setCurrentTopic(null);
+      onTopicFilterChange([]);
+      setActiveSubTopics([]);
+      setSubTopics([]);
     } else {
       // Select all topics
       const allTopics = topics.map((topic) => topic.name);
-      const allTopicsCsvNames = topics.map((topic) => topic.csvName); // Get csvNames for all topics
-  
-      setSelectedTopics(allTopics); // Mark all topics as selected
-      setCurrentTopic(null); // Reset current topic to show "Please select a topic"
-      setSubTopics([]); // Clear subtopics
-      onTopicFilterChange(allTopicsCsvNames); // Apply filters for all topics to show all data points
-      setActiveSubTopics([]); // Explicitly clear active subtopics
+      const allTopicsCsvNames = topics.map((topic) => topic.csvName);
+
+      setSelectedTopics(allTopics);
+      setCurrentTopic(null);
+      setSubTopics([]);
+      onTopicFilterChange(allTopicsCsvNames);
+      setActiveSubTopics([]);
     }
   };
-  
-  
-  
-  
-  
 
   const removeCurrentTopic = () => {
     if (currentTopic) {
@@ -86,28 +92,36 @@ const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActi
       // Set the current topic to the latest selected topic, or null if none are left
       setCurrentTopic(updatedTopics.length > 0 ? updatedTopics[updatedTopics.length - 1] : null);
 
-      onTopicFilterChange(updatedTopics.map((t) => topics.find((topic) => topic.name === t)?.csvName));
+      onTopicFilterChange(
+        updatedTopics.map((t) => topics.find((topic) => topic.name === t)?.csvName)
+      );
     }
   };
-
 
   const getTopicClass = (topicName) => {
-    if (selectedTopics.length > 5 || currentTopic === 'All Topics') {
-      // All selected topics and the big circle have the same color when "Select All" is pressed
-      return selectedTopics.includes(topicName) ? 'topic-universal' : 'topic-default';
+    if (topicName === currentTopic) {
+      return 'topic-selected'; // Highlight the current topic
     }
 
-    // Individual colors when 5 or fewer topics are selected
-    const index = selectedTopics.indexOf(topicName);
-    if (index === 0) return 'topic-blue';
-    if (index === 1) return 'topic-orange';
-    if (index === 2) return 'topic-green';
-    if (index === 3) return 'topic-purple';
-    if (index === 4) return 'topic-yellow';
+    if (selectedTopics.includes(topicName)) {
+      return 'topic-highlight'; // Different style for other selected topics
+    }
 
-    return 'topic-default';
+    return 'topic-default'; // Default style for unselected topics
   };
 
+  const getIconClass = (topicName) => {
+    if (topicName === currentTopic) {
+      return 'icon-selected'; // Icon style for the selected topic
+    }
+  
+    if (selectedTopics.includes(topicName)) {
+      return 'icon-highlight'; // Icon style for highlighted topics
+    }
+  
+    return 'icon-default'; // Default style for unselected icons
+  };
+  
   return (
     <div className="topic">
       <div className="topic-header">
@@ -116,8 +130,9 @@ const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActi
           Topics
         </h3>
         <button
-          className={`all-topics-button ${selectedTopics.length > 0 ? 'deselect-all' : 'select-all'
-            }`}
+          className={`all-topics-button ${
+            selectedTopics.length > 0 ? 'deselect-all' : 'select-all'
+          }`}
           onClick={handleAllTopicsClick}
         >
           {selectedTopics.length > 0 ? 'Deselect All' : 'Select All'}
@@ -125,12 +140,17 @@ const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActi
       </div>
       <div className="topic-container">
         <div
-          className={`center-circle ${currentTopic === 'All Topics' || selectedTopics.length > 5 ? 'topic-universal' : currentTopic ? getTopicClass(currentTopic) : 'default'
-            }`}
+          className={`center-circle ${
+            currentTopic
+              ? getTopicClass(currentTopic)
+              : selectedTopics.length > 5
+              ? 'topic-universal'
+              : 'default'
+          }`}
         >
-          {currentTopic && currentTopic !== 'All Topics' ? (
+          {currentTopic ? (
             <>
-              <div className="center-icon">
+              <div className={`center-icon ${getIconClass(currentTopic)}`}>
                 {topics.find((topic) => topic.name === currentTopic)?.icon}
               </div>
               <div className="center-text">{currentTopic}</div>
@@ -142,7 +162,7 @@ const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActi
             'Select a topic'
           )}
         </div>
-
+  
         {topics.map((topic, index) => (
           <div
             key={topic.name}
@@ -152,11 +172,12 @@ const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActi
             }}
           >
             <button
-              className={`topic-button ${getTopicClass(topic.name)} ${selectedTopics.includes(topic.name) ? 'selected' : ''
-                }`}
+              className={`topic-button ${getTopicClass(topic.name)}`}
               onClick={() => handleTopicClick(topic.name)}
             >
-              <div className="icon">{topic.icon}</div>
+              <div className={`icon ${getIconClass(topic.name)}`}>
+                {topic.icon}
+              </div>
             </button>
             <div
               className="topic-label"
@@ -171,6 +192,7 @@ const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActi
       </div>
     </div>
   );
+  
 };
 
 export default Topic;
