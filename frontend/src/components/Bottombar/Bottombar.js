@@ -8,8 +8,14 @@ const BottomBar = ({
   isSidebarOpen, 
   isBottombarOpen, 
   toggleBottombar, 
-  filteredData 
+  filteredData,
+  originalData
 }) => {
+
+  const redditCount = originalData.filter(row => row.source === 'Reddit').length;
+  const straitstimesCount = originalData.filter(row=>row.source === 'Straits Times').length;
+  const cnaCount = originalData.filter(row=> row.source === 'CNA').length;
+
   return (
     <div
       className={`bottombar ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'} ${
@@ -22,9 +28,15 @@ const BottomBar = ({
 
       {isBottombarOpen && (
         <div className="bottombar-content">
-          <InfoSection dataCount={filteredData.length} />
+          <InfoSection 
+            totalCount={originalData.length}
+            dataCount={filteredData.length} 
+            redditCount={redditCount}
+            straitstimesCount={straitstimesCount}
+            cnaCount={cnaCount}
+          />
           <Graph filteredData={filteredData} />
-          <PiChart />
+          <PiChart filteredData={filteredData} />
         </div>
       )}
     </div>
