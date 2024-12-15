@@ -3,14 +3,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
   gap: 20px;
+  background-color: transparent;
+  width: 260px;
+
 }
 
 .info-row {
   display: flex;
   justify-content: center;
-  gap: 50px; /* Space between items */
+  gap: 20px; /* Space between items */
 }
 
 .info-item {
@@ -18,14 +21,15 @@
 }
 
 .info-number {
-  font-size: 48px;
+  font-size: 30px;
   font-weight: bold;
   margin: 0;
   color: #333; /* Dark gray text */
 }
 
 .info-label {
-  font-size: 16px;
+  font-size: 12px;
   margin: 5px 0 0 0;
   color: #666; /* Lighter gray for labels */
 }
+

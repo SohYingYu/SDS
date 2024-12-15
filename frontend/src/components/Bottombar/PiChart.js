@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts';
+import { Cell, Legend, Pie, PieChart} from 'recharts';
 import './PiChart.css'; // Link to the new CSS file
 
 const PiChart = ({ filteredData }) => {
@@ -19,7 +19,7 @@ const PiChart = ({ filteredData }) => {
     { name: 'Negative', value: sentimentCounts.negative },
   ];
 
-  const COLORS = ['#64DDD0', '#F97A51']; // Colors for the pie chart
+  const COLORS = ['#39C970', '#F97A51']; // Colors for the pie chart
 
   return (
     <div className="pichart-section">
@@ -39,7 +39,6 @@ const PiChart = ({ filteredData }) => {
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
-        <Tooltip />
         <Legend />
       </PieChart>
     </div>

@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #b7b72c; /* Light background */
+    background-color: transparent; /* Light background */
     padding: 10px; /* Add padding for spacing */
     width: 280px; /* Fixed width for consistency */
     margin: 2px auto; /* Center the component */
@@ -10,16 +10,16 @@
   }
   
   .pichart-title {
-    font-size: 15px; /* Adjust title font size */
+    font-size: 13px; /* Adjust title font size */
     color: #333; /* Darker font color for contrast */
     margin-bottom: 10px; /* Space between title and chart */
     text-align: center;
-    background-color: bisque;
+    margin-top: 5px;
   }
   
   .pichart-container {
     margin-top: -10px; /* Add space above the chart */
-    background-color: aquamarine;
+
   }
   
   .recharts-tooltip-wrapper {

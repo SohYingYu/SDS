@@ -1,18 +1,20 @@
 .graph-section {
-    padding: 0px;
+    padding-top: 0px;
     background-color:transparent; /* White background for clean and modern look */
     margin: 10px auto; /* Center the section and add spacing around */
     max-width: 800px; /* Limit the width for better readability */
-    height: 260px;
+    height: 235px;
     width: 450px;
-    background-color: aquamarine;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
   }
   
   .graph-section h3 {
-    font-size: 15px; /* Adjust title font size */
+    font-size: 12px; /* Adjust title font size */
     font-weight: bold;
-    padding-top: 10px;
-    color: #333333; /* Match the primary theme color */
+    padding-top: 0px;
+    color: #666; /* Match the primary theme color */
     text-align: center; /* Center the title */
     margin-bottom: 2px; /* Add spacing below the title */
     letter-spacing: 1px; /* Add letter spacing for better readability */
@@ -23,6 +25,7 @@
     height: auto; /* Maintain the aspect ratio */
     margin: 0 auto; /* Center the chart inside the container */
     background-color: transparent;
+    padding-top: 10px;
   }
   
   .graph-section .chartjs-render-monitor {
@@ -39,5 +42,10 @@
     font-size: 15px; /* Adjust font size for readability */
   }
   
+  .graph-title {
+    font-size: 15px; /* Adjust the font size */
+    font-weight: bold; /* Optional: make it bold */
+    color: #333; /* Optional: change the color */
+    text-align: center; /* Optional: center-align the title */  }
   
   
