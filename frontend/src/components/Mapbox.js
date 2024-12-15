@@ -89,31 +89,36 @@ const Mapbox = ({
   };
 
   const circleLayer = {
-    id: 'circle-layer',
-    type: 'circle',
-    source: 'heatmap',
-    minzoom: 12,
-    paint: {
-      'circle-radius': 16,
-      'circle-color': [
-        'case',
-        ['==', mapMode, 'Sentiment'],
-        // Sentiment mode: green if more 1s, red otherwise
-        [
-          'step',
-          ['get', 'sentiment'],
-          'rgba(249, 122, 91, 0.8)', // Red (more 0s)
-          0.5,
-          'rgba(57, 201, 112, 0.6)', // Green (more 1s)
-        ],
-        // Default mode: fixed color
-        'rgba(65, 94, 211, 0.8)', // Default circle color
+  id: 'circle-layer',
+  type: 'circle',
+  source: 'heatmap',
+  minzoom: 12,
+  paint: {
+    'circle-radius': 16,
+    'circle-color': [
+      'case',
+      ['==', mapMode, 'Sentiment'],
+      // Sentiment mode: green if more 1s, red otherwise
+      [
+        'step',
+        ['get', 'sentiment'],
+        'rgba(249, 122, 91, 0.8)', // Red (more 0s)
+        0.5,
+        'rgba(57, 201, 112, 0.6)', // Green (more 1s)
       ],
-      'circle-stroke-color': 'white',
-      'circle-stroke-width': 0,
-      'circle-opacity': 0.8,
-    },
-  };
+      // Default mode: fixed color
+      'rgba(65, 94, 211, 0.8)', // Default circle color
+    ],
+    'circle-stroke-color': 'white',
+    'circle-stroke-width': 0,
+    'circle-opacity': 0.8,
+
+    // New properties for ground alignment in 3D view
+    'circle-pitch-alignment': 'map', // Align circles to the map surface
+    'circle-pitch-scale': 'viewport', // Keep circle size consistent with viewport scaling
+  },
+};
+
   
   useEffect(() => {
     const mapInstance = mapRef.current?.getMap();
