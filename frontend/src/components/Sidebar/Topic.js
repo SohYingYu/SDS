@@ -15,7 +15,7 @@ import { ReactComponent as TravelIcon } from '../../assets/topicicon/tra.svg';
 import { ReactComponent as UrbanIcon } from '../../assets/topicicon/urb.svg';
 import './Topic.css';
 
-const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActiveSubTopics }) => { 
+const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActiveSubTopics, setSubTopics }) => { 
   useEffect(() => { 
     if (selectedTopics.length === 0) { 
       setCurrentTopic(null); 
@@ -56,17 +56,22 @@ const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActi
       setCurrentTopic(null); // Reset selected topic
       onTopicFilterChange([]); // Clear topic filters
       setActiveSubTopics([]); // Clear active subtopics
+      setSubTopics([]); // Clear subtopics
     } else {
       // Select all topics
       const allTopics = topics.map((topic) => topic.name);
-      setSelectedTopics(allTopics);
+      const allTopicsCsvNames = topics.map((topic) => topic.csvName); // Get csvNames for all topics
   
-      // Ensure subtopics and currentTopic are reset to show the placeholder
-      setCurrentTopic(null); // Reset current topic
-      onTopicFilterChange([]); // Clear topic filters
-      setActiveSubTopics([]); // Clear active subtopics
+      setSelectedTopics(allTopics); // Mark all topics as selected
+      setCurrentTopic(null); // Reset current topic to show "Please select a topic"
+      setSubTopics([]); // Clear subtopics
+      onTopicFilterChange(allTopicsCsvNames); // Apply filters for all topics to show all data points
+      setActiveSubTopics([]); // Explicitly clear active subtopics
     }
   };
+  
+  
+  
   
   
 

@@ -27,30 +27,39 @@ const Sidebar = ({
 
   const handleTopicFilterChange = (newFilters) => {
     setTopicFilter(newFilters);
-
+  
+    // Clear subtopics if "Select All" is clicked
+    if (newFilters.length === 0 || newFilters.length === topics.length) {
+      setSelectedTopic(null);
+      setSubTopics([]); // Clear subtopics
+      setSubTopicCounts({});
+      setActiveSubTopics([]);
+      return; // Exit early
+    }
+  
     // Preserve existing subtopics for already selected topics
     const existingSubTopics = activeSubTopics.filter((subTopic) =>
-      originalData.some((item) => 
-        newFilters.includes(item.topic) && item.subtopic === subTopic
+      originalData.some(
+        (item) => newFilters.includes(item.topic) && item.subtopic === subTopic
       )
     );
-
+  
     if (newFilters.length > 0) {
       const filteredTopic = newFilters[newFilters.length - 1]; // Get the latest selected topic
       setSelectedTopic(filteredTopic);
-
+  
       const filteredData = originalData.filter((row) => row.topic === filteredTopic);
       const uniqueSubTopics = Array.from(new Set(filteredData.map((row) => row.subtopic)));
-
+  
       setSubTopics(uniqueSubTopics);
-
+  
       const counts = uniqueSubTopics.reduce((acc, subTopic) => {
         acc[subTopic] = filteredData.filter((row) => row.subtopic === subTopic).length;
         return acc;
       }, {});
       counts['All'] = filteredData.length;
       setSubTopicCounts(counts);
-
+  
       // Combine new topic's subtopics with existing active subtopics
       setActiveSubTopics([...existingSubTopics, ...uniqueSubTopics]);
     } else {
@@ -59,7 +68,8 @@ const Sidebar = ({
       setSubTopicCounts({});
       setActiveSubTopics([]);
     }
-};
+  };
+  
 
   
 
@@ -91,7 +101,8 @@ const Sidebar = ({
               onTopicFilterChange={handleTopicFilterChange}
               selectedTopics={selectedTopics}
               setSelectedTopics={setSelectedTopics}
-              setActiveSubTopics={setActiveSubTopics} // Add this line
+              setActiveSubTopics={setActiveSubTopics}
+              setSubTopics={setSubTopics} // Pass setSubTopics here
             />
             <SubTopics
               selectedTopic={selectedTopic}
