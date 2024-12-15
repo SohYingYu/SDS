@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './SubTopics.css';
 import { ReactComponent as LabelIcon } from '../../assets/sourceicon/label.svg';
 import DotIcon from '../../assets/sidebaricon/dot.svg';
@@ -11,30 +11,34 @@ const SubTopics = ({
   activeSubTopics,
   onSubTopicFilterChange,
 }) => {
+  const [isAllSelected, setIsAllSelected] = useState(false);
+
+  useEffect(() => {
+    // Determine if all subtopics for the selected topic are active
+    if (subTopics.length > 0 && subTopics.every((sub) => activeSubTopics.includes(sub))) {
+      setIsAllSelected(true);
+    } else {
+      setIsAllSelected(false);
+    }
+  }, [subTopics, activeSubTopics]);
+
   const handleSubTopicClick = (subTopic) => {
     const updatedFilters = activeSubTopics.includes(subTopic)
       ? activeSubTopics.filter((topic) => topic !== subTopic) // Remove if already selected
       : [...activeSubTopics, subTopic]; // Add if not selected
 
-    // Default to all subtopics if no subtopics are selected
-    if (updatedFilters.length === 0) {
-      onSubTopicFilterChange(subTopics); // Reset to all subtopics
-    } else {
-      onSubTopicFilterChange(updatedFilters);
-    }
+    onSubTopicFilterChange(updatedFilters);
   };
 
   const handleAllClick = () => {
-    if (activeSubTopics.length === subTopics.length) {
+    if (isAllSelected) {
       // Deselect all subtopics
       onSubTopicFilterChange([]);
     } else {
       // Select all subtopics currently displayed
-      onSubTopicFilterChange([...subTopics]); // Set all subtopics as active
+      onSubTopicFilterChange([...subTopics]);
     }
   };
-  
-  
 
   return (
     <div className="subtopics">
@@ -45,58 +49,49 @@ const SubTopics = ({
         </h3>
       </div>
       <div className="subtopics-container">
-  {selectedTopic ? (
-    selectedTopic !== "All Topics" ? (
-      <>
-        <button
-          className={`subtopic-item ${
-            activeSubTopics.length === subTopics.length ? 'active' : ''
-          }`}
-          onClick={handleAllClick}
-        >
-          <img
-            src={
-              activeSubTopics.length === subTopics.length
-                ? DotClickedIcon
-                : DotIcon
-            }
-            alt="dot icon"
-            className="subtopic-dot"
-          />
-          All {subTopicCounts['All'] && `(${subTopicCounts['All']})`}
-        </button>
-        {subTopics.map((subTopic, index) => (
-          <button
-            key={index}
-            className={`subtopic-item ${
-              activeSubTopics.includes(subTopic) ? 'active' : ''
-            }`}
-            onClick={() => handleSubTopicClick(subTopic)}
-          >
-            <img
-              src={
-                activeSubTopics.includes(subTopic)
-                  ? DotClickedIcon
-                  : DotIcon
-              }
-              alt="dot icon"
-              className="subtopic-dot"
-            />
-            {subTopic} {subTopicCounts[subTopic] && `(${subTopicCounts[subTopic]})`}
-          </button>
-        ))}
-      </>
-    ) : (
-      <div className="subtopic-placeholder">
-        Subtopics are disabled for all topics.
+        {selectedTopic ? (
+          selectedTopic !== 'All Topics' ? (
+            <>
+              <button
+                className={`subtopic-item ${isAllSelected ? 'active' : ''}`}
+                onClick={handleAllClick}
+              >
+                <img
+                  src={isAllSelected ? DotClickedIcon : DotIcon}
+                  alt="dot icon"
+                  className="subtopic-dot"
+                />
+                All {subTopicCounts['All'] && `(${subTopicCounts['All']})`}
+              </button>
+
+              {subTopics.map((subTopic, index) => (
+                <button
+                  key={index}
+                  className={`subtopic-item ${
+                    activeSubTopics.includes(subTopic) ? 'active' : ''
+                  }`}
+                  onClick={() => handleSubTopicClick(subTopic)}
+                >
+                  <img
+                    src={
+                      activeSubTopics.includes(subTopic) ? DotClickedIcon : DotIcon
+                    }
+                    alt="dot icon"
+                    className="subtopic-dot"
+                  />
+                  {subTopic} {subTopicCounts[subTopic] && `(${subTopicCounts[subTopic]})`}
+                </button>
+              ))}
+            </>
+          ) : (
+            <div className="subtopic-placeholder">
+              Subtopics are disabled for all topics.
+            </div>
+          )
+        ) : (
+          <div className="subtopic-placeholder">Please select a topic.</div>
+        )}
       </div>
-    )
-  ) : (
-    <div className="subtopic-placeholder">Please select a topic.</div>
-  )}
-</div>
-
-
     </div>
   );
 };

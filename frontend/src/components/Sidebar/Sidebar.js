@@ -69,13 +69,11 @@ const Sidebar = ({
       setActiveSubTopics([]);
     }
   };
-  
-
-  
 
   const handleSubTopicFilterChange = (newFilters) => {
-    setActiveSubTopics(newFilters); // Update active subtopics
+    setActiveSubTopics(newFilters.length === 0 ? [] : newFilters);
   };
+  
 
   const resetFilters = () => {
     setActiveFilters(['CNA', 'Reddit', 'Straits Times']);
