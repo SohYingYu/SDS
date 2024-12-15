@@ -6,7 +6,7 @@ const InfoSection = ({ totalCount, filteredCount, redditCount, straitstimesCount
     <div className="data-summary">
       {/* Data Summary Section */}
       <div className="data-summary-section">
-        <h3 className="data-summary-title">Data Summary</h3>
+        <h3 className="data-summary-title">Data :</h3>
         <p className="data-summary-total">
           Total Data Points: <span className="data-summary-total-value">{totalCount}</span>
         </p>
@@ -17,7 +17,7 @@ const InfoSection = ({ totalCount, filteredCount, redditCount, straitstimesCount
 
       {/* Source Breakdown Section */}
       <div className="source-breakdown-section">
-        <h3 className="source-breakdown-title">Source Breakdown</h3>
+        <h3 className="source-breakdown-title">Source :</h3>
         <p className="source-breakdown-reddit">
           Reddit: <span className="source-breakdown-value">{redditCount}</span>
         </p>

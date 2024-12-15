@@ -127,10 +127,11 @@ const TimeSlider = ({ originalData, setFilteredData, isBottombarOpen, isSidebarO
         />
 
 
-          <div className="time-slider-labels">
-            <span className="start-year-label">{selectedRange[0]}</span>
-            <span className="end-year-label">{selectedRange[1]}</span>
-          </div>
+      <div className="time-slider-labels">
+        <span className="start-year-label">{years[0]}</span> {/* Oldest year */}
+        <span className="end-year-label">{years[years.length - 1]}</span> {/* Latest year */}
+      </div>
+
         </div>
       ) : (
         <p>No valid timestamps available</p>
