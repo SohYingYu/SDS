@@ -146,7 +146,7 @@ const D3WordCloud = ({ originalData, topicFilter, tagFilter, activeFilters }) =>
           .map(([word]) => word);
 
         d3.selectAll('.word-circle')
-          .attr('fill', (node) => (relatedWords.includes(node.word) ? '#415ED3' : '#909090'));
+          .attr('fill', (node) => (relatedWords.includes(node.word) ? '#415ED3' : '#A9A9A9'));
       })
       .on('mouseout', () => {
         // Reset to the default gradient color based on count

@@ -9,6 +9,7 @@ const Mapbox = ({
   topicFilter = [],
   onDataPointHover,
   mapMode,
+  mapViewMode, // Add mapViewMode prop
 }) => {
   const mapboxToken = 'pk.eyJ1IjoieWFuZzE5MDAwMDAiLCJhIjoiY20zdzMxd3ExMHhoZTJqcXpwMG1ybGxrdCJ9.Xf9BgWMIUQ9_MGuc34knwg';
   const mapRef = useRef(null); // Reference to the map instance
@@ -114,7 +115,39 @@ const Mapbox = ({
     },
   };
   
+  useEffect(() => {
+    const mapInstance = mapRef.current?.getMap();
+    if (mapInstance) {
+      if (mapViewMode === '3D') {
+        mapInstance.setPitch(60); // Enable tilt for 3D view
+        mapInstance.setBearing(-17.6); // Adjust bearing
+        if (!mapInstance.getLayer('3d-buildings')) {
+          mapInstance.addLayer({
+            id: '3d-buildings',
+            source: 'composite',
+            'source-layer': 'building',
+            filter: ['==', 'extrude', 'true'],
+            type: 'fill-extrusion',
+            minzoom: 15,
+            paint: {
+              'fill-extrusion-color': '#aaa',
+              'fill-extrusion-height': ['get', 'height'],
+              'fill-extrusion-base': ['get', 'min_height'],
+              'fill-extrusion-opacity': 0.6,
+            },
+          });
+        }
+      } else {
+        mapInstance.setPitch(0); // Reset tilt for 2D view
+        mapInstance.setBearing(0); // Reset bearing
+        if (mapInstance.getLayer('3d-buildings')) {
+          mapInstance.removeLayer('3d-buildings');
+        }
+      }
+    }
+  }, [mapViewMode]);
   
+
 
   useEffect(() => {
     const mapInstance = mapRef.current?.getMap();
@@ -161,7 +194,7 @@ const Mapbox = ({
           zoom: 10.7,
         }}
         style={{ width: '100%', height: '100%' }}
-        mapStyle="mapbox://styles/mapbox/light-v10"
+        mapStyle="mapbox://styles/mapbox/light-v10"s
         mapboxAccessToken={mapboxToken}
         attributionControl={false}
       >
