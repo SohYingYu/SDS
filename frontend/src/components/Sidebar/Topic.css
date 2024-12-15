@@ -49,7 +49,6 @@
 .topic-icon {
   width: 20px; /* Adjust icon size */
   height: 20px;
-  
 }
 
 .center-icon {
@@ -95,7 +94,6 @@
 .topic-button.selected .icon {
   color: white/* Selected icon color */
 }
-
 
 
 .topic-button:hover {
@@ -147,29 +145,17 @@
 
 /* Default and Selected States */s
 .topic-default {
-  background-color: #EEEEEE;
+  background-color: #f0f0f0;
 }
 
-.topic-blue {
+.topic-highlight {
+  background-color: rgba(65, 94, 211, 0.3);
+}
+
+.topic-selected {
   background-color: #415ED3;
+  color: white;
 }
-
-.topic-orange {
-  background-color: #F97A51;
-}
-
-.topic-green {
-  background-color: #39C970;
-}
-
-.topic-purple {
-  background-color: #BA82E0;
-}
-
-.topic-yellow {
-  background-color: #F2D600;
-}
-
 
 .topic-universal {
   font-size: 15px;
@@ -238,4 +224,21 @@
   height: 3px; /* Adjust icon size */
   fill: #909090; /* Default icon color */
   transition: fill 0.3s ease;
+}
+
+
+/* Default icon color */
+.icon-default svg {
+  color: #6c757d; /* Gray for unselected icons */
+  transition: fill 0.3s ease; /* Smooth transition */
+}
+
+/* Highlighted icon color */
+.icon-highlight svg {
+  color: white; /* Blue for highlighted icons */
+}
+
+/* Selected icon color */
+.icon-selected svg {
+  color: white; /* Green for selected icons */
 }
