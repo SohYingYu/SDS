@@ -56,6 +56,7 @@
   .subtopic-item.active {
     background-color: white;
     color: #415ED3;
+    border-color: #415ED3;
   }
 
   .subtopic-dot {

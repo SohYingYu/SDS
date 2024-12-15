@@ -100,7 +100,8 @@ const Sidebar = ({
               selectedTopics={selectedTopics}
               setSelectedTopics={setSelectedTopics}
               setActiveSubTopics={setActiveSubTopics}
-              setSubTopics={setSubTopics} // Pass setSubTopics here
+              setSubTopics={setSubTopics}
+              originalData={originalData}
             />
             <SubTopics
               selectedTopic={selectedTopic}
