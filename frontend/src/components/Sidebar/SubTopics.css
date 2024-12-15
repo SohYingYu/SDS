@@ -22,7 +22,7 @@
   
   .subtopics-container {
     width: 100%; /* Full width of the container *//* Adjust height automatically based on content */
-    height: 200px;
+    height: 180px;
     background-color: transparent; /* Transparent background */
     border-radius: 10px; /* Rounded corners */
     display: flex; /* Flexbox layout */
