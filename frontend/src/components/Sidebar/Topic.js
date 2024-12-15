@@ -15,7 +15,7 @@ import { ReactComponent as TravelIcon } from '../../assets/topicicon/tra.svg';
 import { ReactComponent as UrbanIcon } from '../../assets/topicicon/urb.svg';
 import './Topic.css';
 
-const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActiveSubTopics, setSubTopics }) => { 
+const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActiveSubTopics, setSubTopics, originalData }) => { 
   useEffect(() => { 
     if (selectedTopics.length === 0) { 
       setCurrentTopic(null); 
@@ -39,15 +39,35 @@ const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActi
   ];
 
   const handleTopicClick = (topicName) => {
-    if (selectedTopics.includes(topicName)) {
-      setCurrentTopic(topicName);
-    } else {
-      const updatedTopics = [...selectedTopics, topicName];
-      setSelectedTopics(updatedTopics);
-      setCurrentTopic(topicName);
-      onTopicFilterChange(updatedTopics.map((t) => topics.find((topic) => topic.name === t)?.csvName));
-    }
+    // Always set the clicked topic as the current topic
+    setCurrentTopic(topicName);
+  
+    // If the topic is not already selected, add it to the selectedTopics
+    const updatedTopics = selectedTopics.includes(topicName)
+      ? selectedTopics
+      : [...selectedTopics, topicName];
+    setSelectedTopics(updatedTopics);
+  
+    // Update topic filters
+    onTopicFilterChange(updatedTopics.map((t) => topics.find((topic) => topic.name === t)?.csvName));
+  
+    // Get subtopics for all selected topics
+    const filteredSubTopics = updatedTopics
+      .map((selectedTopic) =>
+        originalData
+          .filter((row) => row.topic === selectedTopic)
+          .map((row) => row.subtopic)
+      )
+      .flat();
+  
+    const uniqueSubTopics = Array.from(new Set(filteredSubTopics));
+    setSubTopics(uniqueSubTopics);
+  
+    // Set all the subtopics as active
+    setActiveSubTopics(uniqueSubTopics);
   };
+  
+  
 
   const handleAllTopicsClick = () => {
     if (selectedTopics.length > 0) {
@@ -69,11 +89,6 @@ const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActi
       setActiveSubTopics([]); // Explicitly clear active subtopics
     }
   };
-  
-  
-  
-  
-  
 
   const removeCurrentTopic = () => {
     if (currentTopic) {
