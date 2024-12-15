@@ -39,6 +39,8 @@ const App = () => {
   const [activeSubTopics, setActiveSubTopics] = useState([]);
   const [showSearchbar, setShowSearchbar] = useState(false);
   const [summaryData, setSummaryData] = useState(null); // Manage selected data and position for summary
+  const [mapMode, setMapMode] = useState('Default'); // Add state for map mode
+
 
 
   useEffect(() => {
@@ -143,14 +145,37 @@ const App = () => {
       </button>
 
       {view === 'Map View' && (
-        <Mapbox
-          originalData={filteredData}
-          activeFilters={activeFilters}
-          tagFilter={tagFilter}
-          topicFilter={topicFilter}
-          onDataPointHover={handleDataPointHover}
-        />
+    <>
+      <Mapbox
+        originalData={filteredData}
+        activeFilters={activeFilters}
+        tagFilter={tagFilter}
+        topicFilter={topicFilter}
+        onDataPointHover={handleDataPointHover}
+        mapMode={mapMode} // Pass mapMode here
+      />
+      <div className={`toggle-container toggle-map-mode ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+    <div
+      className={`toggle-background ${
+        mapMode === 'Default' ? 'left' : 'right'
+      }`}
+    />
+    <span
+      className={mapMode === 'Default' ? 'active' : ''}
+      onClick={() => setMapMode('Default')}
+    >
+      Default
+    </span>
+    <span
+      className={mapMode === 'Sentiment' ? 'active' : ''}
+      onClick={() => setMapMode('Sentiment')}
+    >
+      Sentiment
+    </span>
+  </div>
+        </>
       )}
+  
         <TimeSlider
         originalData={originalData}
         setFilteredData={setFilteredData}
@@ -204,7 +229,7 @@ const App = () => {
           }}
         />
       )}
-    </div>
+        </div>
   );
 };
 
