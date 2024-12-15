@@ -18,43 +18,29 @@ const D3WordCloud = ({ originalData, topicFilter, tagFilter, activeFilters }) =>
 
     // List of words to exclude
     const excludedWords = new Set([
-      'there',
-      'their',
-      'which',
-      'about',
-      'because',
-      'other',
-      'where',
-      'should',
-      'still',
-      'those',
-      'these',
-      'another',
-      "after",
-      "without",
-      "makes",
-      "theres",
-      "getting",
-      "comes",
-      "could",
-      "while",
-      'would',
-      'being',
-      'added',
-      "years",
-      "singapore",
-      "people",
-      "rules",
+      'there', 'their', 'which', 'about', 'because', 'other', 'where', 'should',
+      'still', 'those', 'these', 'another', 'after', 'without', 'makes', 'theres',
+      'getting', 'comes', 'could', 'while', 'would', 'being', 'added', 'years',
+      'singapore', 'people', 'rules',
     ]);
 
-    // Extract and process word frequencies
+    // Extract and process word frequencies with associated summaries
+    const wordSummaryMap = {};
     const wordsFrequency = filteredData
-      .flatMap((item) => (item.summarised_content || '').split(/\s+/))
+      .flatMap((item) => {
+        const words = (item.summarised_content || '').split(/\s+/).map((word) => {
+          const cleanWord = word.toLowerCase().replace(/[^a-z]/g, '');
+          if (cleanWord.length > 4 && !excludedWords.has(cleanWord)) {
+            if (!wordSummaryMap[cleanWord]) wordSummaryMap[cleanWord] = [];
+            wordSummaryMap[cleanWord].push(item.summarised_content);
+            return cleanWord;
+          }
+          return null;
+        }).filter(Boolean);
+        return words;
+      })
       .reduce((acc, word) => {
-        const cleanWord = word.toLowerCase().replace(/[^a-z]/g, '');
-        if (cleanWord.length > 4 && !excludedWords.has(cleanWord)) {
-          acc[cleanWord] = (acc[cleanWord] || 0) + 1;
-        }
+        acc[word] = (acc[word] || 0) + 1;
         return acc;
       }, {});
 
@@ -76,31 +62,31 @@ const D3WordCloud = ({ originalData, topicFilter, tagFilter, activeFilters }) =>
       .attr('width', width)
       .attr('height', height);
 
-    // Add a group to apply zoom/pan transformations
-    const g = svg.append('g').attr('transform', `translate(${width / 2 + 200}, ${height / 2})`);
-
-    // Set up zoom behavior
-    const zoom = d3
-      .zoom()
-      .scaleExtent([0.5, 2]) // Restrict zoom scale (less sensitive zoom range)
-      .translateExtent([[-width, -height], [2 * width, 2 * height]]) // Restrict panning boundaries
-      .on('zoom', (event) => {
-        g.attr('transform', event.transform);
-      });
-
-    svg.call(zoom).on('dblclick.zoom', null); // Disable double-click zoom for better control
+    // Add a group to position elements
+    const g = svg
+    .append('g')
+    .attr('transform', `translate(${width / 2 + 130}, ${height / 2})`); // Add 100px to the x-coordinate
+  
+    const colorScale = d3
+      .scaleLinear()
+      .domain([
+        d3.min(topWords, (d) => d.count), // Smallest count
+        d3.mean(topWords, (d) => d.count), // Average count
+        d3.max(topWords, (d) => d.count), // Largest count
+      ])
+      .range(['#415ED3', '#F97A51', '#39C970']); // Gradient colors
 
     // Scale for circle radius
     const radiusScale = d3
       .scaleLinear()
       .domain(d3.extent(topWords, (d) => d.count))
-      .range([25, 120]);
+      .range([20, 120]);
 
     // Scale for font size
     const fontSizeScale = d3
       .scaleLinear()
       .domain(d3.extent(topWords, (d) => d.count))
-      .range([8, 35]); // Minimum 8px, maximum 35px
+      .range([8, 35]);
 
     // Create a simulation for circle packing
     const simulation = d3
@@ -110,22 +96,9 @@ const D3WordCloud = ({ originalData, topicFilter, tagFilter, activeFilters }) =>
       .force('collision', d3.forceCollide((d) => radiusScale(d.count) + 3).strength(0.9))
       .stop();
 
-        // Run the simulation
-        for (let i = 0; i < 300; i++) {
-        simulation.tick();
-        }
+    for (let i = 0; i < 300; i++) simulation.tick();
 
-    // Create a color scale for the gradient
-    const colorScale = d3
-    .scaleLinear()
-    .domain([
-        d3.min(topWords, (d) => d.count), // Smallest count
-        d3.mean(topWords, (d) => d.count), // Average count
-        d3.max(topWords, (d) => d.count), // Largest count
-    ])
-    .range([ '#415ED3','#F97A51','#39C970']); // Gradient colors
-    
-    // Add circles
+    // Add circles and labels
     const nodes = g
       .selectAll('g')
       .data(topWords)
@@ -133,34 +106,43 @@ const D3WordCloud = ({ originalData, topicFilter, tagFilter, activeFilters }) =>
       .append('g')
       .attr('transform', (d) => `translate(${d.x}, ${d.y})`);
 
-      // Add circles
-        nodes
-        .append('circle')
-        .attr('r', (d) => radiusScale(d.count))
-        .attr('fill', (d) => colorScale(d.count)); // Assign gradient color based on count
+    nodes
+      .append('circle')
+      .attr('r', (d) => radiusScale(d.count))
+      .attr('fill', (d) => colorScale(d.count))
+      .attr('class', 'word-circle'); // Add a class for easier selection
 
-        // Add word labels
-        nodes
-        .append('text')
-        .text((d) => d.word)
-        .attr('text-anchor', 'middle')
-        .attr('dy', '-0.1em')
-        .style('font-size', (d) => `${fontSizeScale(d.count)}px`)
-        .style('fill', '#fff');
+    nodes
+      .append('text')
+      .text((d) => d.word)
+      .attr('text-anchor', 'middle')
+      .attr('dy', '-0.5em')
+      .style('font-size', (d) => `${fontSizeScale(d.count)}px`)
+      .style('fill', '#fff')
+      .attr('class', 'word-label'); // Add a class for easier selection
 
-        // Add count labels below the word in parentheses
-        nodes
-        .append('text')
-        .text((d) => `${d.count}`)
-        .attr('text-anchor', 'middle')
-        .attr('dy', '1.3em')
-        .style('font-size', (d) => `${fontSizeScale(d.count)}px`)
-        .style('fill', '#fff');
+    nodes
+      .append('text')
+      .text((d) => `(${d.count})`)
+      .attr('text-anchor', 'middle')
+      .attr('dy', '1em')
+      .style('font-size', (d) => `${fontSizeScale(d.count)}px`)
+      .style('fill', '#fff');
 
-    
-    simulation.on('tick', () => {
-      nodes.attr('transform', (d) => `translate(${d.x}, ${d.y})`);
-    });
+    nodes
+      .on('mouseover', function (event, d) {
+        const relatedSummaries = wordSummaryMap[d.word];
+        const relatedWords = Object.entries(wordSummaryMap)
+          .filter(([word, summaries]) => summaries.some((summary) => relatedSummaries.includes(summary)))
+          .map(([word]) => word);
+
+        d3.selectAll('.word-circle')
+          .attr('fill', (node) => (relatedWords.includes(node.word) ? '#415ED3' : '#909090'));
+      })
+      .on('mouseout', () => {
+        // Reset to the default gradient color based on count
+        d3.selectAll('.word-circle').attr('fill', (node) => colorScale(node.count));
+      });
 
     return () => {
       simulation.stop();
