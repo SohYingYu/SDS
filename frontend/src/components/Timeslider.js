@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Slider } from '@mui/material'; // Import Material-UI Slider
 import './Timeslider.css';
 
-const TimeSlider = ({ originalData, setFilteredData, isBottombarOpen }) => {
+const TimeSlider = ({ originalData, setFilteredData, isBottombarOpen, isSidebarOpen }) => {
   const [years, setYears] = useState([]);
   const [selectedRange, setSelectedRange] = useState([null, null]);
 
@@ -68,27 +68,70 @@ const TimeSlider = ({ originalData, setFilteredData, isBottombarOpen }) => {
   };
 
   return (
-    <div className={`time-slider-container ${isBottombarOpen ? 'shift-up' : 'shift-down'}`}>
-      <h4>Filter by Year</h4>
+    <div
+      className={`time-slider-container ${isBottombarOpen ? 'shift-up' : 'shift-down'} ${
+        isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'
+      }`}
+    >
       {years.length > 0 ? (
         <div className="time-slider-wrapper">
-            <Slider
-                value={selectedRange}
-                onChange={handleSliderChange}
-                min={years[0]}
-                max={years[years.length - 1]}
-                valueLabelDisplay="auto"
-                marks
-                sx={{
-                width: '100%',
-                color: '#415ed3',
-                }}
-            />
-            <div className="time-slider-labels">
-                <span className="start-year-label">Start Year: {selectedRange[0]}</span>
-                <span className="end-year-label">End Year: {selectedRange[1]}</span>
-            </div>
-            </div>
+          <Slider
+          value={selectedRange}
+          onChange={handleSliderChange}
+          min={years[0]}
+          max={years[years.length - 1]}
+          valueLabelDisplay="auto"
+          marks
+          sx={{
+            width: '100%',
+            color: '#415ed3',
+            '& .MuiSlider-rail': {
+              height: 10, // Thickness of the unselected part of the track
+              backgroundColor: 'CCCCCC', // Color of the rail
+            },
+            '& .MuiSlider-track': {
+              height: 6, // Thickness of the selected part of the track
+              backgroundColor: '#415ed3', // Color of the track
+            },
+            '& .MuiSlider-thumb': {
+              width: 23, // Size of the thumb (slider handle)
+              height: 23, // Size of the thumb (slider handle)
+              backgroundColor: '#fff', // Thumb color
+              border: '4px solid #415ed3', // Border around the thumb
+            },
+            '& .MuiSlider-mark': {
+              backgroundColor: 'transparent', // Change dot color
+              height: 10, // Set the height of the dot
+              width: 10, // Set the width of the dot
+              borderRadius: '50%', // Make it round
+              transform: 'translateX(-50%)', // Center the dot
+            },
+            '& .MuiSlider-markActive': {
+              backgroundColor: 'transparent', // Active dot color
+            },
+            '& .MuiSlider-markLabel': {
+              fontSize: '12ppx', // Label font size
+              color: '#333', // Label text color
+              fontWeight: 'bold',
+            },
+            '& .MuiSlider-valueLabel': {
+            backgroundColor: '#fff', // White background for the popup
+            color: '#575757', // Font color
+            borderRadius: '8px', // Rounded corners
+            boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.15)', // Add shadow for better visibility
+            padding: '6px 10px', // Add padding for better appearance
+            fontWeight: 'bold',
+
+          },
+          }}
+        />
+
+
+          <div className="time-slider-labels">
+            <span className="start-year-label">{selectedRange[0]}</span>
+            <span className="end-year-label">{selectedRange[1]}</span>
+          </div>
+        </div>
       ) : (
         <p>No valid timestamps available</p>
       )}

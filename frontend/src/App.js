@@ -40,6 +40,7 @@ const App = () => {
   const [showSearchbar, setShowSearchbar] = useState(false);
   const [summaryData, setSummaryData] = useState(null); // Manage selected data and position for summary
   const [mapMode, setMapMode] = useState('Default'); // Add state for map mode
+  const [mapViewMode, setMapViewMode] = useState('2D'); // Add state for 2D/3D toggle
 
 
 
@@ -145,41 +146,63 @@ const App = () => {
       </button>
 
       {view === 'Map View' && (
-    <>
-      <Mapbox
-        originalData={filteredData}
-        activeFilters={activeFilters}
-        tagFilter={tagFilter}
-        topicFilter={topicFilter}
-        onDataPointHover={handleDataPointHover}
-        mapMode={mapMode} // Pass mapMode here
-      />
-      <div className={`toggle-container toggle-map-mode ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
-    <div
-      className={`toggle-background ${
-        mapMode === 'Default' ? 'left' : 'right'
-      }`}
+  <>
+    <Mapbox
+      originalData={filteredData}
+      activeFilters={activeFilters}
+      tagFilter={tagFilter}
+      topicFilter={topicFilter}
+      onDataPointHover={handleDataPointHover}
+      mapMode={mapMode} // Pass mapMode here
+      mapViewMode={mapViewMode} // Pass mapViewMode here
     />
-    <span
-      className={mapMode === 'Default' ? 'active' : ''}
-      onClick={() => setMapMode('Default')}
-    >
-      Default
-    </span>
-    <span
-      className={mapMode === 'Sentiment' ? 'active' : ''}
-      onClick={() => setMapMode('Sentiment')}
-    >
-      Sentiment
-    </span>
-  </div>
-        </>
-      )}
+    <div className={`toggle-container toggle-map-mode ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+      <div
+        className={`toggle-background ${
+          mapMode === 'Default' ? 'left' : 'right'
+        }`}
+      />
+      <span
+        className={mapMode === 'Default' ? 'active' : ''}
+        onClick={() => setMapMode('Default')}
+      >
+        Default
+      </span>
+      <span
+        className={mapMode === 'Sentiment' ? 'active' : ''}
+        onClick={() => setMapMode('Sentiment')}
+      >
+        Sentiment
+      </span>
+    </div>
+    <div className={`toggle-container toggle-map-view-mode ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+      <div
+        className={`toggle-background ${
+          mapViewMode === '2D' ? 'left' : 'right'
+        }`}
+      />
+      <span
+        className={mapViewMode === '2D' ? 'active' : ''}
+        onClick={() => setMapViewMode('2D')}
+      >
+        2D
+      </span>
+      <span
+        className={mapViewMode === '3D' ? 'active' : ''}
+        onClick={() => setMapViewMode('3D')}
+      >
+        3D
+      </span>
+    </div>
+  </>
+)}
+
   
         <TimeSlider
         originalData={originalData}
         setFilteredData={setFilteredData}
         isBottombarOpen={isBottombarOpen} // Pass bottombar state
+        isSidebarOpen={isSidebarOpen} // Pass sidebar state
       />
       {view === 'Network View' && (
         <D3Network
