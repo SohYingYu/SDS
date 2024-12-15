@@ -1,7 +1,15 @@
 import React from 'react';
 import './Bottombar.css';
+import InfoSection from './InfoSection';
+import Graph from './Graph';
+import PiChart from './PiChart';
 
-const BottomBar = ({ isSidebarOpen, isBottombarOpen, toggleBottombar }) => {
+const BottomBar = ({ 
+  isSidebarOpen, 
+  isBottombarOpen, 
+  toggleBottombar, 
+  filteredData 
+}) => {
   return (
     <div
       className={`bottombar ${isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'} ${
@@ -14,9 +22,9 @@ const BottomBar = ({ isSidebarOpen, isBottombarOpen, toggleBottombar }) => {
 
       {isBottombarOpen && (
         <div className="bottombar-content">
-          <div className="expanded-content">
-            <p>Expanded Content</p>
-          </div>
+          <InfoSection dataCount={filteredData.length} />
+          <Graph filteredData={filteredData} />
+          <PiChart />
         </div>
       )}
     </div>

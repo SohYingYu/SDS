@@ -162,8 +162,8 @@ const App = () => {
         isSidebarOpen={isSidebarOpen}
         isBottombarOpen={isBottombarOpen}
         toggleBottombar={toggleBottombar}
-        originalData={originalData}
-      />
+        filteredData={filteredData} // Pass filtered data for live updates
+        />
     </div>
   );
 };
