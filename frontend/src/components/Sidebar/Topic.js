@@ -39,15 +39,18 @@ const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActi
   ];
 
   const handleTopicClick = (topicName) => {
-    if (selectedTopics.includes(topicName)) {
-      setCurrentTopic(topicName);
-    } else {
-      const updatedTopics = [...selectedTopics, topicName];
-      setSelectedTopics(updatedTopics);
-      setCurrentTopic(topicName);
-      onTopicFilterChange(updatedTopics.map((t) => topics.find((topic) => topic.name === t)?.csvName));
-    }
+    const updatedTopics = selectedTopics.includes(topicName)
+      ? selectedTopics.filter((t) => t !== topicName)
+      : [...selectedTopics, topicName];
+  
+    setSelectedTopics(updatedTopics);
+    setCurrentTopic(topicName);
+  
+    onTopicFilterChange(
+      updatedTopics.map((t) => topics.find((topic) => topic.name === t)?.csvName)
+    );
   };
+  
 
   const handleAllTopicsClick = () => {
     if (selectedTopics.length > 0) {
