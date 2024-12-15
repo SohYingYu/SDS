@@ -1,0 +1,49 @@
+.data-summary {
+    display: flex;
+    padding: 20px;
+  }
+  
+  /* Styling for the Data Summary section */
+  .data-summary-section {
+    width: 115%; /* Allocate space for the Data Summary section */
+    text-align: left;
+    margin-right: 100px;
+  }
+  
+  .data-summary-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .data-summary-total,
+  .data-summary-filtered {
+    margin: 5px 0;
+  }
+  
+  .data-summary-total-value,
+  .data-summary-filtered-value {
+    color: #333;
+    font-weight: bold;
+  }
+  
+  /* Styling for the Source Breakdown section */
+  .source-breakdown-section {
+    width: 104%; /* Allocate space for the Source Breakdown section */
+    text-align: left;
+  }
+  
+  .source-breakdown-title {
+    margin-bottom: 10px;
+  }
+  
+  .source-breakdown-reddit,
+  .source-breakdown-straitstimes,
+  .source-breakdown-cna {
+    margin: 5px 0;
+  }
+  
+  .source-breakdown-value {
+    font-weight: bold;
+    color: #333;
+  }
+  

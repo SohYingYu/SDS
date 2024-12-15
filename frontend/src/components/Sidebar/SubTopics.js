@@ -25,20 +25,16 @@ const SubTopics = ({
   };
 
   const handleAllClick = () => {
-    const subTopicsForCurrentTopic = subTopics;
-
     if (activeSubTopics.length === subTopics.length) {
-      // Deselect all subtopics for the current topic
-      const remainingActiveSubTopics = activeSubTopics.filter(
-        (subTopic) => !subTopicsForCurrentTopic.includes(subTopic)
-      );
-      onSubTopicFilterChange(remainingActiveSubTopics);
+      // Deselect all subtopics
+      onSubTopicFilterChange([]);
     } else {
-      // Select all subtopics for the current topic
-      const updatedFilters = [...activeSubTopics, ...subTopicsForCurrentTopic];
-      onSubTopicFilterChange([...new Set(updatedFilters)]); // Avoid duplicates
+      // Select all subtopics currently displayed
+      onSubTopicFilterChange([...subTopics]); // Set all subtopics as active
     }
   };
+  
+  
 
   return (
     <div className="subtopics">
