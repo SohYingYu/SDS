@@ -11,37 +11,49 @@ const SubTopics = ({
   activeSubTopics,
   onSubTopicFilterChange,
 }) => {
-  const handleSubTopicClick = (subTopic) => {
-    const updatedFilters = activeSubTopics.includes(subTopic)
-      ? activeSubTopics.filter((topic) => topic !== subTopic) // Remove if already selected
-      : [...activeSubTopics, subTopic]; // Add if not selected
 
-    // Check if all subtopics are unclicked, reset to all subtopics
-    if (updatedFilters.length === 0) {
-      onSubTopicFilterChange(subTopics); // Reset to all subtopics
-    } else {
-      onSubTopicFilterChange(updatedFilters);
-    }
-  };
+const handleSubTopicClick = (subTopic) => {
+  const updatedFilters = activeSubTopics.includes(subTopic)
+    ? activeSubTopics.filter((topic) => topic !== subTopic) // Remove if already selected
+    : [...activeSubTopics, subTopic]; // Add if not selected
 
-  const handleAllClick = () => {
-    if (activeSubTopics.length === subTopics.length) {
-      onSubTopicFilterChange([]); // Clear all subtopic filters
-    } else {
-      onSubTopicFilterChange(subTopics); // Select all subtopics
-    }
-  };
+  // Default to all subtopics if no subtopics are selected
+  if (updatedFilters.length === 0) {
+    onSubTopicFilterChange(subTopics); // Reset to all subtopics
+  } else {
+    onSubTopicFilterChange(updatedFilters);
+  }
+};
 
-  return (
-    <div className="subtopics">
-      <div className="subtopics-header">
-        <h3 className="subtopics-title">
-          <LabelIcon className="topic-icon" />
-          Sub-Topics {selectedTopic && `: ${selectedTopic}`}
-        </h3>
-      </div>
-      <div className="subtopics-container">
-        {selectedTopic && (
+const handleAllClick = () => {
+  const subTopicsForCurrentTopic = subTopics;
+
+  if (activeSubTopics.length === subTopics.length) {
+      // Deselect all subtopics for the current topic
+      const remainingActiveSubTopics = activeSubTopics.filter(
+          (subTopic) => !subTopicsForCurrentTopic.includes(subTopic)
+      );
+      onSubTopicFilterChange(remainingActiveSubTopics);
+  } else {
+      // Select all subtopics for the current topic
+      const updatedFilters = [...activeSubTopics, ...subTopicsForCurrentTopic];
+      onSubTopicFilterChange([...new Set(updatedFilters)]); // Avoid duplicates
+  }
+};
+
+
+
+return (
+  <div className="subtopics">
+    <div className="subtopics-header">
+      <h3 className="subtopics-title">
+        <LabelIcon className="topic-icon" />
+        Sub-Topics {selectedTopic && `: ${selectedTopic}`}
+      </h3>
+    </div>
+    <div className="subtopics-container">
+      {selectedTopic && selectedTopic !== "All Topics" ? (
+        <>
           <button
             className={`subtopic-item ${activeSubTopics.length === subTopics.length ? 'active' : ''}`}
             onClick={handleAllClick}
@@ -53,9 +65,7 @@ const SubTopics = ({
             />
             All {subTopicCounts['All'] && `(${subTopicCounts['All']})`}
           </button>
-        )}
-        {subTopics.length > 0 ? (
-          subTopics.map((subTopic, index) => (
+          {subTopics.map((subTopic, index) => (
             <button
               key={index}
               className={`subtopic-item ${activeSubTopics.includes(subTopic) ? 'active' : ''}`}
@@ -68,13 +78,17 @@ const SubTopics = ({
               />
               {subTopic} {subTopicCounts[subTopic] && `(${subTopicCounts[subTopic]})`}
             </button>
-          ))
-        ) : (
-          <div className="subtopic-placeholder">Please select a topic.</div>
-        )}
-      </div>
+          ))}
+        </>
+      ) : (
+        <div className="subtopic-placeholder">
+          {selectedTopic === "All Topics" ? "Subtopics are disabled for all topics." : "Please select a topic."}
+        </div>
+      )}
     </div>
-  );
+  </div>
+);
+
 };
 
 export default SubTopics;

@@ -11,6 +11,21 @@ import { loadCSV } from './utils/loadCSV';
 import { ReactComponent as MapViewIcon } from './assets/topbaricon/mapview.svg';
 import { ReactComponent as NetworkIcon } from './assets/topbaricon/network.svg';
 
+const topics = [
+  { name: 'Cultural', csvName: 'Cultural Trends' },
+  { name: 'Community', csvName: 'Community Behavior' },
+  { name: 'Dining', csvName: 'Food and Dining' },
+  { name: 'Economy', csvName: 'Economy' },
+  { name: 'Entertainment', csvName: 'Entertainment' },
+  { name: 'Environment', csvName: 'Environment' },
+  { name: 'Health', csvName: 'Health' },
+  { name: 'Politics', csvName: 'Politics' },
+  { name: 'Social Issues', csvName: 'Social Issues' },
+  { name: 'Technology', csvName: 'Technology' },
+  { name: 'Tourism', csvName: 'Travel and Tourism' },
+  { name: 'Urban', csvName: 'Urban and Planning' },
+];
+
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isBottombarOpen, setIsBottombarOpen] = useState(true);
@@ -33,20 +48,25 @@ const App = () => {
   useEffect(() => {
     const applyFilters = () => {
       let filtered = originalData;
-
+  
+      // Filter by selected topics
       if (topicFilter.length > 0) {
         filtered = filtered.filter((item) => topicFilter.includes(item.topic));
       }
-
+  
+      // Filter by subtopics of the last selected topic
       if (activeSubTopics.length > 0) {
-        filtered = filtered.filter((item) => activeSubTopics.includes(item.subtopic));
-      }
-
+        filtered = filtered.filter((item) =>
+            topicFilter.includes(item.topic) && activeSubTopics.includes(item.subtopic)
+        );
+    }
+  
       setFilteredData(filtered);
     };
-
+  
     applyFilters();
   }, [topicFilter, activeSubTopics, originalData]);
+  
 
   useEffect(() => {
     const handleResize = () => {
@@ -157,6 +177,7 @@ const App = () => {
         activeSubTopics={activeSubTopics}
         setActiveSubTopics={setActiveSubTopics}
         originalData={originalData}
+        topics={topics} // Pass topics as a prop
       />
       <Bottombar
         isSidebarOpen={isSidebarOpen}
