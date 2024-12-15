@@ -18,6 +18,7 @@ const Sidebar = ({
   activeSubTopics,
   setActiveSubTopics,
   originalData,
+  topics,
 }) => {
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [subTopics, setSubTopics] = useState([]);
@@ -26,34 +27,40 @@ const Sidebar = ({
 
   const handleTopicFilterChange = (newFilters) => {
     setTopicFilter(newFilters);
-  
+
+    // Preserve existing subtopics for already selected topics
+    const existingSubTopics = activeSubTopics.filter((subTopic) =>
+      originalData.some((item) => 
+        newFilters.includes(item.topic) && item.subtopic === subTopic
+      )
+    );
+
     if (newFilters.length > 0) {
       const filteredTopic = newFilters[newFilters.length - 1]; // Get the latest selected topic
       setSelectedTopic(filteredTopic);
-  
-      // Find unique subtopics and calculate their counts
+
       const filteredData = originalData.filter((row) => row.topic === filteredTopic);
       const uniqueSubTopics = Array.from(new Set(filteredData.map((row) => row.subtopic)));
-      
+
       setSubTopics(uniqueSubTopics);
-  
+
       const counts = uniqueSubTopics.reduce((acc, subTopic) => {
         acc[subTopic] = filteredData.filter((row) => row.subtopic === subTopic).length;
         return acc;
       }, {});
-  
-      counts['All'] = filteredData.length; // Total count for the "All" button
+      counts['All'] = filteredData.length;
       setSubTopicCounts(counts);
-  
-      // **Set all subtopics as selected by default**
-      setActiveSubTopics(uniqueSubTopics); 
+
+      // Combine new topic's subtopics with existing active subtopics
+      setActiveSubTopics([...existingSubTopics, ...uniqueSubTopics]);
     } else {
       setSelectedTopic(null);
       setSubTopics([]);
       setSubTopicCounts({});
-      setActiveSubTopics([]); // Clear active subtopics when no topic is selected
+      setActiveSubTopics([]);
     }
-  };
+};
+
   
 
   const handleSubTopicFilterChange = (newFilters) => {
@@ -84,6 +91,7 @@ const Sidebar = ({
               onTopicFilterChange={handleTopicFilterChange}
               selectedTopics={selectedTopics}
               setSelectedTopics={setSelectedTopics}
+              setActiveSubTopics={setActiveSubTopics} // Add this line
             />
             <SubTopics
               selectedTopic={selectedTopic}

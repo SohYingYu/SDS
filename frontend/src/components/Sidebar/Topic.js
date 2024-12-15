@@ -15,7 +15,7 @@ import { ReactComponent as TravelIcon } from '../../assets/topicicon/tra.svg';
 import { ReactComponent as UrbanIcon } from '../../assets/topicicon/urb.svg';
 import './Topic.css';
 
-const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics }) => { 
+const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActiveSubTopics }) => { 
   useEffect(() => { 
     if (selectedTopics.length === 0) { 
       setCurrentTopic(null); 
@@ -51,16 +51,19 @@ const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics }) => {
 
   const handleAllTopicsClick = () => {
     if (selectedTopics.length > 0) {
-      // If any topics are selected, deselect all
+      // Deselect all topics and reset subtopics
       setSelectedTopics([]);
       setCurrentTopic(null);
       onTopicFilterChange([]);
+      setActiveSubTopics([]); // Explicitly clear subtopics
     } else {
-      // Otherwise, select all topics
+      // Select all topics
       const allTopics = topics.map((topic) => topic.name);
+      const allTopicsCsvNames = topics.map((topic) => topic.csvName);
       setSelectedTopics(allTopics);
-      setCurrentTopic('All Topics');
-      onTopicFilterChange(topics.map((topic) => topic.csvName));
+      setCurrentTopic(null); // Reset current topic
+      onTopicFilterChange(allTopicsCsvNames);
+      setActiveSubTopics([]); // Reset subtopics
     }
   };
 
