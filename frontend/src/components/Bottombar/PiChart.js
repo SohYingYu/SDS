@@ -1,5 +1,6 @@
 import React from 'react';
 import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts';
+import './PiChart.css'; // Link to the new CSS file
 
 const PiChart = ({ filteredData }) => {
   // Calculate sentiment counts
@@ -18,19 +19,19 @@ const PiChart = ({ filteredData }) => {
     { name: 'Negative', value: sentimentCounts.negative },
   ];
 
-  const COLORS = ['#415ED3', '#FF8042']; // Colors for the pie chart
+  const COLORS = ['#64DDD0', '#F97A51']; // Colors for the pie chart
 
   return (
     <div className="pichart-section">
-      <h3>Sentiment Analysis</h3>
-      <PieChart width={200} height={200}>
+      <h3 className="pichart-title">Sentiment Analysis</h3>
+      <PieChart width={300} height={190} className="pichart-container">
         <Pie
           data={chartData}
           dataKey="value"
           nameKey="name"
           cx="50%"
           cy="50%"
-          outerRadius={40}
+          outerRadius={80}
           fill="#8884d8"
           label
         >
@@ -46,3 +47,4 @@ const PiChart = ({ filteredData }) => {
 };
 
 export default PiChart;
+
