@@ -37,12 +37,20 @@ const Sidebar = ({
       return; // Exit early
     }
   
+    // Preserve existing subtopics for already selected topics
+    const existingSubTopics = activeSubTopics.filter((subTopic) =>
+      originalData.some(
+        (item) => newFilters.includes(item.topic) && item.subtopic === subTopic
+      )
+    );
+  
     if (newFilters.length > 0) {
       const filteredTopic = newFilters[newFilters.length - 1]; // Get the latest selected topic
       setSelectedTopic(filteredTopic);
   
       const filteredData = originalData.filter((row) => row.topic === filteredTopic);
       const uniqueSubTopics = Array.from(new Set(filteredData.map((row) => row.subtopic)));
+  
       setSubTopics(uniqueSubTopics);
   
       const counts = uniqueSubTopics.reduce((acc, subTopic) => {
@@ -51,9 +59,20 @@ const Sidebar = ({
       }, {});
       counts['All'] = filteredData.length;
       setSubTopicCounts(counts);
+  
+      // Combine new topic's subtopics with existing active subtopics
+      setActiveSubTopics([...existingSubTopics, ...uniqueSubTopics]);
+    } else {
+      setSelectedTopic(null);
+      setSubTopics([]);
+      setSubTopicCounts({});
+      setActiveSubTopics([]);
     }
   };
   
+
+  
+
   const handleSubTopicFilterChange = (newFilters) => {
     setActiveSubTopics(newFilters); // Update active subtopics
   };
@@ -83,8 +102,7 @@ const Sidebar = ({
               selectedTopics={selectedTopics}
               setSelectedTopics={setSelectedTopics}
               setActiveSubTopics={setActiveSubTopics}
-              setSubTopics={setSubTopics}
-              originalData={originalData}
+              setSubTopics={setSubTopics} // Pass setSubTopics here
             />
             <SubTopics
               selectedTopic={selectedTopic}
