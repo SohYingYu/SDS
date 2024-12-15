@@ -53,7 +53,7 @@ const Graph = ({ filteredData }) => {
         },
       },
       y: {
-        title: { display: true, text: 'n of data points' },
+        title: { display: true, text: 'no. of data points' },
         grid: {
           color:'transparent', // Set grid color
           lineWidth: 1, // Set grid line width
@@ -67,8 +67,8 @@ const Graph = ({ filteredData }) => {
 
   return (
     <div className="graph-section">
-      <h3>Topic Trend by Years </h3>
       <Line data={chartData} options={chartOptions} width={400} height={200} />
+      <h3 className="graph-title">Topic Trend by Years</h3>
     </div>
   );
 };
