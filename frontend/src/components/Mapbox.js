@@ -120,38 +120,49 @@ const Mapbox = ({
 };
 
   
-  useEffect(() => {
-    const mapInstance = mapRef.current?.getMap();
-    if (mapInstance) {
-      if (mapViewMode === '3D') {
-        mapInstance.setPitch(60); // Enable tilt for 3D view
-        mapInstance.setBearing(-17.6); // Adjust bearing
-        if (!mapInstance.getLayer('3d-buildings')) {
-          mapInstance.addLayer({
-            id: '3d-buildings',
-            source: 'composite',
-            'source-layer': 'building',
-            filter: ['==', 'extrude', 'true'],
-            type: 'fill-extrusion',
-            minzoom: 15,
-            paint: {
-              'fill-extrusion-color': '#aaa',
-              'fill-extrusion-height': ['get', 'height'],
-              'fill-extrusion-base': ['get', 'min_height'],
-              'fill-extrusion-opacity': 0.6,
-            },
-          });
-        }
-      } else {
-        mapInstance.setPitch(0); // Reset tilt for 2D view
-        mapInstance.setBearing(0); // Reset bearing
-        if (mapInstance.getLayer('3d-buildings')) {
-          mapInstance.removeLayer('3d-buildings');
-        }
+useEffect(() => {
+  const mapInstance = mapRef.current?.getMap();
+  if (mapInstance) {
+    if (mapViewMode === '3D') {
+      const currentZoom = mapInstance.getZoom();
+
+      mapInstance.easeTo({
+        pitch: 60, // Enable tilt for 3D view
+        bearing: -17.6, // Adjust bearing
+        zoom: currentZoom < 15.5 ? 15.5 : currentZoom, // Only zoom in if the current zoom is below 15
+        duration: 1000, // Smooth transition duration in milliseconds
+      });
+
+      if (!mapInstance.getLayer('3d-buildings')) {
+        mapInstance.addLayer({
+          id: '3d-buildings',
+          source: 'composite',
+          'source-layer': 'building',
+          filter: ['==', 'extrude', 'true'],
+          type: 'fill-extrusion',
+          minzoom: 15,
+          paint: {
+            'fill-extrusion-color': '#aaa',
+            'fill-extrusion-height': ['get', 'height'],
+            'fill-extrusion-base': ['get', 'min_height'],
+            'fill-extrusion-opacity': 0.6,
+          },
+        });
+      }
+    } else {
+      mapInstance.easeTo({
+        pitch: 0, // Reset tilt for 2D view
+        bearing: 0, // Reset bearing
+        zoom: mapInstance.getZoom(), // Keep the current zoom level in 2D
+        duration: 1000, // Smooth transition duration in milliseconds
+      });
+
+      if (mapInstance.getLayer('3d-buildings')) {
+        mapInstance.removeLayer('3d-buildings');
       }
     }
-  }, [mapViewMode]);
-  
+  }
+}, [mapViewMode]);
 
 
   useEffect(() => {

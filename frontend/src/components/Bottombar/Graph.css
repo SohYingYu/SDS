@@ -1,0 +1,41 @@
+.graph-section {
+    padding: 0px;
+    background-color:transparent; /* White background for clean and modern look */
+    margin: 10px auto; /* Center the section and add spacing around */
+    max-width: 800px; /* Limit the width for better readability */
+    height: 240px;
+    width: 450px;
+  }
+  
+  .graph-section h3 {
+    font-size: 15px; /* Adjust title font size */
+    font-weight: bold;
+    color: #333333; /* Match the primary theme color */
+    text-align: center; /* Center the title */
+    margin-bottom: 2px; /* Add spacing below the title */
+    letter-spacing: 1px; /* Add letter spacing for better readability */
+  }
+  
+  .graph-section canvas {
+    max-width: 100%; /* Ensure the chart adapts to the container */
+    height: auto; /* Maintain the aspect ratio */
+    margin: 0 auto; /* Center the chart inside the container */
+    background-color: transparent;
+  }
+  
+  .graph-section .chartjs-render-monitor {
+    border-radius: 8px; /* Rounded corners for the chart area */
+  }
+
+  
+  /* Tooltip customization */
+  .chartjs-tooltip {
+    background-color: #333333 !important; /* White background for tooltip */
+    color: white !important; /* Dark text for contrast */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px !important; /* Add padding for better spacing */
+    font-size: 0.9rem; /* Adjust font size for readability */
+  }
+  
+  
+  

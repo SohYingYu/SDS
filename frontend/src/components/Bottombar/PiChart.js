@@ -18,7 +18,7 @@ const PiChart = ({ filteredData }) => {
     { name: 'Negative', value: sentimentCounts.negative },
   ];
 
-  const COLORS = ['#00C49F', '#FF8042']; // Colors for the pie chart
+  const COLORS = ['#415ED3', '#FF8042']; // Colors for the pie chart
 
   return (
     <div className="pichart-section">
