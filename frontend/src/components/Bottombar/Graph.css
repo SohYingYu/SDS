@@ -3,13 +3,15 @@
     background-color:transparent; /* White background for clean and modern look */
     margin: 10px auto; /* Center the section and add spacing around */
     max-width: 800px; /* Limit the width for better readability */
-    height: 240px;
+    height: 260px;
     width: 450px;
+    background-color: aquamarine;
   }
   
   .graph-section h3 {
     font-size: 15px; /* Adjust title font size */
     font-weight: bold;
+    padding-top: 10px;
     color: #333333; /* Match the primary theme color */
     text-align: center; /* Center the title */
     margin-bottom: 2px; /* Add spacing below the title */
@@ -34,7 +36,7 @@
     color: white !important; /* Dark text for contrast */
     border-radius: 8px; /* Rounded corners */
     padding: 10px !important; /* Add padding for better spacing */
-    font-size: 0.9rem; /* Adjust font size for readability */
+    font-size: 15px; /* Adjust font size for readability */
   }
   
   

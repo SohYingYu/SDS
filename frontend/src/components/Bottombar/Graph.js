@@ -67,7 +67,7 @@ const Graph = ({ filteredData }) => {
 
   return (
     <div className="graph-section">
-      <h3>Topic Trends Over Years</h3>
+      <h3>Topic Trend by Years </h3>
       <Line data={chartData} options={chartOptions} width={400} height={200} />
     </div>
   );

@@ -1,0 +1,44 @@
+.pichart-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #b7b72c; /* Light background */
+    padding: 10px; /* Add padding for spacing */
+    width: 280px; /* Fixed width for consistency */
+    margin: 2px auto; /* Center the component */
+    height: 240px;
+  }
+  
+  .pichart-title {
+    font-size: 15px; /* Adjust title font size */
+    color: #333; /* Darker font color for contrast */
+    margin-bottom: 10px; /* Space between title and chart */
+    text-align: center;
+    background-color: bisque;
+  }
+  
+  .pichart-container {
+    margin-top: -10px; /* Add space above the chart */
+    background-color: aquamarine;
+  }
+  
+  .recharts-tooltip-wrapper {
+
+    font-size: 14px; /* Adjust tooltip font size */
+    color: #333; /* Tooltip text color */
+    background: #fff; /* Tooltip background color */
+    border-radius: 5px; /* Rounded corners */
+  }
+  
+  .recharts-legend-wrapper {
+
+    font-size: 12px; /* Adjust legend font size */
+    color: #333; /* Legend text color */
+    margin-top:10px; /* Space between chart and legend */
+  }
+  
+  .recharts-pie-label-text {
+    font-size: 15px; /* Adjust pie label font size */
+    fill: #333; /* Pie label text color */
+  }
+  
