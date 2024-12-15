@@ -1,43 +1,31 @@
-.data-summary {
+.info-container {
   display: flex;
-  flex-direction: column; /* Stack sections vertically */
-  padding-left: 50px;
-  padding-right: 50px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background-color: blanchedalmond;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
 }
 
-.data-summary-section,
-.source-breakdown-section {
-  width: 100%; /* Full width for each section */
-  text-align: left;
-  margin-bottom: 5px; /* Add spacing between sections */
+.info-row {
+  display: flex;
+  justify-content: center;
+  gap: 50px; /* Space between items */
 }
 
-.data-summary-title,
-.source-breakdown-title {
+.info-item {
+  text-align: center;
+}
+
+.info-number {
+  font-size: 48px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin: 0;
+  color: #333; /* Dark gray text */
+}
+
+.info-label {
   font-size: 16px;
-}
-
-.data-summary-total,
-.data-summary-filtered,
-.source-breakdown-reddit,
-.source-breakdown-straitstimes,
-.source-breakdown-cna {
-  margin: 2px 0;
-  font-size: 13px;
-  padding-left: 20px;
-
-}
-
-.data-summary-total-value,
-.data-summary-filtered-value,
-.source-breakdown-value {
-  color: #333;
-  font-weight: bold;
-  font-size: 13px;
-  padding-left: 3px;
+  margin: 5px 0 0 0;
+  color: #666; /* Lighter gray for labels */
 }
