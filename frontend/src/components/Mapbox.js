@@ -1,12 +1,15 @@
 import React, { useRef, useEffect } from 'react';
 import { Map, Source, Layer } from 'react-map-gl';
 
+
 const Mapbox = ({
   originalData,
   activeFilters = [],
   tagFilter = [],
   topicFilter = [],
   onDataPointHover,
+  mapMode,
+  mapViewMode, // Add mapViewMode prop
 }) => {
   const mapboxToken = 'pk.eyJ1IjoieWFuZzE5MDAwMDAiLCJhIjoiY20zdzMxd3ExMHhoZTJqcXpwMG1ybGxrdCJ9.Xf9BgWMIUQ9_MGuc34knwg';
   const mapRef = useRef(null); // Reference to the map instance
@@ -32,23 +35,28 @@ const Mapbox = ({
 
   const geoJsonData = {
     type: 'FeatureCollection',
-    features: filteredData.map((row) => ({
-      type: 'Feature',
-      properties: {
-        searchTerm: row['search term'],
-        source: row['source'],
-        topic: row['topic'],
-        subtopic: row['subtopic'],
-        timestamp: row['timestamp'],
-        sentiment: row['sentiment_analysis'],
-        summarised_content: row['summarised_content'],
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [parseFloat(row['long']), parseFloat(row['lat'])],
-      },
-    })),
+    features: filteredData.map((row) => {
+      const sentimentScore = row.sentiment_analysis === '1' ? 1 : 0;
+      return {
+        type: 'Feature',
+        properties: {
+          searchTerm: row['search term'],
+          source: row['source'],
+          topic: row['topic'],
+          subtopic: row['subtopic'],
+          timestamp: row['timestamp'],
+          sentiment: sentimentScore, // Use sentiment_analysis for coloring
+          summarised_content: row['summarised_content'],
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [parseFloat(row['long']), parseFloat(row['lat'])],
+        },
+      };
+    }),
   };
+  
+  
 
   const heatmapLayer = {
     id: 'heatmap-layer',
@@ -87,12 +95,59 @@ const Mapbox = ({
     minzoom: 12,
     paint: {
       'circle-radius': 16,
-      'circle-color': 'rgba(65, 94, 211, 0.8)',
+      'circle-color': [
+        'case',
+        ['==', mapMode, 'Sentiment'],
+        // Sentiment mode: green if more 1s, red otherwise
+        [
+          'step',
+          ['get', 'sentiment'],
+          'rgba(249, 122, 91, 0.8)', // Red (more 0s)
+          0.5,
+          'rgba(57, 201, 112, 0.6)', // Green (more 1s)
+        ],
+        // Default mode: fixed color
+        'rgba(65, 94, 211, 0.8)', // Default circle color
+      ],
       'circle-stroke-color': 'white',
       'circle-stroke-width': 0,
       'circle-opacity': 0.8,
     },
   };
+  
+  useEffect(() => {
+    const mapInstance = mapRef.current?.getMap();
+    if (mapInstance) {
+      if (mapViewMode === '3D') {
+        mapInstance.setPitch(60); // Enable tilt for 3D view
+        mapInstance.setBearing(-17.6); // Adjust bearing
+        if (!mapInstance.getLayer('3d-buildings')) {
+          mapInstance.addLayer({
+            id: '3d-buildings',
+            source: 'composite',
+            'source-layer': 'building',
+            filter: ['==', 'extrude', 'true'],
+            type: 'fill-extrusion',
+            minzoom: 15,
+            paint: {
+              'fill-extrusion-color': '#aaa',
+              'fill-extrusion-height': ['get', 'height'],
+              'fill-extrusion-base': ['get', 'min_height'],
+              'fill-extrusion-opacity': 0.6,
+            },
+          });
+        }
+      } else {
+        mapInstance.setPitch(0); // Reset tilt for 2D view
+        mapInstance.setBearing(0); // Reset bearing
+        if (mapInstance.getLayer('3d-buildings')) {
+          mapInstance.removeLayer('3d-buildings');
+        }
+      }
+    }
+  }, [mapViewMode]);
+  
+
 
   useEffect(() => {
     const mapInstance = mapRef.current?.getMap();
@@ -139,7 +194,7 @@ const Mapbox = ({
           zoom: 10.7,
         }}
         style={{ width: '100%', height: '100%' }}
-        mapStyle="mapbox://styles/mapbox/light-v10"
+        mapStyle="mapbox://styles/mapbox/light-v10"s
         mapboxAccessToken={mapboxToken}
         attributionControl={false}
       >

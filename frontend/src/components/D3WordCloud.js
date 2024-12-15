@@ -62,11 +62,20 @@ const D3WordCloud = ({ originalData, topicFilter, tagFilter, activeFilters }) =>
       .attr('width', width)
       .attr('height', height);
 
-    // Add a group to position elements
-    const g = svg
-    .append('g')
-    .attr('transform', `translate(${width / 2 + 130}, ${height / 2})`); // Add 100px to the x-coordinate
-  
+    // Add a group for zoom and pan
+    const zoomGroup = svg.append('g').attr('class', 'zoom-group');
+
+    // Add zoom behavior
+    const zoom = d3.zoom().scaleExtent([0.5, 3]).on('zoom', (event) => {
+      zoomGroup.attr('transform', event.transform);
+    });
+
+    svg.call(zoom); // Attach zoom behavior to the SVG
+
+    const g = zoomGroup
+      .append('g')
+      .attr('transform', `translate(${width / 2 + 130}, ${height / 2-50})`); // Add 100px to the x-coordinate
+
     const colorScale = d3
       .scaleLinear()
       .domain([
@@ -80,13 +89,13 @@ const D3WordCloud = ({ originalData, topicFilter, tagFilter, activeFilters }) =>
     const radiusScale = d3
       .scaleLinear()
       .domain(d3.extent(topWords, (d) => d.count))
-      .range([20, 120]);
+      .range([18, 100]);
 
     // Scale for font size
     const fontSizeScale = d3
       .scaleLinear()
       .domain(d3.extent(topWords, (d) => d.count))
-      .range([8, 35]);
+      .range([7, 28]);
 
     // Create a simulation for circle packing
     const simulation = d3
@@ -123,7 +132,7 @@ const D3WordCloud = ({ originalData, topicFilter, tagFilter, activeFilters }) =>
 
     nodes
       .append('text')
-      .text((d) => `(${d.count})`)
+      .text((d) => `${d.count}`)
       .attr('text-anchor', 'middle')
       .attr('dy', '1em')
       .style('font-size', (d) => `${fontSizeScale(d.count)}px`)
@@ -137,7 +146,7 @@ const D3WordCloud = ({ originalData, topicFilter, tagFilter, activeFilters }) =>
           .map(([word]) => word);
 
         d3.selectAll('.word-circle')
-          .attr('fill', (node) => (relatedWords.includes(node.word) ? '#415ED3' : '#909090'));
+          .attr('fill', (node) => (relatedWords.includes(node.word) ? '#415ED3' : '#A9A9A9'));
       })
       .on('mouseout', () => {
         // Reset to the default gradient color based on count
