@@ -193,7 +193,6 @@ const App = () => {
         isBottombarOpen={isBottombarOpen}
         toggleBottombar={toggleBottombar}
         filteredData={filteredData} // Pass filtered data for live updates
-        />
         originalData={originalData}
       />
       {summaryData && (
