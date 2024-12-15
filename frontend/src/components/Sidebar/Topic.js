@@ -52,20 +52,23 @@ const Topic = ({ onTopicFilterChange, selectedTopics, setSelectedTopics, setActi
   const handleAllTopicsClick = () => {
     if (selectedTopics.length > 0) {
       // Deselect all topics and reset subtopics
-      setSelectedTopics([]);
-      setCurrentTopic(null);
-      onTopicFilterChange([]);
-      setActiveSubTopics([]); // Explicitly clear subtopics
+      setSelectedTopics([]); // Clear selected topics
+      setCurrentTopic(null); // Reset selected topic
+      onTopicFilterChange([]); // Clear topic filters
+      setActiveSubTopics([]); // Clear active subtopics
     } else {
       // Select all topics
       const allTopics = topics.map((topic) => topic.name);
-      const allTopicsCsvNames = topics.map((topic) => topic.csvName);
       setSelectedTopics(allTopics);
+  
+      // Ensure subtopics and currentTopic are reset to show the placeholder
       setCurrentTopic(null); // Reset current topic
-      onTopicFilterChange(allTopicsCsvNames);
-      setActiveSubTopics([]); // Reset subtopics
+      onTopicFilterChange([]); // Clear topic filters
+      setActiveSubTopics([]); // Clear active subtopics
     }
   };
+  
+  
 
   const removeCurrentTopic = () => {
     if (currentTopic) {
