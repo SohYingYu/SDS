@@ -9,6 +9,7 @@ import D3WordCloud from './components/D3WordCloud'; // Import D3 word cloud comp
 import { loadCSV } from './utils/loadCSV';
 import { ReactComponent as MapViewIcon } from './assets/topbaricon/mapview.svg';
 import { ReactComponent as NetworkIcon } from './assets/topbaricon/network.svg';
+import Summary from './components/Summary';
 
 const App = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -21,6 +22,8 @@ const App = () => {
   const [topicFilter, setTopicFilter] = useState([]);
   const [activeSubTopics, setActiveSubTopics] = useState([]);
   const [showSearchbar, setShowSearchbar] = useState(false);
+  const [summaryData, setSummaryData] = useState(null); // Manage selected data and position for summary
+
 
   useEffect(() => {
     loadCSV('/data/mastersheet.csv', (parsedData) => {
@@ -60,6 +63,7 @@ const App = () => {
     };
   }, []);
 
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -67,6 +71,10 @@ const App = () => {
 
   const toggleBottombar = () => {
     setIsBottombarOpen((prev) => !prev);
+  };
+
+  const handleDataPointHover = (data) => {
+    setSummaryData(data); // Update summary data and position
   };
 
   return (
@@ -119,6 +127,7 @@ const App = () => {
           activeFilters={activeFilters}
           tagFilter={tagFilter}
           topicFilter={topicFilter}
+          onDataPointHover={handleDataPointHover}
         />
       )}
       {view === 'Network View' && (
@@ -158,6 +167,15 @@ const App = () => {
         toggleBottombar={toggleBottombar}
         originalData={originalData}
       />
+      {summaryData && (
+        <Summary
+          data={summaryData.properties}
+          coordinates={{
+            x: summaryData.screenCoords.x,
+            y: summaryData.screenCoords.y,
+          }}
+        />
+      )}
     </div>
   );
 };
